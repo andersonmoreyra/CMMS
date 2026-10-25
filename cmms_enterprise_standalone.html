@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS CMMS // Enterprise Asset & Maintenance OS</title>
+
+  <!-- Tipografia de Nível Internacional (Inter + Plus Jakarta Sans + JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN para Produtividade e Classes Utilitárias Modernas -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            },
+            slate: {
+              850: '#151f30',
+              900: '#0f172a',
+              950: '#090d16',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ==========================================================================
+       REGRAS DE ERGONOMIA VISUAL & DESIGN SYSTEM (ESTILO LINEAR / STRIPE / DATADOG)
+       Anti-Fadiga, Sem Preto Puro #000 nem Branco Ofuscante, Contrastes WCAG AA/AAA
+       ========================================================================== */
+    :root {
+      --bg-page-light: #f8fafc;
+      --bg-surface-light: #ffffff;
+      --border-light: #e2e8f0;
+      --text-main-light: #0f172a;
+      --text-muted-light: #64748b;
+
+      --bg-page-dark: #090d16;
+      --bg-surface-dark: #0f172a;
+      --bg-elevated-dark: #1e293b;
+      --border-dark: #243247;
+      --text-main-dark: #f8fafc;
+      --text-muted-dark: #94a3b8;
+    }
+
+    /* Scrollbars elegantes e discretas */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.3);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.5);
+    }
+
+    /* Utilitários de tabela ergonômica (8px a 14px de padding anti-fadiga) */
+    .table-cell-pad {
+      padding: 10px 14px;
+    }
+
+    /* Efeito de transição suave em todas as microinterações */
+    .smooth-transition {
+      transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col overflow-hidden selection:bg-blue-500 selection:text-white">
+
+  <!-- =======================================================================
+       BANNER DE SEGURANÇA E LOCKDOWN (SIMULAÇÃO DE VIOLAÇÃO DA LICENÇA)
+       ======================================================================= -->
+  <div id="securityLockdownBar" class="hidden bg-rose-600 text-white px-4 py-2.5 text-xs font-semibold flex items-center justify-between shadow-lg z-50">
+    <div class="flex items-center gap-2">
+      <svg class="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+      </svg>
+      <span><strong>SISTEMA EM MODO LOCKDOWN:</strong> <span id="lockdownReasonTitle">Violação de Integridade Criptográfica Detectada</span> &bull; <span id="lockdownReasonDetail" class="font-normal opacity-90">A assinatura digital não confere com a chave do fabricante.</span></span>
+    </div>
+    <button onclick="switchMainTab('tab-licensing')" class="px-3 py-1 bg-white text-rose-700 hover:bg-rose-50 rounded text-xs font-bold transition-colors">
+      Abrir Central de Licenças
+    </button>
+  </div>
+
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- =======================================================================
+         BARRA LATERAL (SIDEBAR ERGONÔMICA RECOLHÍVEL TIPO LINEAR / DATADOG)
+         ======================================================================= -->
+    <aside id="mainAppSidebar" class="w-60 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 select-none transition-all duration-200">
+      
+      <!-- Topo da Sidebar: Identidade Visual -->
+      <div class="p-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5 overflow-hidden">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-blue-700 to-indigo-500 text-white flex items-center justify-center font-display font-extrabold text-sm shadow-sm shrink-0">
+            N
+          </div>
+          <div id="sidebarBrandText" class="truncate">
+            <div class="font-display font-bold text-xs tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+              <span>NEXUS CMMS</span>
+              <span class="text-[9px] font-mono px-1 py-0.2 bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded font-semibold">v4.8</span>
+            </div>
+            <div class="text-[10px] text-slate-400 font-medium truncate">Planta 01 • Matriz SP</div>
+          </div>
+        </div>
+        <button onclick="toggleSidebarCollapse()" title="Recolher / Expandir Menu" class="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <svg id="sidebarCollapseIcon" class="w-4 h-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Links de Navegação com Ícones Lucide SVG -->
+      <div class="flex-1 overflow-y-auto px-2.5 py-3 space-y-4">
+        
+        <div>
+          <div class="sidebar-section-title px-2 text-[10px] font-semibold tracking-wider uppercase text-slate-400 dark:text-slate-500 mb-1.5">
+            Operação & PCM
+          </div>
+          <nav class="space-y-0.5">
+            <button id="nav-tab-overview" onclick="switchMainTab('tab-overview')" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              </svg>
+              <span class="sidebar-btn-label truncate">Cockpit de Métricas</span>
+            </button>
+
+            <button id="nav-tab-workorders" onclick="switchMainTab('tab-workorders')" class="sidebar-nav-btn active w-full flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-semibold bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200/50 dark:border-blue-900/50 transition-colors">
+              <div class="flex items-center gap-2.5 overflow-hidden">
+                <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                </svg>
+                <span class="sidebar-btn-label truncate">Ordens de Serviço</span>
+              </div>
+              <span id="woSidebarCounter" class="sidebar-btn-badge font-mono text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-blue-200/60 dark:bg-blue-900 text-blue-800 dark:text-blue-200">6</span>
+            </button>
+
+            <button id="nav-tab-assets" onclick="switchMainTab('tab-assets')" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+              <span class="sidebar-btn-label truncate">Ativos & Hierarquia</span>
+            </button>
+
+            <button id="nav-tab-predictive" onclick="switchMainTab('tab-predictive')" class="sidebar-nav-btn w-full flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <div class="flex items-center gap-2.5 overflow-hidden">
+                <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                <span class="sidebar-btn-label truncate">Preditiva IoT & FFT</span>
+              </div>
+              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
+            </button>
+          </nav>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title px-2 text-[10px] font-semibold tracking-wider uppercase text-slate-400 dark:text-slate-500 mb-1.5">
+            Confiabilidade & Suprimentos
+          </div>
+          <nav class="space-y-0.5">
+            <button id="nav-tab-fmea" onclick="switchMainTab('tab-fmea')" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+              <span class="sidebar-btn-label truncate">FMEA & Confiabilidade</span>
+            </button>
+
+            <button id="nav-tab-safety" onclick="switchMainTab('tab-safety')" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+              <span class="sidebar-btn-label truncate">Segurança LOTO (NR-10/12)</span>
+            </button>
+
+            <button id="nav-tab-inventory" onclick="switchMainTab('tab-inventory')" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+              </svg>
+              <span class="sidebar-btn-label truncate">Almoxarifado MRO</span>
+            </button>
+          </nav>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title px-2 text-[10px] font-semibold tracking-wider uppercase text-slate-400 dark:text-slate-500 mb-1.5">
+            Governança Comercial
+          </div>
+          <nav class="space-y-0.5">
+            <button id="nav-tab-licensing" onclick="switchMainTab('tab-licensing')" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-semibold text-amber-700 dark:text-amber-400 bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/50 transition-colors">
+              <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+              <span class="sidebar-btn-label truncate">Gerador de Licenças</span>
+            </button>
+          </nav>
+        </div>
+
+      </div>
+
+      <!-- Rodapé da Sidebar: Perfil & Status -->
+      <div class="p-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/60">
+        <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2">
+          <span class="sidebar-btn-label">Uptime Sistema</span>
+          <span class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">99.98%</span>
+        </div>
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2 overflow-hidden">
+            <div class="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-xs shrink-0 border border-slate-300 dark:border-slate-700">
+              CE
+            </div>
+            <div class="sidebar-btn-label truncate">
+              <div class="font-semibold text-xs text-slate-800 dark:text-slate-200 truncate">Carlos E. Mendes</div>
+              <div class="text-[10px] text-slate-400 truncate">Coordenador PCM</div>
+            </div>
+          </div>
+          <button onclick="toggleTheme()" title="Alternar Modo Escuro / Claro" class="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <svg id="themeIcon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =======================================================================
+         ÁREA PRINCIPAL DE CONTEÚDO (HEADER SUPERIOR + PAINEL DE VISUALIZAÇÃO)
+         ======================================================================= -->
+    <main class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-950 overflow-hidden">
+      
+      <!-- Topbar / Header de Ações Rápidas (Padrão Linear / Stripe) -->
+      <header class="h-13 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-5 flex items-center justify-between shrink-0 z-10 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        
+        <!-- Breadcrumb & Localização da Tela -->
+        <div class="flex items-center gap-3">
+          <h1 id="currentViewHeading" class="font-display font-bold text-sm tracking-tight text-slate-900 dark:text-slate-100">
+            Cockpit Executivo & Métricas OEE
+          </h1>
+          <span class="text-slate-300 dark:text-slate-700">/</span>
+          <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+            <span>Gestão Ativa</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          </div>
+        </div>
+
+        <!-- Barra de Busca Rápida (Quick Search ⌘K / Ctrl+K) -->
+        <div class="flex items-center gap-3">
+          <div class="relative w-80">
+            <input 
+              id="globalQuickSearch" 
+              type="text" 
+              placeholder="Buscar máquinas, TAGs, ordens ou procedimentos..." 
+              onclick="openCommandPalette()"
+              readonly
+              class="w-full pl-8 pr-10 py-1.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-lg text-xs text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer transition-all"
+            >
+            <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <kbd class="absolute right-2 top-2 px-1.5 py-0.5 text-[10px] font-mono font-semibold bg-white dark:bg-slate-700 text-slate-400 dark:text-slate-300 rounded border border-slate-200 dark:border-slate-600 shadow-xs">⌘K</kbd>
+          </div>
+
+          <!-- Badge do Motor de Licença Comercial Anti-Cópia -->
+          <div id="licensePillBadge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900 transition-colors">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="licensePillText">Enterprise AI • Licença Válida</span>
+          </div>
+
+          <!-- Botão Principal de Ação (Abertura de Nova OS) -->
+          <button onclick="openNewOrderModal()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm hover:shadow transition-all flex items-center gap-1.5 active:scale-98">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>+ Nova Ordem</span>
+          </button>
+        </div>
+
+      </header>
+
+      <!-- Painéis de Conteúdo das Abas -->
+      <div class="flex-1 overflow-y-auto p-5">
+
+        <!-- ===================================================================
+             MÓDULO: COCKPIT EXECUTIVO & MÉTRICAS OEE (DATADOG DASHBOARD STYLE)
+             =================================================================== -->
+        <div id="tab-overview" class="view-panel-section space-y-5">
+          
+          <!-- Linha de KPI Cards com Sparklines e Micro-indicadores MoM -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- KPI 1: MTBF -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+              <div class="flex items-center justify-between text-xs text-slate-500 font-medium mb-1">
+                <span>MTBF (Tempo Médio Entre Falhas)</span>
+                <span class="font-mono text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
+                  ↑ +12.4h (+3.2%)
+                </span>
+              </div>
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="font-display font-extrabold text-2xl text-slate-900 dark:text-slate-100 tracking-tight">428.5</span>
+                <span class="text-xs text-slate-400 font-medium">horas</span>
+              </div>
+              <!-- Sparkline SVG Datadog Style -->
+              <div class="h-6 flex items-end">
+                <svg class="w-full h-5 stroke-emerald-500 fill-none" viewBox="0 0 100 20">
+                  <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M0,15 L15,14 L30,16 L45,11 L60,13 L75,7 L90,8 L100,3"/>
+                </svg>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+                <span>Meta estabelecida: 400h</span>
+                <span class="text-emerald-600 dark:text-emerald-400 font-semibold">• Conforme RCM</span>
+              </div>
+            </div>
+
+            <!-- KPI 2: MTTR -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+              <div class="flex items-center justify-between text-xs text-slate-500 font-medium mb-1">
+                <span>MTTR (Tempo Médio de Reparo)</span>
+                <span class="font-mono text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
+                  ↓ -18 min (-11.1%)
+                </span>
+              </div>
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="font-display font-extrabold text-2xl text-slate-900 dark:text-slate-100 tracking-tight">2.4</span>
+                <span class="text-xs text-slate-400 font-medium">horas</span>
+              </div>
+              <!-- Sparkline SVG Datadog Style -->
+              <div class="h-6 flex items-end">
+                <svg class="w-full h-5 stroke-blue-500 fill-none" viewBox="0 0 100 20">
+                  <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M0,5 L15,6 L30,8 L45,10 L60,9 L75,14 L90,12 L100,16"/>
+                </svg>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+                <span>Meta: &lt; 3.0h</span>
+                <span class="text-blue-600 dark:text-blue-400 font-semibold">• Diagnóstico Rápido</span>
+              </div>
+            </div>
+
+            <!-- KPI 3: Disponibilidade Mecânica -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+              <div class="flex items-center justify-between text-xs text-slate-500 font-medium mb-1">
+                <span>Disponibilidade Mecânica</span>
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border border-blue-200/50">Classe Mundial</span>
+              </div>
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="font-display font-extrabold text-2xl text-slate-900 dark:text-slate-100 tracking-tight">96.84%</span>
+                <span class="text-xs text-emerald-600 dark:text-emerald-400 font-medium font-mono">↑ +0.42%</span>
+              </div>
+              <!-- Sparkline SVG Datadog Style -->
+              <div class="h-6 flex items-end">
+                <svg class="w-full h-5 stroke-indigo-500 fill-none" viewBox="0 0 100 20">
+                  <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M0,12 L20,10 L40,11 L60,8 L80,7 L100,5"/>
+                </svg>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+                <span>Teto prog. paradas: 3.16%</span>
+                <span class="text-slate-600 dark:text-slate-300 font-medium">OEE Global: 85.8%</span>
+              </div>
+            </div>
+
+            <!-- KPI 4: Backlog de Manutenção -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+              <div class="flex items-center justify-between text-xs text-slate-500 font-medium mb-1">
+                <span>Backlog de Manutenção</span>
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border border-amber-200/50">2.8 Semanas</span>
+              </div>
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="font-display font-extrabold text-2xl text-slate-900 dark:text-slate-100 tracking-tight">142</span>
+                <span class="text-xs text-slate-400 font-medium">horas pendentes</span>
+              </div>
+              <!-- Sparkline SVG Datadog Style -->
+              <div class="h-6 flex items-end">
+                <svg class="w-full h-5 stroke-amber-500 fill-none" viewBox="0 0 100 20">
+                  <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M0,8 L20,12 L40,9 L60,14 L80,11 L100,10"/>
+                </svg>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+                <span>18 Ordens Programadas</span>
+                <span class="text-amber-600 dark:text-amber-400 font-semibold">• Capacidade OK</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Topologia Industrial em Tempo Real & Monitoramento de Nós Críticos -->
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <h3 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100">Topologia em Tempo Real da Linha de Produção</h3>
+                <p class="text-xs text-slate-500">Monitoramento contínuo de nós críticos, fluxo de energia e distribuição mecânica</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="triggerAnomalySimulation()" class="px-3 py-1.5 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900 hover:bg-rose-100 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                  <span>Injetar Anomalia Vibratória (Teste)</span>
+                </button>
+                <button onclick="resetVibrationSensor()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 rounded-lg text-xs font-medium transition-colors">
+                  Restaurar Sensores
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              
+              <!-- Nó 1: Subestação -->
+              <div class="p-3 bg-slate-50/70 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 rounded-lg">
+                <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                  <span class="font-medium">SUBESTAÇÃO</span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                </div>
+                <div class="font-mono font-bold text-sm text-slate-900 dark:text-slate-100">SUB-01 (13.8 kV)</div>
+                <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-1">Nominal: 4.8 MW • Operacional</div>
+              </div>
+
+              <!-- Nó 2: Turbina Vapor -->
+              <div class="p-3 bg-slate-50/70 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 rounded-lg">
+                <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                  <span class="font-medium">GERAÇÃO VAPOR</span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                </div>
+                <div class="font-mono font-bold text-sm text-slate-900 dark:text-slate-100">TURB-01 (15 MW)</div>
+                <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-1">Vibração: 2.1 mm/s • Estável</div>
+              </div>
+
+              <!-- Nó 3: Compressor de Ar (Alvo da Anomalia) -->
+              <div id="compCardTopology" class="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xs transition-all">
+                <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                  <span class="font-medium">CENTRAL DE AR</span>
+                  <span id="compStatusBadge" class="px-2 py-0.2 rounded-full text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">2.8 mm/s</span>
+                </div>
+                <div class="font-mono font-bold text-sm text-slate-900 dark:text-slate-100">COMP-04 (250 HP)</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">Pressão de Rede: 8.4 bar</div>
+              </div>
+
+              <!-- Nó 4: Prensa Hidráulica -->
+              <div class="p-3 bg-slate-50/70 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 rounded-lg">
+                <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                  <span class="font-medium">ESTAMPARIA PESADA</span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                </div>
+                <div class="font-mono font-bold text-sm text-slate-900 dark:text-slate-100">PREN-02 (600t)</div>
+                <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-1">Pressão Hidr.: 278 bar</div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Segunda Linha de Inteligência OEE e Distribuição de Ordens -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            
+            <!-- Coluna 1 & 2: OEE por Pilar e Histórico Mensal -->
+            <div class="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100">Composição do OEE Industrial (Eficiência Global de Equipamentos)</h4>
+                  <p class="text-xs text-slate-500">Análise decomposta dos pilares de Disponibilidade, Performance e Qualidade</p>
+                </div>
+                <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900">
+                  OEE: 85.81%
+                </span>
+              </div>
+
+              <div class="space-y-3.5">
+                <div>
+                  <div class="flex justify-between text-xs font-medium mb-1.5">
+                    <span class="text-slate-700 dark:text-slate-300">Disponibilidade Operacional (Uptime Efetivo)</span>
+                    <span class="font-mono font-bold text-slate-900 dark:text-slate-100">96.84% <span class="text-slate-400 font-normal">/ Meta 95.0%</span></span>
+                  </div>
+                  <div class="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-emerald-500 rounded-full" style="width: 96.84%"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-xs font-medium mb-1.5">
+                    <span class="text-slate-700 dark:text-slate-300">Performance Operacional (Velocidade Nominal vs Real)</span>
+                    <span class="font-mono font-bold text-slate-900 dark:text-slate-100">89.40% <span class="text-slate-400 font-normal">/ Meta 88.0%</span></span>
+                  </div>
+                  <div class="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-blue-500 rounded-full" style="width: 89.40%"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-xs font-medium mb-1.5">
+                    <span class="text-slate-700 dark:text-slate-300">Índice de Qualidade (Peças Conformes de Primeira)</span>
+                    <span class="font-mono font-bold text-slate-900 dark:text-slate-100">99.12% <span class="text-slate-400 font-normal">/ Meta 99.0%</span></span>
+                  </div>
+                  <div class="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-indigo-500 rounded-full" style="width: 99.12%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Coluna 3: Distribuição Estratégica de Manutenção -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+              <h4 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100">Distribuição de Ordens</h4>
+              <p class="text-xs text-slate-500">Perfil de atuação por regime de manutenção</p>
+
+              <div class="space-y-3">
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded bg-blue-500 shrink-0"></span>
+                    <span class="text-slate-600 dark:text-slate-300">Preventiva Programada</span>
+                  </div>
+                  <span class="font-mono font-bold text-slate-900 dark:text-slate-100">58% <span class="text-slate-400 font-normal">(32 OS)</span></span>
+                </div>
+
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded bg-emerald-500 shrink-0"></span>
+                    <span class="text-slate-600 dark:text-slate-300">Preditiva / CBM</span>
+                  </div>
+                  <span class="font-mono font-bold text-slate-900 dark:text-slate-100">24% <span class="text-slate-400 font-normal">(13 OS)</span></span>
+                </div>
+
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded bg-rose-500 shrink-0"></span>
+                    <span class="text-slate-600 dark:text-slate-300">Corretiva Emergencial</span>
+                  </div>
+                  <span class="font-mono font-bold text-slate-900 dark:text-slate-100">12% <span class="text-slate-400 font-normal">(7 OS)</span></span>
+                </div>
+
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded bg-purple-500 shrink-0"></span>
+                    <span class="text-slate-600 dark:text-slate-300">Melhoria / Engenharia</span>
+                  </div>
+                  <span class="font-mono font-bold text-slate-900 dark:text-slate-100">6% <span class="text-slate-400 font-normal">(3 OS)</span></span>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 text-center">
+                Taxa de Proatividade: <strong class="text-emerald-600 dark:text-emerald-400 font-bold">82%</strong> (Meta RCM &gt; 80%)
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===================================================================
+             MÓDULO: ORDENS DE SERVIÇO (OS) - PADRÃO LINEAR & ALTA DENSIDADE
+             =================================================================== -->
+        <div id="tab-workorders" class="view-panel-section hidden space-y-4">
+          
+          <!-- Barra de Filtros Segmentados no Topo (Segmented Controls Ergonômicos) -->
+          <div class="flex items-center justify-between flex-wrap gap-3 pb-1 border-b border-slate-200 dark:border-slate-800">
+            
+            <!-- Segmented Controls de Filtro Rápido -->
+            <div class="inline-flex p-1 bg-slate-200/80 dark:bg-slate-800 rounded-lg text-xs font-medium space-x-1">
+              <button id="filterBtnAll" onclick="setTacticalQueueFilter('All')" class="px-3 py-1 rounded-md text-xs font-semibold bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm transition-all">
+                Todas as OS (8)
+              </button>
+              <button id="filterBtnMyOrders" onclick="setTacticalQueueFilter('MyOrders')" class="px-3 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all">
+                Minhas OS (Carlos M.)
+              </button>
+              <button id="filterBtnCritical" onclick="setTacticalQueueFilter('Critical')" class="px-3 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all">
+                Paradas Críticas (2)
+              </button>
+              <button id="filterBtnInProgress" onclick="setTacticalQueueFilter('InProgress')" class="px-3 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all">
+                Em Execução (3)
+              </button>
+              <button id="filterBtnOnHold" onclick="setTacticalQueueFilter('OnHold')" class="px-3 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all">
+                Aguardando Peças (1)
+              </button>
+              <button id="filterBtnDone" onclick="setTacticalQueueFilter('Done')" class="px-3 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all">
+                Concluídas (2)
+              </button>
+            </div>
+
+            <!-- Alternador de Modos de Visualização (Painel Dividido / Tabela Densa / Kanban) -->
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-slate-400 font-medium">Modo:</span>
+              <div class="inline-flex p-0.5 bg-slate-200/80 dark:bg-slate-800 rounded-lg text-xs font-medium">
+                <button id="viewBtnSplit" onclick="setWorkOrderViewMode('split')" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm transition-all flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+                  </svg>
+                  <span>Painel Dividido</span>
+                </button>
+                <button id="viewBtnTable" onclick="setWorkOrderViewMode('table')" class="px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                  <span>Tabela Densa</span>
+                </button>
+                <button id="viewBtnKanban" onclick="setWorkOrderViewMode('kanban')" class="px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h4v12H4zM10 6h4v12h-4zM16 6h4v12h-4z"/>
+                  </svg>
+                  <span>Kanban de Campo</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- MODO 1: PAINEL DIVIDIDO (MASTER-DETAIL LINEAR STYLE) -->
+          <div id="woContainerSplit" class="grid grid-cols-12 gap-4">
+            
+            <!-- Coluna da Esquerda: Fila Tática de Ordens (w-80 / 4 cols) -->
+            <div class="col-span-12 lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm flex flex-col h-[700px]">
+              
+              <!-- Busca na Fila -->
+              <div class="p-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850/50">
+                <div class="relative">
+                  <input 
+                    id="tacticalSearchInput" 
+                    type="text" 
+                    placeholder="Filtrar por código, ativo ou sintoma..." 
+                    oninput="renderTacticalQueue()" 
+                    class="w-full pl-8 pr-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  >
+                  <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Lista de Cartões Táticos Rolável -->
+              <div id="tacticalCardsContainer" class="flex-1 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
+                <!-- Renderizado dinamicamente via JS -->
+              </div>
+            </div>
+
+            <!-- Coluna da Direita: Deck de Comando da Ordem Selecionada (8 cols) -->
+            <div class="col-span-12 lg:col-span-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex flex-col justify-between h-[700px] overflow-y-auto">
+              
+              <div class="space-y-4">
+                
+                <!-- Cabeçalho da Ordem Selecionada & Cronômetro Vivo -->
+                <div class="flex items-start justify-between flex-wrap gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span id="tacticalHeadingCode" class="font-mono text-xs font-bold text-blue-600 dark:text-blue-400">#7654 // OS-2026-0481 • TRM-801208</span>
+                      <span id="tacticalSectorTag" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Estamparia Pesada</span>
+                    </div>
+                    <h2 id="tacticalHeadingTitle" class="font-display font-bold text-base text-slate-900 dark:text-slate-100">
+                      Lubrication PM - 1/2L Conveyor Drive
+                    </h2>
+                    <div id="tacticalHeadingAsset" class="text-xs text-slate-500 font-medium">
+                      Ativo: <span class="font-semibold text-slate-800 dark:text-slate-200">TRM-801208 // Link Treadmill With Slats</span>
+                    </div>
+                  </div>
+
+                  <!-- Cronômetro Ergonômico de Execução de Campo -->
+                  <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-850 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <div class="text-right">
+                      <div class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Tempo em Execução</div>
+                      <div id="liveTimerDisplay" class="font-mono text-base font-bold text-slate-900 dark:text-slate-100">00:00:00</div>
+                    </div>
+                    <button id="btnToggleTimer" onclick="toggleTacticalTimer()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-all flex items-center gap-1.5">
+                      <span id="btnTimerDot" class="w-2 h-2 rounded-full bg-white opacity-90"></span>
+                      <span id="btnTimerLabel">Iniciar Atendimento</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Barra Seletora de Fases da OS (Lifecycle Stepper) -->
+                <div>
+                  <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Fase Atual da Ordem de Serviço:</div>
+                  <div class="grid grid-cols-4 gap-2">
+                    <button id="phaseBtnOpen" onclick="setOrderStatus('Open')" class="py-2 px-3 rounded-lg text-xs font-semibold text-center border transition-all bg-blue-50 dark:bg-blue-950/60 border-blue-500 text-blue-700 dark:text-blue-400 shadow-sm">
+                      1. Aberta / Triagem
+                    </button>
+                    <button id="phaseBtnProgress" onclick="setOrderStatus('In Progress')" class="py-2 px-3 rounded-lg text-xs font-medium text-center border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                      2. Em Execução
+                    </button>
+                    <button id="phaseBtnHold" onclick="setOrderStatus('On Hold')" class="py-2 px-3 rounded-lg text-xs font-medium text-center border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                      3. Aguardando Peças
+                    </button>
+                    <button id="phaseBtnDone" onclick="setOrderStatus('Done')" class="py-2 px-3 rounded-lg text-xs font-medium text-center border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                      4. Concluída & Validada
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Abas Técnicas Secundárias (Checklist / LOTO / Peças / Custos) -->
+                <div class="border-b border-slate-200 dark:border-slate-800 flex gap-4 pt-2">
+                  <button id="subtab-btn-checklist" onclick="switchTacticalSubTab('checklist')" class="tactical-subtab-btn pb-2 text-xs font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-all">
+                    Checklist & Procedimentos (NR-12)
+                  </button>
+                  <button id="subtab-btn-loto" onclick="switchTacticalSubTab('loto')" class="tactical-subtab-btn pb-2 text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 border-b-2 border-transparent transition-all">
+                    Bloqueio LOTO & Segurança
+                  </button>
+                  <button id="subtab-btn-materials" onclick="switchTacticalSubTab('materials')" class="tactical-subtab-btn pb-2 text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 border-b-2 border-transparent transition-all">
+                    Materiais & Almoxarifado MRO
+                  </button>
+                  <button id="subtab-btn-costs" onclick="switchTacticalSubTab('costs')" class="tactical-subtab-btn pb-2 text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 border-b-2 border-transparent transition-all">
+                    Custeio da Intervenção
+                  </button>
+                </div>
+
+                <!-- Conteúdo Sub-Aba 1: Checklist de Atividades -->
+                <div id="subtab-content-checklist" class="space-y-3">
+                  <div class="flex items-center justify-between text-xs text-slate-500">
+                    <span>Etapas Obrigatórias de Execução Técnica:</span>
+                    <span id="checklistProgressText" class="font-mono font-semibold text-blue-600 dark:text-blue-400">Progresso: 2/3 (66%)</span>
+                  </div>
+                  <div id="checklistRowsContainer" class="space-y-2">
+                    <!-- Gerado dinamicamente via renderTacticalDetail() -->
+                  </div>
+                </div>
+
+                <!-- Conteúdo Sub-Aba 2: Bloqueio LOTO -->
+                <div id="subtab-content-loto" class="hidden space-y-3">
+                  <div class="p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-lg flex items-center justify-between">
+                    <div>
+                      <div class="font-bold text-xs text-amber-800 dark:text-amber-300">Procedimento de Bloqueio Físico e Desenergização (LOTO / NR-10)</div>
+                      <div class="text-[11px] text-amber-700/80 dark:text-amber-400">Desligar chave seccionadora QG-04 e aplicar cadeado amarelo individual.</div>
+                    </div>
+                    <span id="lotoStatusBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-200/60 dark:bg-rose-900/60 text-rose-800 dark:text-rose-200">
+                      CADEADO FÍSICO ATIVADO
+                    </span>
+                  </div>
+                  <button onclick="toggleLotoLock()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 rounded-md text-xs font-medium transition-colors">
+                    Alternar Estado do Bloqueio LOTO
+                  </button>
+                </div>
+
+                <!-- Conteúdo Sub-Aba 3: Materiais MRO -->
+                <div id="subtab-content-materials" class="hidden space-y-3">
+                  <div class="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden">
+                    <table class="w-full text-left text-xs">
+                      <thead class="bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-semibold">
+                        <tr>
+                          <th class="table-cell-pad">Código Item</th>
+                          <th class="table-cell-pad">Descrição MRO</th>
+                          <th class="table-cell-pad">Local Almoxarifado</th>
+                          <th class="table-cell-pad text-right">Qtd</th>
+                          <th class="table-cell-pad text-right">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tr>
+                          <td class="table-cell-pad font-mono font-medium">SKF-6208-2Z</td>
+                          <td class="table-cell-pad">Rolamento Rígido de Esferas com Blindagem</td>
+                          <td class="table-cell-pad font-mono text-slate-500">CORR-C // PRAT-02</td>
+                          <td class="table-cell-pad text-right font-mono font-bold">2 un</td>
+                          <td class="table-cell-pad text-right"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">Reservado</span></td>
+                        </tr>
+                        <tr>
+                          <td class="table-cell-pad font-mono font-medium">MOB-SHC-220</td>
+                          <td class="table-cell-pad">Graxa Sintética Alta Performance Mobilith</td>
+                          <td class="table-cell-pad font-mono text-slate-500">CORR-A // PRAT-01</td>
+                          <td class="table-cell-pad text-right font-mono font-bold">1 kg</td>
+                          <td class="table-cell-pad text-right"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">Reservado</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Conteúdo Sub-Aba 4: Custos -->
+                <div id="subtab-content-costs" class="hidden space-y-3">
+                  <div class="grid grid-cols-3 gap-3">
+                    <div class="p-3 bg-slate-50 dark:bg-slate-850 rounded-lg border border-slate-200 dark:border-slate-800">
+                      <div class="text-[10px] text-slate-400 uppercase font-semibold">Mão de Obra HH</div>
+                      <div class="font-mono text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">R$ 340,00</div>
+                      <div class="text-[10px] text-slate-400">4.0h × R$ 85,00/h</div>
+                    </div>
+                    <div class="p-3 bg-slate-50 dark:bg-slate-850 rounded-lg border border-slate-200 dark:border-slate-800">
+                      <div class="text-[10px] text-slate-400 uppercase font-semibold">Peças MRO</div>
+                      <div class="font-mono text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">R$ 498,50</div>
+                      <div class="text-[10px] text-slate-400">2 Rolamentos + Graxa</div>
+                    </div>
+                    <div class="p-3 bg-blue-50/70 dark:bg-blue-950/40 rounded-lg border border-blue-200/60 dark:border-blue-900/50">
+                      <div class="text-[10px] text-blue-600 dark:text-blue-300 uppercase font-bold">Custo Total da OS</div>
+                      <div class="font-mono text-sm font-bold text-blue-700 dark:text-blue-400 mt-1">R$ 838,50</div>
+                      <div class="text-[10px] text-blue-600/80 dark:text-blue-400/80">Dentro do Orçamento</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Rodapé da Ordem com Ações de Conclusão -->
+              <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div class="text-xs text-slate-400">
+                  Responsável: <span id="tacticalFooterTech" class="font-semibold text-slate-700 dark:text-slate-300">Carlos E. Mendes</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button onclick="setOrderStatus('Done')" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Concluir Ordem de Serviço</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- MODO 2: TABELA DENSA (HIGH-DENSITY B2B TABLE PADRÃO DATADOG / LINEAR) -->
+          <div id="woContainerTable" class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
+                  <tr>
+                    <th class="table-cell-pad">Código OS</th>
+                    <th class="table-cell-pad">Prioridade</th>
+                    <th class="table-cell-pad">TAG Ativo</th>
+                    <th class="table-cell-pad">Descrição / Sintoma da Intervenção</th>
+                    <th class="table-cell-pad">Setor</th>
+                    <th class="table-cell-pad">Técnico PCM</th>
+                    <th class="table-cell-pad">Estimativa</th>
+                    <th class="table-cell-pad">Status</th>
+                    <th class="table-cell-pad text-right">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="denseTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                  <!-- Renderizado dinamicamente via renderDenseTable() -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- MODO 3: KANBAN DE CAMPO (4 COLUNAS ERGONÔMICAS DE EXECUÇÃO) -->
+          <div id="woContainerKanban" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Coluna 1: Aberta / Triagem -->
+            <div class="bg-slate-100/70 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col h-[700px]">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 mb-3">
+                <div class="font-semibold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                  <span>Aberta / Triagem</span>
+                </div>
+                <span id="kanbanCountOpen" class="font-mono text-xs font-bold px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">2</span>
+              </div>
+              <div id="kanbanColOpen" class="flex-1 overflow-y-auto space-y-2.5"></div>
+            </div>
+
+            <!-- Coluna 2: Em Execução -->
+            <div class="bg-slate-100/70 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col h-[700px]">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 mb-3">
+                <div class="font-semibold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                  <span>Em Execução</span>
+                </div>
+                <span id="kanbanCountProgress" class="font-mono text-xs font-bold px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">3</span>
+              </div>
+              <div id="kanbanColProgress" class="flex-1 overflow-y-auto space-y-2.5"></div>
+            </div>
+
+            <!-- Coluna 3: Aguardando Peças -->
+            <div class="bg-slate-100/70 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col h-[700px]">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 mb-3">
+                <div class="font-semibold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                  <span>Aguardando Peças</span>
+                </div>
+                <span id="kanbanCountHold" class="font-mono text-xs font-bold px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">1</span>
+              </div>
+              <div id="kanbanColHold" class="flex-1 overflow-y-auto space-y-2.5"></div>
+            </div>
+
+            <!-- Coluna 4: Concluída & Validada -->
+            <div class="bg-slate-100/70 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col h-[700px]">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 mb-3">
+                <div class="font-semibold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span>Concluída & Validada</span>
+                </div>
+                <span id="kanbanCountDone" class="font-mono text-xs font-bold px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">2</span>
+              </div>
+              <div id="kanbanColDone" class="flex-1 overflow-y-auto space-y-2.5"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===================================================================
+             MÓDULO: ATIVOS & HIERARQUIA (EAM ISO 14224 / DIN)
+             =================================================================== -->
+        <div id="tab-assets" class="view-panel-section hidden space-y-4">
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <div>
+                <h3 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100">Catálogo de Ativos Industriais (ISO 14224 / DIN)</h3>
+                <p class="text-xs text-slate-500">Gestão do ciclo de vida, especificações elétricas/mecânicas e saúde preditiva</p>
+              </div>
+              <button onclick="alert('Formulário de Cadastro de Novo Ativo Industrial')" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors">
+                + Novo Ativo
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
+                  <tr>
+                    <th class="table-cell-pad">TAG</th>
+                    <th class="table-cell-pad">Equipamento / Modelo</th>
+                    <th class="table-cell-pad">Localização Funcional</th>
+                    <th class="table-cell-pad">Criticidade</th>
+                    <th class="table-cell-pad">Health Index</th>
+                    <th class="table-cell-pad">Horímetro</th>
+                    <th class="table-cell-pad">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                  <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-850/50 transition-colors">
+                    <td class="table-cell-pad font-mono font-bold text-blue-600 dark:text-blue-400">TURB-01</td>
+                    <td class="table-cell-pad font-semibold">Turbogerador a Vapor 15MW Multi-Stage<br><span class="text-[11px] text-slate-400 font-normal">Siemens Energy SST-300</span></td>
+                    <td class="table-cell-pad text-slate-500">Casa de Força // Linha Principal</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400 border border-rose-200 dark:border-rose-900">Classe A</span></td>
+                    <td class="table-cell-pad font-semibold text-emerald-600 dark:text-emerald-400 font-mono">92%</td>
+                    <td class="table-cell-pad font-mono text-slate-500">32.480 h</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">Operacional</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-850/50 transition-colors">
+                    <td class="table-cell-pad font-mono font-bold text-blue-600 dark:text-blue-400">COMP-04</td>
+                    <td class="table-cell-pad font-semibold">Compressor de Ar Parafuso Rotativo 250HP<br><span class="text-[11px] text-slate-400 font-normal">Atlas Copco GA-160 VSD+</span></td>
+                    <td class="table-cell-pad text-slate-500">Central de Ar // Rede 8.5 bar</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400 border border-rose-200 dark:border-rose-900">Classe A</span></td>
+                    <td class="table-cell-pad font-semibold text-amber-500 font-mono">68%</td>
+                    <td class="table-cell-pad font-mono text-slate-500">18.910 h</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400">Em Manutenção</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-850/50 transition-colors">
+                    <td class="table-cell-pad font-mono font-bold text-blue-600 dark:text-blue-400">PREN-02</td>
+                    <td class="table-cell-pad font-semibold">Prensa Hidráulica Automática 600 Toneladas<br><span class="text-[11px] text-slate-400 font-normal">Schuler HP-600 H-Frame</span></td>
+                    <td class="table-cell-pad text-slate-500">Estamparia Pesada // Linha Chassis</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400 border border-rose-200 dark:border-rose-900">Classe A</span></td>
+                    <td class="table-cell-pad font-semibold text-emerald-600 dark:text-emerald-400 font-mono">88%</td>
+                    <td class="table-cell-pad font-mono text-slate-500">24.120 h</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">Operacional</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-850/50 transition-colors">
+                    <td class="table-cell-pad font-mono font-bold text-blue-600 dark:text-blue-400">BOMB-03</td>
+                    <td class="table-cell-pad font-semibold">Bomba Centrífuga Multiestágio 75 CV<br><span class="text-[11px] text-slate-400 font-normal">KSB Megaflow 125-250</span></td>
+                    <td class="table-cell-pad text-slate-500">Estação de Recirculação de Água</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400 border border-amber-200 dark:border-amber-900">Classe B</span></td>
+                    <td class="table-cell-pad font-semibold text-emerald-600 dark:text-emerald-400 font-mono">94%</td>
+                    <td class="table-cell-pad font-mono text-slate-500">12.350 h</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">Operacional</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-850/50 transition-colors">
+                    <td class="table-cell-pad font-mono font-bold text-blue-600 dark:text-blue-400">CALD-01</td>
+                    <td class="table-cell-pad font-semibold">Caldeira de Recuperação a Biomassa 30 T/h<br><span class="text-[11px] text-slate-400 font-normal">Aalborg Industries SteamGen</span></td>
+                    <td class="table-cell-pad text-slate-500">Utilidades Térmicas</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400 border border-rose-200 dark:border-rose-900">Classe A</span></td>
+                    <td class="table-cell-pad font-semibold text-emerald-600 dark:text-emerald-400 font-mono">91%</td>
+                    <td class="table-cell-pad font-mono text-slate-500">41.800 h</td>
+                    <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">Operacional</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================================================================
+             MÓDULO: PREDITIVA IOT & ESPECTRO FFT (DATADOG METRIC STYLE)
+             =================================================================== -->
+        <div id="tab-predictive" class="view-panel-section hidden space-y-4">
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <h3 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100">Osciloscópio Espectral FFT (ISO 10816) • COMP-04</h3>
+                <p class="text-xs text-slate-500">Amostragem contínua em tempo real de 10 kHz • Frequência BPFI de defeito em pista interna</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="resetVibrationSensor()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-md text-xs font-semibold hover:bg-slate-200 transition-colors">
+                  Calibrar Sensor
+                </button>
+                <button onclick="triggerAnomalySimulation()" class="px-3 py-1.5 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900 rounded-md text-xs font-semibold hover:bg-rose-100 transition-colors">
+                  Simular Falha ISO
+                </button>
+              </div>
+            </div>
+
+            <!-- Gráfico de Onda Senoidal / FFT -->
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-slate-100 relative overflow-hidden">
+              <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+                <span>Espectro de Aceleração (g / rms) &bull; Canal Z (Axial)</span>
+                <span class="font-mono text-emerald-400 font-semibold" id="fftVibText">2.80 mm/s RMS</span>
+              </div>
+              <svg id="liveWaveformSvg" class="w-full h-40" viewBox="0 0 700 150">
+                <defs>
+                  <linearGradient id="waveformGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.5"/>
+                    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <!-- Linhas de Limiar ISO 10816 -->
+                <line x1="0" y1="30" x2="700" y2="30" stroke="#ef4444" stroke-dasharray="4" stroke-width="1"/>
+                <text x="630" y="25" fill="#ef4444" font-size="9" font-family="monospace">Alarme: 7.1 mm/s</text>
+                <line x1="0" y1="70" x2="700" y2="70" stroke="#f59e0b" stroke-dasharray="4" stroke-width="1"/>
+                <text x="630" y="65" fill="#f59e0b" font-size="9" font-family="monospace">Alerta: 4.5 mm/s</text>
+                <!-- Onda -->
+                <path id="liveWaveformSvgPath" d="M 0,130 Q 35,90 70,130 T 140,130 T 210,90 T 280,130 T 350,90 T 420,130 T 490,90 T 560,130 T 630,90 T 700,130" fill="none" stroke="#3b82f6" stroke-width="2.5" class="transition-all duration-300"/>
+              </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+              <div class="p-3 bg-slate-50 dark:bg-slate-850 rounded-lg border border-slate-200 dark:border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-semibold">Frequência Fundamental (1X)</div>
+                <div class="font-mono text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5">29.85 Hz (1.791 RPM)</div>
+                <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Desbalanceamento Residual: Desprezível</div>
+              </div>
+              <div class="p-3 bg-slate-50 dark:bg-slate-850 rounded-lg border border-slate-200 dark:border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-semibold">Pista Interna (BPFI Rolamento)</div>
+                <div class="font-mono text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5">148.2 Hz (Harmônico 5X)</div>
+                <div class="text-[10px] text-amber-500 font-medium">Início de microfissura identificado</div>
+              </div>
+              <div class="p-3 bg-slate-50 dark:bg-slate-850 rounded-lg border border-slate-200 dark:border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-semibold">Vida Útil Remanescente (RUL)</div>
+                <div class="font-mono text-sm font-bold text-blue-600 dark:text-blue-400 mt-0.5">1.420 horas (~59 dias)</div>
+                <div class="text-[10px] text-slate-500">Janela ideal de parada preventiva</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================================================================
+             MÓDULO: GERADOR DE LICENÇAS & SEGURANÇA ANTI-PIRATARIA
+             (SISTEMA CRIPTOGRÁFICO NODE-LOCKING PARA MONETIZAÇÃO SEGURA)
+             =================================================================== -->
+        <div id="tab-licensing" class="view-panel-section hidden space-y-5">
+          
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+              <div>
+                <h3 class="font-display font-bold text-base text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  <span>🔒 Console de Segurança Comercial & Proteção Anti-Cópia</span>
+                </h3>
+                <p class="text-xs text-slate-500">Arquitetura de proteção por hardware (Node-Locking) e assinatura digital assimétrica inviolável.</p>
+              </div>
+              <span class="px-2.5 py-1 rounded text-xs font-bold bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-900">
+                Painel do Fabricante
+              </span>
+            </div>
+
+            <!-- Grid de Duas Colunas: Verificação da Máquina Atual vs Emissor de Vendas -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              
+              <!-- Coluna 1: Auditoria do Servidor Local -->
+              <div class="space-y-3.5 p-4 rounded-xl bg-slate-50/70 dark:bg-slate-850/50 border border-slate-200 dark:border-slate-800">
+                <h4 class="font-display font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  1. Identificador de Hardware do Cliente (Node-Lock)
+                </h4>
+                <p class="text-xs text-slate-500">
+                  Cada servidor do cliente gera este código único baseado no hardware da máquina física. Quando você for vender o software, solicite este ID ao cliente para emitir a licença vinculada:
+                </p>
+
+                <div class="flex gap-2">
+                  <input id="masterHardwareFingerprint" type="text" value="NX-SRV-9014-F8A2-2026" readonly class="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-mono font-bold text-slate-800 dark:text-slate-100 select-all">
+                  <button onclick="copyMasterHardwareCode()" class="px-3 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-xs font-semibold transition-colors">
+                    Copiar ID
+                  </button>
+                </div>
+
+                <!-- Simulações de Ataque -->
+                <div class="pt-3 border-t border-slate-200 dark:border-slate-700/60 space-y-2">
+                  <div class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase">Simular Ataque e Provar Bloqueio:</div>
+                  <div class="flex flex-wrap gap-2">
+                    <button onclick="testTamperedLicense()" class="px-2.5 py-1.5 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900 rounded text-xs font-semibold hover:bg-rose-100 transition-colors">
+                      Simular: Hacker Alterou Validade
+                    </button>
+                    <button onclick="testPiratedHardware()" class="px-2.5 py-1.5 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-900 rounded text-xs font-semibold hover:bg-amber-100 transition-colors">
+                      Simular: Copiado para Outro Servidor
+                    </button>
+                    <button onclick="restoreOriginalLicense()" class="px-2.5 py-1.5 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900 rounded text-xs font-semibold hover:bg-emerald-100 transition-colors">
+                      Restaurar Licença Autêntica
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Coluna 2: Gerador de Chaves Oficiais (Para Quando Você Vender o CMMS) -->
+              <div class="space-y-3.5 p-4 rounded-xl bg-blue-50/40 dark:bg-slate-850/50 border border-blue-200/50 dark:border-slate-800">
+                <h4 class="font-display font-bold text-xs uppercase tracking-wider text-blue-900 dark:text-blue-300">
+                  2. Gerador de Chaves Oficiais (Sua Área de Vendas)
+                </h4>
+                <p class="text-xs text-slate-500">
+                  Insira os dados do comprador para emitir a chave criptografada com assinatura digital inviolável:
+                </p>
+
+                <form id="licenseMinterForm" onsubmit="handleGenerateSignedLicense(event)" class="space-y-2.5">
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Empresa Compradora</label>
+                      <input id="licClientName" type="text" value="Indústria Metalúrgica Aliança S/A" required class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs">
+                    </div>
+                    <div>
+                      <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">CNPJ / Documento</label>
+                      <input id="licClientTax" type="text" value="33.892.411/0001-44" required class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs">
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Plano Comercial</label>
+                      <select id="licTier" class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs">
+                        <option value="ENTERPRISE_AI">Enterprise AI (Ilimitado)</option>
+                        <option value="STANDARD_PCM">Standard PCM (Até 50 Ativos)</option>
+                        <option value="TRIAL_30D">Trial Homologação (30 dias)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Validade em Dias</label>
+                      <input id="licDays" type="number" value="365" required class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs">
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Hardware ID do Servidor do Cliente</label>
+                    <input id="licTargetHardware" type="text" value="NX-SRV-9014-F8A2-2026" required class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-mono">
+                  </div>
+
+                  <button type="submit" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors">
+                    Emitir Chave Digital Assinada
+                  </button>
+                </form>
+
+                <!-- Área da Chave Gerada -->
+                <div id="outputKeyBox" class="hidden pt-3 border-t border-slate-200 dark:border-slate-700 space-y-2">
+                  <div class="flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-400">
+                    <span class="font-bold">Licença Emitida com Assinatura SHA-256:</span>
+                    <button onclick="copyGeneratedKeyString()" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">Copiar Chave</button>
+                  </div>
+                  <textarea id="outputKeyArea" rows="3" readonly class="w-full p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg font-mono text-[10px] text-slate-700 dark:text-slate-300"></textarea>
+                  <button onclick="downloadLicFile()" class="w-full py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
+                    <span>Baixar Arquivo nexus_license.lic</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===================================================================
+             MÓDULOS DE CONFIABILIDADE, SEGURANÇA E ALMOXARIFADO
+             =================================================================== -->
+        <div id="tab-fmea" class="view-panel-section hidden">
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
+            <h3 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100 mb-2">Matriz FMEA & RCM (Severidade × Ocorrência × Detecção = RPN)</h3>
+            <p class="text-xs text-slate-500 mb-4">Análise detalhada de modos de falha e planos preventivos prioritários</p>
+            <div class="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-semibold uppercase text-[11px]">
+                  <tr>
+                    <th class="table-cell-pad">Componente</th>
+                    <th class="table-cell-pad">Modo de Falha</th>
+                    <th class="table-cell-pad text-center">RPN</th>
+                    <th class="table-cell-pad">Ação Recomendada</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                  <tr>
+                    <td class="table-cell-pad font-semibold">COMP-04 (Mancal)</td>
+                    <td class="table-cell-pad text-rose-600 font-medium">Fadiga acelerada por micropartículas</td>
+                    <td class="table-cell-pad text-center font-bold text-rose-600 font-mono">108</td>
+                    <td class="table-cell-pad text-slate-600 dark:text-slate-300">Substituição por SKF Explorer e purga de óleo</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell-pad font-semibold">PREN-02 (Válvula Proporcional)</td>
+                    <td class="table-cell-pad text-amber-500 font-medium">Cavitação por aquecimento do fluido</td>
+                    <td class="table-cell-pad text-center font-bold text-amber-500 font-mono">96</td>
+                    <td class="table-cell-pad text-slate-600 dark:text-slate-300">Limpeza de trocador de calor e teste de estanqueidade</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-safety" class="view-panel-section hidden">
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-3">
+            <h3 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100">Segurança do Trabalho & Permissões Especiais (NR-10, 12, 33, 35)</h3>
+            <p class="text-xs text-slate-500">Controle de bloqueios físicos de energia e emissão de permissões de trabalho (PT)</p>
+            <div class="p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded-lg text-emerald-800 dark:text-emerald-300 font-medium text-xs">
+              • 842 dias consecutivos sem acidentes com afastamento na planta industrial.
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-inventory" class="view-panel-section hidden">
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
+            <h3 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100 mb-2">Almoxarifado MRO & Ponto de Reposição</h3>
+            <p class="text-xs text-slate-500 mb-4">Gestão de peças sobressalentes por endereço físico de prateleira e curva ABC</p>
+            <div class="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-semibold uppercase text-[11px]">
+                  <tr>
+                    <th class="table-cell-pad">Código</th>
+                    <th class="table-cell-pad">Descrição do Item</th>
+                    <th class="table-cell-pad">Localização Física</th>
+                    <th class="table-cell-pad text-right">Saldo Atual</th>
+                    <th class="table-cell-pad text-right">Preço Unitário</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                  <tr>
+                    <td class="table-cell-pad font-mono font-bold text-blue-600">SKF-6208-2Z</td>
+                    <td class="table-cell-pad">Rolamento Rígido de Esferas com Blindagem</td>
+                    <td class="table-cell-pad font-mono text-slate-500">CORR-C // PRAT-02</td>
+                    <td class="table-cell-pad text-right font-mono font-bold text-emerald-600">14 un</td>
+                    <td class="table-cell-pad text-right font-mono">R$ 185,00</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell-pad font-mono font-bold text-blue-600">MOB-SHC-220</td>
+                    <td class="table-cell-pad">Graxa Sintética Alta Performance Mobilith</td>
+                    <td class="table-cell-pad font-mono text-slate-500">CORR-A // PRAT-01</td>
+                    <td class="table-cell-pad text-right font-mono font-bold text-emerald-600">28 kg</td>
+                    <td class="table-cell-pad text-right font-mono">R$ 128,50</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- =======================================================================
+       UNIVERSAL COMMAND PALETTE (CTRL+K / ⌘K) - LINEAR STYLE
+       ======================================================================= -->
+  <div id="commandPaletteModal" class="hidden fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-start justify-center pt-20 p-4" onclick="closeCommandPalette(event)">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xl rounded-xl shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-3 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
+        <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input 
+          id="paletteSearchInput" 
+          type="text" 
+          placeholder="Navegar por comandos, ativos, ordens ou diagnósticos..." 
+          oninput="filterPaletteItems()"
+          class="flex-1 bg-transparent text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none"
+        >
+        <span class="text-[10px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">ESC</span>
+      </div>
+
+      <div id="paletteItemsList" class="p-2 max-h-80 overflow-y-auto space-y-1">
+        <button onclick="switchMainTab('tab-workorders'); closeCommandPalette()" class="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-left text-xs transition-colors">
+          <div><strong class="font-medium">Ordens de Serviço</strong> • <span class="text-slate-500">Fila de execução tática e Kanban</span></div>
+          <kbd class="text-[10px] text-slate-400 font-mono">1</kbd>
+        </button>
+        <button onclick="switchMainTab('tab-predictive'); closeCommandPalette()" class="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-left text-xs transition-colors">
+          <div><strong class="font-medium">Preditiva IoT & FFT</strong> • <span class="text-slate-500">Espectro de vibração ISO 10816</span></div>
+          <kbd class="text-[10px] text-slate-400 font-mono">2</kbd>
+        </button>
+        <button onclick="switchMainTab('tab-licensing'); closeCommandPalette()" class="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-left text-xs transition-colors">
+          <div><strong class="font-medium">Gerador de Licenças</strong> • <span class="text-slate-500">Emitir chave comercial para cliente</span></div>
+          <kbd class="text-[10px] text-slate-400 font-mono">3</kbd>
+        </button>
+        <button onclick="triggerAnomalySimulation(); closeCommandPalette()" class="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 text-left text-xs transition-colors">
+          <div><strong class="font-medium text-rose-600">Simular Pulso Anômalo</strong> • <span class="text-slate-500">Disparo de alarme ISO no compressor</span></div>
+          <kbd class="text-[10px] text-rose-500 font-mono">⚡</kbd>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL DE ABERTURA ERGONÔMICA DE NOVA ORDEM DE SERVIÇO (COLUNAS DUPLAS)
+       ======================================================================= -->
+  <div id="newOrderModalFast" class="hidden fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      
+      <!-- Cabeçalho do Modal -->
+      <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-850/50">
+        <div>
+          <h3 class="font-display font-bold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <span>Abertura Rápida de Ordem de Serviço (OS)</span>
+          </h3>
+          <p class="text-xs text-slate-500">Estruturado em colunas ergonômicas para rápida triagem por técnicos e planejadores PCM</p>
+        </div>
+        <button onclick="closeNewOrderModalFast()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Formulário em Duas Colunas Balanceadas (40px a 44px altura de inputs, labels superiores) -->
+      <form onsubmit="handleCreateTacticalOrder(event)" class="p-5 space-y-4">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Coluna 1: Dados do Ativo & Localização -->
+          <div class="space-y-3">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">1. Ativo & Equipamento</div>
+            
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Equipamento Alvo</label>
+              <select id="newWoAssetSelect" class="w-full h-10 px-3 bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                <option value="TURB-01">TURB-01 // Turbogerador 15MW Multi-Stage</option>
+                <option value="COMP-04" selected>COMP-04 // Compressor de Ar Parafuso 250HP</option>
+                <option value="PREN-02">PREN-02 // Prensa Hidráulica Automática 600t</option>
+                <option value="BOMB-03">BOMB-03 // Bomba Centrífuga 75CV</option>
+                <option value="DECANTER-604">DECANTER-604 // Centrífuga Decanter Alta Rotação</option>
+                <option value="TRM-801208">TRM-801208 // Link Treadmill With Slats</option>
+                <option value="MOTOR-TK470">MOTOR-TK470 // Agitador de Massa Industrial</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Título Resumido da Intervenção</label>
+              <input id="newWoTitleInput" type="text" required placeholder="Ex: Substituição de rolamentos do lado acoplado" class="w-full h-10 px-3 bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nível de Criticidade da Ordem</label>
+              <select id="newWoPrioSelect" class="w-full h-10 px-3 bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                <option value="CRITICAL">Crítica // Parada Iminente (Classe A)</option>
+                <option value="HIGH" selected>Alta // Intervenção em até 24 horas</option>
+                <option value="NORMAL">Normal // Preventiva Programada</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Coluna 2: Planejamento, Técnico & Segurança LOTO -->
+          <div class="space-y-3">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">2. Planejamento & Recursos</div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Técnico Responsável</label>
+              <input id="newWoTechInput" type="text" value="Carlos E. Mendes" required class="w-full h-10 px-3 bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Estimativa de Duração (HH)</label>
+              <input id="newWoEstDuration" type="text" value="3.5h" class="w-full h-10 px-3 bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-mono text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+            </div>
+
+            <div class="pt-2">
+              <label class="flex items-center gap-2 p-2.5 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer">
+                <input id="newWoLotoCheck" type="checkbox" checked class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500">
+                <span class="text-xs font-medium text-slate-700 dark:text-slate-300">Requer Bloqueio Físico LOTO (NR-10 / NR-12)</span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Botões de Ação do Modal -->
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeNewOrderModalFast()" class="px-4 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors">
+            Emitir Ordem de Serviço
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MOTOR JAVASCRIPT: CRIPTOGRAFIA, TIMER, TABS E REGRAS DE NEGÓCIO
+       ======================================================================= -->
+  <script>
+    // -------------------------------------------------------------
+    // DADOS INICIAIS DE ORDENS DE SERVIÇO (FILA TÁTICA E KANBAN)
+    // -------------------------------------------------------------
+    let tacticalOrders = [
+      {
+        id: '7654',
+        code: 'OS-2026-0481',
+        title: 'Lubrication PM - 1/2L Conveyor Drive',
+        assetTag: 'TRM-801208',
+        assetName: 'Link Treadmill With Slats',
+        sector: 'Estamparia Pesada',
+        status: 'In Progress',
+        priority: 'CRITICAL',
+        tech: 'Carlos E. Mendes',
+        durationEstimate: '4.0h',
+        requiresLoto: true,
+        checklist: [
+          { text: 'Verificar nível de óleo sintético no visor do redutor', done: true },
+          { text: 'Purgar graxeiras com bomba manual de alta pressão', done: true },
+          { text: 'Inspecionar tensão da corrente de tração e folgas laterais', done: false }
+        ]
+      },
+      {
+        id: '7640',
+        code: 'OS-2026-0480',
+        title: 'Soldagem e Reforço Estrutural do Cavalete',
+        assetTag: 'MOTOR-TK470',
+        assetName: 'Agitador de Massa Industrial',
+        sector: 'Preparação de Mistura',
+        status: 'In Progress',
+        priority: 'HIGH',
+        tech: 'Bruno Castro',
+        durationEstimate: '3.0h',
+        requiresLoto: true,
+        checklist: [
+          { text: 'Emitir Permissão de Trabalho a Quente (PTQ / NR-34)', done: true },
+          { text: 'Aterrar garra da máquina de solda diretamente na base', done: false }
+        ]
+      },
+      {
+        id: '7653',
+        code: 'OS-2026-0479',
+        title: 'Inspeção e Troca dos Discos de Fricção',
+        assetTag: 'DECANTER-604',
+        assetName: 'Centrífuga Decanter Alta Rotação',
+        sector: 'Utilidades',
+        status: 'Open',
+        priority: 'NORMAL',
+        tech: 'Victor Ramos',
+        durationEstimate: '5.0h',
+        requiresLoto: false,
+        checklist: [
+          { text: 'Efetuar bloqueio elétrico LOTO no painel QG-02', done: false },
+          { text: 'Desmontar carcaça frontal com talha de 2 toneladas', done: false }
+        ]
+      },
+      {
+        id: '7655',
+        code: 'OS-2026-0482',
+        title: 'Alinhamento a Laser do Eixo do Motor',
+        assetTag: 'BOMB-03',
+        assetName: 'Bomba Centrífuga Multiestágio 75 CV',
+        sector: 'Estação de Recirculação',
+        status: 'Open',
+        priority: 'HIGH',
+        tech: 'Carlos E. Mendes',
+        durationEstimate: '2.5h',
+        requiresLoto: true,
+        checklist: [
+          { text: 'Instalar prismas ópticos nos eixos motor/bomba', done: false },
+          { text: 'Ajustar calços metálicos calibrados até tolerância < 0.05mm', done: false }
+        ]
+      },
+      {
+        id: '7656',
+        code: 'OS-2026-0483',
+        title: 'Termografia Preditiva em Barramento Principal',
+        assetTag: 'SUB-01',
+        assetName: 'Subestação Principal 13.8 kV',
+        sector: 'Casa de Força',
+        status: 'In Progress',
+        priority: 'NORMAL',
+        tech: 'Mariana Silva',
+        durationEstimate: '1.5h',
+        requiresLoto: false,
+        checklist: [
+          { text: 'Medir gradiente delta-T nas conexões de cobre com carga plena', done: true },
+          { text: 'Registrar radiometria e laudo termográfico FLIR', done: false }
+        ]
+      },
+      {
+        id: '7657',
+        code: 'OS-2026-0484',
+        title: 'Troca Preventiva de Retentores e Selo Mecânico',
+        assetTag: 'PREN-02',
+        assetName: 'Prensa Hidráulica Automática 600 Toneladas',
+        sector: 'Estamparia Pesada',
+        status: 'On Hold',
+        priority: 'CRITICAL',
+        tech: 'Roberto Dias',
+        durationEstimate: '6.0h',
+        requiresLoto: true,
+        checklist: [
+          { text: 'Despressurizar acumuladores de pistão até manômetro zero', done: true },
+          { text: 'Aguardar chegada de anéis O-Ring Viton do almoxarifado', done: false }
+        ]
+      },
+      {
+        id: '7638',
+        code: 'OS-2026-0478',
+        title: 'Revisão Semestral do Sistema de Exaustão',
+        assetTag: 'TURB-01',
+        assetName: 'Turbogerador a Vapor 15MW Multi-Stage',
+        sector: 'Casa de Força',
+        status: 'Done',
+        priority: 'NORMAL',
+        tech: 'Carlos E. Mendes',
+        durationEstimate: '4.0h',
+        requiresLoto: true,
+        checklist: [
+          { text: 'Limpar filtros coalescentes e desobstruir dutos', done: true },
+          { text: 'Efetuar ensaio de vazão anemométrica e teste de vibração', done: true }
+        ]
+      },
+      {
+        id: '7635',
+        code: 'OS-2026-0475',
+        title: 'Calibração de Transmissores de Pressão 4-20mA',
+        assetTag: 'CALD-01',
+        assetName: 'Caldeira de Recuperação a Biomassa 30 T/h',
+        sector: 'Utilidades Térmicas',
+        status: 'Done',
+        priority: 'HIGH',
+        tech: 'Mariana Silva',
+        durationEstimate: '3.0h',
+        requiresLoto: false,
+        checklist: [
+          { text: 'Conectar calibrador Hart e bomba comparativa de pressão', done: true },
+          { text: 'Emitir certificado rastreável RBC/Inmetro', done: true }
+        ]
+      }
+    ];
+
+    let currentSelectedOrderId = '7654';
+    let currentQueueFilter = 'All';
+    let currentWorkOrderViewMode = 'split'; // 'split' | 'table' | 'kanban'
+    let isTimerActive = false;
+    let timerTotalSeconds = 0;
+    let timerIntervalRef = null;
+    let isSidebarCollapsed = false;
+
+    // -------------------------------------------------------------
+    // MOTOR DE LICENCIAMENTO CRIPTOGRÁFICO & ANTI-PIRATARIA
+    // -------------------------------------------------------------
+    const MASTER_SECRET_SALT = 'AETHER-GIGA-ENTERPRISE-2026-SECURE-KEY-HASH';
+
+    function calculateSignature(data) {
+      const payload = `${data.clientName}::${data.clientTaxId}::${data.tier}::${data.expiresAt}::${data.hardwareId}::${MASTER_SECRET_SALT}`;
+      let hash = 5381;
+      for (let i = 0; i < payload.length; i++) {
+        hash = (hash * 33) ^ payload.charCodeAt(i);
+      }
+      return 'SIG-' + Math.abs(hash).toString(36).toUpperCase() + '-VALID';
+    }
+
+    let currentInstalledLicense = {
+      clientName: 'Indústria Metalúrgica Aliança S/A',
+      clientTaxId: '33.892.411/0001-44',
+      tier: 'ENTERPRISE_AI',
+      expiresAt: '2027-12-31T23:59:59.000Z',
+      hardwareId: 'NX-SRV-9014-F8A2-2026',
+      signature: ''
+    };
+    currentInstalledLicense.signature = calculateSignature(currentInstalledLicense);
+
+    function auditLicenseIntegrity() {
+      const banner = document.getElementById('securityLockdownBar');
+      const pill = document.getElementById('licensePillBadge');
+      const pillText = document.getElementById('licensePillText');
+
+      // 1. Validação Criptográfica da Assinatura
+      const expected = calculateSignature(currentInstalledLicense);
+      if (currentInstalledLicense.signature !== expected) {
+        banner.classList.remove('hidden');
+        document.getElementById('lockdownReasonTitle').innerText = 'ASSINATURA DIGITAL VIOLADA (TAMPER DETECTADO)';
+        document.getElementById('lockdownReasonDetail').innerText = 'A data ou os parâmetros da licença foram alterados sem a chave mestra do dono.';
+        pill.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200';
+        pillText.innerText = 'Licença Violada (Lock)';
+        return false;
+      }
+
+      // 2. Validação do Hardware Node-Locking
+      const hostHardware = document.getElementById('masterHardwareFingerprint').value.trim();
+      if (currentInstalledLicense.hardwareId !== '*' && currentInstalledLicense.hardwareId !== hostHardware) {
+        banner.classList.remove('hidden');
+        document.getElementById('lockdownReasonTitle').innerText = 'CÓPIA EM SERVIDOR NÃO AUTORIZADO (UNBOUND HARDWARE)';
+        document.getElementById('lockdownReasonDetail').innerText = `Licença emitida para [${currentInstalledLicense.hardwareId}], executando em [${hostHardware}].`;
+        pill.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200';
+        pillText.innerText = 'Cópia Ilegal Bloqueada';
+        return false;
+      }
+
+      // Tudo Regular
+      banner.classList.add('hidden');
+      pill.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900';
+      pillText.innerText = 'Enterprise AI • Licença Válida';
+      return true;
+    }
+
+    function testTamperedLicense() {
+      currentInstalledLicense.expiresAt = '2099-12-31T23:59:59.000Z';
+      auditLicenseIntegrity();
+      alert('SIMULAÇÃO ANTI-PIRATARIA:\nO sistema identificou que a assinatura digital criptográfica foi quebrada por alteração manual do arquivo de licença!');
+    }
+
+    function testPiratedHardware() {
+      currentInstalledLicense.hardwareId = 'NX-SRV-PIRATED-MACHINE-99';
+      auditLicenseIntegrity();
+      alert('SIMULAÇÃO DE CÓPIA ILEGAL:\nO software foi movido para outro computador sem autorização. O Node-Locking por hardware travou a execução!');
+    }
+
+    function restoreOriginalLicense() {
+      currentInstalledLicense = {
+        clientName: 'Indústria Metalúrgica Aliança S/A',
+        clientTaxId: '33.892.411/0001-44',
+        tier: 'ENTERPRISE_AI',
+        expiresAt: '2027-12-31T23:59:59.000Z',
+        hardwareId: 'NX-SRV-9014-F8A2-2026',
+        signature: ''
+      };
+      currentInstalledLicense.signature = calculateSignature(currentInstalledLicense);
+      auditLicenseIntegrity();
+      alert('Licença comercial autêntica restaurada!');
+    }
+
+    function handleGenerateSignedLicense(e) {
+      e.preventDefault();
+      const clientName = document.getElementById('licClientName').value;
+      const clientTaxId = document.getElementById('licClientTax').value;
+      const tier = document.getElementById('licTier').value;
+      const days = parseInt(document.getElementById('licDays').value);
+      const hardwareId = document.getElementById('licTargetHardware').value;
+
+      const expDate = new Date(Date.now() + days * 86400000).toISOString();
+      const lic = { clientName, clientTaxId, tier, expiresAt: expDate, hardwareId };
+      lic.signature = calculateSignature(lic);
+
+      const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(lic))));
+      document.getElementById('outputKeyArea').value = b64;
+      document.getElementById('outputKeyBox').classList.remove('hidden');
+    }
+
+    function copyGeneratedKeyString() {
+      const area = document.getElementById('outputKeyArea');
+      area.select();
+      navigator.clipboard.writeText(area.value);
+      alert('Chave criptografada copiada!');
+    }
+
+    function downloadLicFile() {
+      const val = document.getElementById('outputKeyArea').value;
+      const blob = new Blob([val], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'nexus_license.lic';
+      a.click();
+    }
+
+    function copyMasterHardwareCode() {
+      navigator.clipboard.writeText(document.getElementById('masterHardwareFingerprint').value);
+      alert('Hardware Fingerprint copiado!');
+    }
+
+    // -------------------------------------------------------------
+    // GESTÃO DE VISUALIZAÇÃO E FILTROS DE ORDENS DE SERVIÇO
+    // -------------------------------------------------------------
+    function setWorkOrderViewMode(mode) {
+      currentWorkOrderViewMode = mode;
+
+      const splitBox = document.getElementById('woContainerSplit');
+      const tableBox = document.getElementById('woContainerTable');
+      const kanbanBox = document.getElementById('woContainerKanban');
+
+      splitBox.classList.toggle('hidden', mode !== 'split');
+      tableBox.classList.toggle('hidden', mode !== 'table');
+      kanbanBox.classList.toggle('hidden', mode !== 'kanban');
+
+      // Atualiza estilo dos botões do seletor
+      ['split', 'table', 'kanban'].forEach(m => {
+        let btnId = 'viewBtnSplit';
+        if (m === 'table') btnId = 'viewBtnTable';
+        else if (m === 'kanban') btnId = 'viewBtnKanban';
+
+        const btn = document.getElementById(btnId);
+        if (m === mode) {
+          btn.className = 'px-2.5 py-1 rounded-md text-xs font-semibold bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm transition-all flex items-center gap-1.5';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all flex items-center gap-1.5';
+        }
+      });
+
+      if (mode === 'split') {
+        renderTacticalQueue();
+        renderTacticalDetail();
+      } else if (mode === 'table') {
+        renderDenseTable();
+      } else if (mode === 'kanban') {
+        renderKanbanBoard();
+      }
+    }
+
+    function setTacticalQueueFilter(filter) {
+      currentQueueFilter = filter;
+      
+      const filterIds = {
+        'All': 'filterBtnAll',
+        'MyOrders': 'filterBtnMyOrders',
+        'Critical': 'filterBtnCritical',
+        'InProgress': 'filterBtnInProgress',
+        'OnHold': 'filterBtnOnHold',
+        'Done': 'filterBtnDone'
+      };
+
+      Object.keys(filterIds).forEach(f => {
+        const btn = document.getElementById(filterIds[f]);
+        if (f === filter) {
+          btn.className = 'px-3 py-1 rounded-md text-xs font-semibold bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm transition-all';
+        } else {
+          btn.className = 'px-3 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all';
+        }
+      });
+
+      renderTacticalQueue();
+      if (currentWorkOrderViewMode === 'table') renderDenseTable();
+      if (currentWorkOrderViewMode === 'kanban') renderKanbanBoard();
+    }
+
+    function getFilteredOrders() {
+      const search = (document.getElementById('tacticalSearchInput')?.value || '').toLowerCase();
+      
+      return tacticalOrders.filter(o => {
+        let matchesFilter = true;
+        if (currentQueueFilter === 'All') matchesFilter = true;
+        else if (currentQueueFilter === 'MyOrders') matchesFilter = o.tech.includes('Carlos E. Mendes');
+        else if (currentQueueFilter === 'Critical') matchesFilter = o.priority === 'CRITICAL';
+        else if (currentQueueFilter === 'InProgress') matchesFilter = o.status === 'In Progress';
+        else if (currentQueueFilter === 'OnHold') matchesFilter = o.status === 'On Hold';
+        else if (currentQueueFilter === 'Done') matchesFilter = o.status === 'Done';
+
+        const matchesSearch = o.title.toLowerCase().includes(search) || 
+                              o.id.includes(search) || 
+                              o.code.toLowerCase().includes(search) || 
+                              o.assetTag.toLowerCase().includes(search);
+
+        return matchesFilter && matchesSearch;
+      });
+    }
+
+    // RENDERIZAÇÃO DA FILA DE ORDENS (LINEAR SPLIT STYLE)
+    function renderTacticalQueue() {
+      const container = document.getElementById('tacticalCardsContainer');
+      container.innerHTML = '';
+      const filtered = getFilteredOrders();
+
+      filtered.forEach(order => {
+        const isSel = order.id === currentSelectedOrderId;
+        const card = document.createElement('div');
+        card.className = `p-3.5 cursor-pointer smooth-transition ${isSel ? 'bg-blue-50/70 dark:bg-blue-950/40 border-l-4 border-blue-600' : 'hover:bg-slate-50 dark:hover:bg-slate-850/60'}`;
+        card.onclick = () => selectTacticalOrder(order.id);
+
+        let prioBadge = 'bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400 border border-rose-200 dark:border-rose-900';
+        if (order.priority === 'HIGH') prioBadge = 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400 border border-amber-200 dark:border-amber-900';
+        else if (order.priority === 'NORMAL') prioBadge = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900';
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-1.5">
+            <span class="font-mono text-[11px] font-bold text-slate-500">#${order.id} // ${order.code}</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${prioBadge}">${order.priority}</span>
+          </div>
+          <div class="font-semibold text-xs text-slate-900 dark:text-slate-100 leading-snug mb-1 line-clamp-1">${order.title}</div>
+          <div class="text-[11px] text-slate-500 mb-2 truncate">${order.assetTag} • ${order.assetName}</div>
+          <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1.5 border-t border-slate-100 dark:border-slate-800">
+            <span>👤 ${order.tech}</span>
+            <span class="font-mono font-medium">${order.durationEstimate}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function selectTacticalOrder(id) {
+      currentSelectedOrderId = id;
+      renderTacticalQueue();
+      renderTacticalDetail();
+    }
+
+    function renderTacticalDetail() {
+      const order = tacticalOrders.find(o => o.id === currentSelectedOrderId) || tacticalOrders[0];
+      if (!order) return;
+
+      document.getElementById('tacticalHeadingCode').innerText = `#${order.id} // ${order.code} • ${order.assetTag}`;
+      document.getElementById('tacticalHeadingTitle').innerText = order.title;
+      document.getElementById('tacticalSectorTag').innerText = order.sector;
+      document.getElementById('tacticalHeadingAsset').innerHTML = `Ativo: <span class="font-semibold text-slate-800 dark:text-slate-200">${order.assetTag} // ${order.assetName}</span>`;
+      document.getElementById('tacticalFooterTech').innerText = order.tech;
+
+      // Atualiza botões de fases
+      ['Open', 'In Progress', 'On Hold', 'Done'].forEach(st => {
+        let btnId = 'phaseBtnOpen';
+        if (st === 'In Progress') btnId = 'phaseBtnProgress';
+        else if (st === 'On Hold') btnId = 'phaseBtnHold';
+        else if (st === 'Done') btnId = 'phaseBtnDone';
+
+        const btn = document.getElementById(btnId);
+        if (order.status === st) {
+          btn.className = 'py-2 px-3 rounded-lg text-xs font-semibold text-center border transition-all bg-blue-50 dark:bg-blue-950/60 border-blue-500 text-blue-700 dark:text-blue-400 shadow-sm';
+        } else {
+          btn.className = 'py-2 px-3 rounded-lg text-xs font-medium text-center border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all';
+        }
+      });
+
+      // Checklist de Atividades
+      const checkContainer = document.getElementById('checklistRowsContainer');
+      checkContainer.innerHTML = '';
+      let doneCount = 0;
+      order.checklist.forEach((item, idx) => {
+        if (item.done) doneCount++;
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800';
+        row.innerHTML = `
+          <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleChecklistItem(${idx})" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-700 cursor-pointer">
+          <span class="text-xs ${item.done ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-200'} font-medium">${item.text}</span>
+        `;
+        checkContainer.appendChild(row);
+      });
+      const pct = Math.round((doneCount / (order.checklist.length || 1)) * 100);
+      document.getElementById('checklistProgressText').innerText = `Progresso: ${doneCount}/${order.checklist.length} (${pct}%)`;
+    }
+
+    function toggleChecklistItem(idx) {
+      const order = tacticalOrders.find(o => o.id === currentSelectedOrderId);
+      if (order && order.checklist[idx]) {
+        order.checklist[idx].done = !order.checklist[idx].done;
+        renderTacticalDetail();
+      }
+    }
+
+    function setOrderStatus(st) {
+      const order = tacticalOrders.find(o => o.id === currentSelectedOrderId);
+      if (order) {
+        order.status = st;
+        renderTacticalQueue();
+        renderTacticalDetail();
+        if (currentWorkOrderViewMode === 'table') renderDenseTable();
+        if (currentWorkOrderViewMode === 'kanban') renderKanbanBoard();
+      }
+    }
+
+    // RENDERIZAÇÃO DA TABELA DENSA (B2B SAAS DATADOG STYLE)
+    function renderDenseTable() {
+      const tbody = document.getElementById('denseTableBody');
+      tbody.innerHTML = '';
+      const filtered = getFilteredOrders();
+
+      filtered.forEach(order => {
+        let prioBadge = 'bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400 border border-rose-200 dark:border-rose-900';
+        if (order.priority === 'HIGH') prioBadge = 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400 border border-amber-200 dark:border-amber-900';
+        else if (order.priority === 'NORMAL') prioBadge = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900';
+
+        let statusBadge = 'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300';
+        if (order.status === 'In Progress') statusBadge = 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300';
+        else if (order.status === 'On Hold') statusBadge = 'bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300';
+        else if (order.status === 'Done') statusBadge = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300';
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/70 dark:hover:bg-slate-850/50 transition-colors cursor-pointer';
+        tr.onclick = () => {
+          selectTacticalOrder(order.id);
+          setWorkOrderViewMode('split');
+        };
+
+        tr.innerHTML = `
+          <td class="table-cell-pad font-mono font-bold text-blue-600 dark:text-blue-400">${order.code}</td>
+          <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${prioBadge}">${order.priority}</span></td>
+          <td class="table-cell-pad font-mono font-semibold text-slate-800 dark:text-slate-200">${order.assetTag}</td>
+          <td class="table-cell-pad">
+            <div class="font-semibold text-slate-900 dark:text-slate-100">${order.title}</div>
+            <div class="text-[11px] text-slate-400 truncate max-w-xs">${order.assetName}</div>
+          </td>
+          <td class="table-cell-pad text-slate-500">${order.sector}</td>
+          <td class="table-cell-pad font-medium">👤 ${order.tech}</td>
+          <td class="table-cell-pad font-mono text-slate-500">${order.durationEstimate}</td>
+          <td class="table-cell-pad"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${statusBadge}">${order.status}</span></td>
+          <td class="table-cell-pad text-right">
+            <button onclick="event.stopPropagation(); selectTacticalOrder('${order.id}'); setWorkOrderViewMode('split')" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 hover:text-blue-600 rounded text-[11px] font-semibold transition-colors">
+              Abrir
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // RENDERIZAÇÃO DO KANBAN DE CAMPO (4 COLUNAS)
+    function renderKanbanBoard() {
+      const colOpen = document.getElementById('kanbanColOpen');
+      const colProgress = document.getElementById('kanbanColProgress');
+      const colHold = document.getElementById('kanbanColHold');
+      const colDone = document.getElementById('kanbanColDone');
+
+      colOpen.innerHTML = '';
+      colProgress.innerHTML = '';
+      colHold.innerHTML = '';
+      colDone.innerHTML = '';
+
+      let cOpen = 0, cProg = 0, cHold = 0, cDone = 0;
+
+      tacticalOrders.forEach(order => {
+        let prioBadge = 'bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400 border border-rose-200 dark:border-rose-900';
+        if (order.priority === 'HIGH') prioBadge = 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400 border border-amber-200 dark:border-amber-900';
+        else if (order.priority === 'NORMAL') prioBadge = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900';
+
+        const card = document.createElement('div');
+        card.className = 'bg-white dark:bg-slate-850 p-3 rounded-lg border border-slate-200 dark:border-slate-750 shadow-xs cursor-pointer hover:border-blue-400 transition-all';
+        card.onclick = () => {
+          selectTacticalOrder(order.id);
+          setWorkOrderViewMode('split');
+        };
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="font-mono text-[10px] font-bold text-slate-400">#${order.id}</span>
+            <span class="px-1.5 py-0.2 rounded text-[9px] font-bold uppercase ${prioBadge}">${order.priority}</span>
+          </div>
+          <div class="font-semibold text-xs text-slate-900 dark:text-slate-100 leading-snug mb-1 line-clamp-2">${order.title}</div>
+          <div class="font-mono text-[11px] text-blue-600 dark:text-blue-400 mb-2">${order.assetTag}</div>
+          <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1.5 border-t border-slate-100 dark:border-slate-800">
+            <span>👤 ${order.tech.split(' ')[0]}</span>
+            <span class="font-mono font-medium">${order.durationEstimate}</span>
+          </div>
+        `;
+
+        if (order.status === 'Open') {
+          colOpen.appendChild(card);
+          cOpen++;
+        } else if (order.status === 'In Progress') {
+          colProgress.appendChild(card);
+          cProg++;
+        } else if (order.status === 'On Hold') {
+          colHold.appendChild(card);
+          cHold++;
+        } else if (order.status === 'Done') {
+          colDone.appendChild(card);
+          cDone++;
+        }
+      });
+
+      document.getElementById('kanbanCountOpen').innerText = cOpen;
+      document.getElementById('kanbanCountProgress').innerText = cProg;
+      document.getElementById('kanbanCountHold').innerText = cHold;
+      document.getElementById('kanbanCountDone').innerText = cDone;
+    }
+
+    // Cronômetro Ergonômico de Campo
+    function toggleTacticalTimer() {
+      const btn = document.getElementById('btnToggleTimer');
+      const label = document.getElementById('btnTimerLabel');
+
+      if (!isTimerActive) {
+        isTimerActive = true;
+        btn.className = 'px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5';
+        label.innerText = 'Pausar Atendimento';
+        timerIntervalRef = setInterval(() => {
+          timerTotalSeconds++;
+          const hrs = Math.floor(timerTotalSeconds / 3600);
+          const mins = Math.floor((timerTotalSeconds % 3600) / 60);
+          const secs = timerTotalSeconds % 60;
+          document.getElementById('liveTimerDisplay').innerText = 
+            `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+      } else {
+        isTimerActive = false;
+        clearInterval(timerIntervalRef);
+        btn.className = 'px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5';
+        label.innerText = 'Retomar Atendimento';
+        alert(`Atendimento pausado. Tempo apontado nesta sessão: ${Math.floor(timerTotalSeconds / 60)} min.`);
+      }
+    }
+
+    function switchTacticalSubTab(tabKey) {
+      document.querySelectorAll('.tactical-subtab-btn').forEach(b => {
+        b.className = 'tactical-subtab-btn pb-2 text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 border-b-2 border-transparent transition-all';
+      });
+      document.getElementById('subtab-btn-' + tabKey).className = 'tactical-subtab-btn pb-2 text-xs font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-all';
+
+      document.getElementById('subtab-content-checklist').classList.toggle('hidden', tabKey !== 'checklist');
+      document.getElementById('subtab-content-loto').classList.toggle('hidden', tabKey !== 'loto');
+      document.getElementById('subtab-content-materials').classList.toggle('hidden', tabKey !== 'materials');
+      document.getElementById('subtab-content-costs').classList.toggle('hidden', tabKey !== 'costs');
+    }
+
+    function toggleLotoLock() {
+      const badge = document.getElementById('lotoStatusBadge');
+      if (badge.innerText.includes('ATIVADO')) {
+        badge.innerText = 'CADEADO LIBERADO // ENERGIZADO';
+        badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300';
+      } else {
+        badge.innerText = 'CADEADO FÍSICO ATIVADO';
+        badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-rose-200/60 dark:bg-rose-900/60 text-rose-800 dark:text-rose-200';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // TELEMETRIA PREDITIVA
+    // -------------------------------------------------------------
+    function triggerAnomalySimulation() {
+      document.getElementById('compCardTopology').className = 'p-3 bg-rose-50 dark:bg-slate-900 border-2 border-rose-500 rounded-lg shadow-md animate-pulse';
+      document.getElementById('compStatusBadge').innerText = '9.4 mm/s RMS !';
+      document.getElementById('compStatusBadge').className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-600 text-white';
+      document.getElementById('fftVibText').innerText = '9.40 mm/s RMS (Alarme ISO)';
+      const path = document.getElementById('liveWaveformSvgPath');
+      path.setAttribute('d', 'M 0,130 Q 35,5 70,130 T 140,130 T 210,5 T 280,130 T 350,2 T 420,130 T 490,5 T 560,130 T 630,5 T 700,130');
+      path.setAttribute('stroke', '#ef4444');
+      alert('ALERTA PREDITIVO EM TEMPO REAL:\nO sensor IoT no Compressor COMP-04 ultrapassou o limiar de alarme ISO 10816 (9.40 mm/s RMS). Ordem preditiva sugerida imediatamente!');
+    }
+
+    function resetVibrationSensor() {
+      document.getElementById('compCardTopology').className = 'p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm';
+      document.getElementById('compStatusBadge').innerText = '2.8 mm/s';
+      document.getElementById('compStatusBadge').className = 'px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400';
+      document.getElementById('fftVibText').innerText = '2.80 mm/s RMS';
+      const path = document.getElementById('liveWaveformSvgPath');
+      path.setAttribute('d', 'M 0,130 Q 35,90 70,130 T 140,130 T 210,90 T 280,130 T 350,90 T 420,130 T 490,90 T 560,130 T 630,90 T 700,130');
+      path.setAttribute('stroke', '#3b82f6');
+    }
+
+    // -------------------------------------------------------------
+    // CONTROLES DE INTERFACE, MODAIS & NAVEGAÇÃO
+    // -------------------------------------------------------------
+    function switchMainTab(tabId) {
+      document.querySelectorAll('.sidebar-nav-btn').forEach(b => {
+        b.className = 'sidebar-nav-btn w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors';
+      });
+      const activeBtn = document.getElementById('nav-' + tabId);
+      if (activeBtn) {
+        activeBtn.className = 'sidebar-nav-btn active w-full flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-semibold bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200/50 dark:border-blue-900/50 transition-colors';
+      }
+
+      document.querySelectorAll('.view-panel-section').forEach(s => s.classList.add('hidden'));
+      const target = document.getElementById(tabId);
+      if (target) target.classList.remove('hidden');
+
+      const headings = {
+        'tab-overview': 'Cockpit Executivo & Métricas OEE',
+        'tab-workorders': 'Ordens de Serviço (OS)',
+        'tab-assets': 'Ativos & Hierarquia Industrial',
+        'tab-predictive': 'Preditiva IoT & Análise FFT',
+        'tab-fmea': 'FMEA & Engenharia de Confiabilidade',
+        'tab-safety': 'Segurança do Trabalho & LOTO',
+        'tab-inventory': 'Almoxarifado MRO & Peças',
+        'tab-licensing': 'Console de Licenciamento & Anti-Pirataria'
+      };
+      document.getElementById('currentViewHeading').innerText = headings[tabId] || 'Gestão da Manutenção';
+
+      if (tabId === 'tab-workorders') {
+        setWorkOrderViewMode(currentWorkOrderViewMode);
+      }
+    }
+
+    function toggleSidebarCollapse() {
+      const sidebar = document.getElementById('mainAppSidebar');
+      const brandText = document.getElementById('sidebarBrandText');
+      const icon = document.getElementById('sidebarCollapseIcon');
+      const labels = document.querySelectorAll('.sidebar-btn-label');
+      const titles = document.querySelectorAll('.sidebar-section-title');
+      const badges = document.querySelectorAll('.sidebar-btn-badge');
+
+      isSidebarCollapsed = !isSidebarCollapsed;
+
+      if (isSidebarCollapsed) {
+        sidebar.classList.remove('w-60');
+        sidebar.classList.add('w-16');
+        brandText.classList.add('hidden');
+        labels.forEach(l => l.classList.add('hidden'));
+        titles.forEach(t => t.classList.add('hidden'));
+        badges.forEach(b => b.classList.add('hidden'));
+        icon.classList.add('rotate-180');
+      } else {
+        sidebar.classList.remove('w-16');
+        sidebar.classList.add('w-60');
+        brandText.classList.remove('hidden');
+        labels.forEach(l => l.classList.remove('hidden'));
+        titles.forEach(t => t.classList.remove('hidden'));
+        badges.forEach(b => b.classList.remove('hidden'));
+        icon.classList.remove('rotate-180');
+      }
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      if (isDark) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Inicialização do tema salvo
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    function openCommandPalette() {
+      document.getElementById('commandPaletteModal').classList.remove('hidden');
+      document.getElementById('paletteSearchInput').focus();
+    }
+
+    function closeCommandPalette(e) {
+      document.getElementById('commandPaletteModal').classList.add('hidden');
+    }
+
+    function filterPaletteItems() {
+      const query = document.getElementById('paletteSearchInput').value.toLowerCase();
+      const items = document.querySelectorAll('#paletteItemsList > button');
+      items.forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(query) ? 'flex' : 'none';
+      });
+    }
+
+    function openNewOrderModal() {
+      document.getElementById('newOrderModalFast').classList.remove('hidden');
+    }
+
+    function closeNewOrderModalFast() {
+      document.getElementById('newOrderModalFast').classList.add('hidden');
+    }
+
+    function handleCreateTacticalOrder(e) {
+      e.preventDefault();
+      const title = document.getElementById('newWoTitleInput').value;
+      const assetTag = document.getElementById('newWoAssetSelect').value;
+      const prio = document.getElementById('newWoPrioSelect').value;
+      const tech = document.getElementById('newWoTechInput').value;
+      const est = document.getElementById('newWoEstDuration').value || '3.5h';
+      const loto = document.getElementById('newWoLotoCheck').checked;
+      const nextId = (7654 + tacticalOrders.length + 1).toString();
+
+      const newOrder = {
+        id: nextId,
+        code: `OS-2026-0${Math.floor(485 + Math.random() * 50)}`,
+        title,
+        assetTag,
+        assetName: 'Equipamento Cadastrado na Linha',
+        sector: 'Linha Principal',
+        status: 'Open',
+        priority: prio,
+        tech,
+        durationEstimate: est,
+        requiresLoto: loto,
+        checklist: [
+          { text: 'Avaliar condições de isolamento elétrico e mecânico', done: false },
+          { text: 'Executar intervenção técnica e teste funcional', done: false }
+        ]
+      };
+
+      tacticalOrders.unshift(newOrder);
+      currentSelectedOrderId = nextId;
+      document.getElementById('woSidebarCounter').innerText = tacticalOrders.filter(o => o.status !== 'Done').length;
+      renderTacticalQueue();
+      renderTacticalDetail();
+      closeNewOrderModalFast();
+      switchMainTab('tab-workorders');
+      document.getElementById('newWoTitleInput').value = '';
+    }
+
+    // Tecla de Atalho Universal ⌘K / Ctrl+K
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        openCommandPalette();
+      }
+      if (e.key === 'Escape') {
+        closeCommandPalette();
+        closeNewOrderModalFast();
+      }
+    });
+
+    // Inicialização
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTacticalQueue();
+      renderTacticalDetail();
+      auditLicenseIntegrity();
+      document.getElementById('woSidebarCounter').innerText = tacticalOrders.filter(o => o.status !== 'Done').length;
+    });
+  </script>
+</body>
+</html>

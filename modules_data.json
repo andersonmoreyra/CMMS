@@ -1,0 +1,3634 @@
+[
+  {
+    "module_title": "1. GESTÃO E CADASTRO DE ATIVOS",
+    "count": 44,
+    "items": [
+      {
+        "num": 1,
+        "title": "Cadastro individual de máquinas e equipamentos."
+      },
+      {
+        "num": 2,
+        "title": "Cadastro de conjuntos, subconjuntos e componentes."
+      },
+      {
+        "num": 3,
+        "title": "Cadastro de ativos fixos e móveis."
+      },
+      {
+        "num": 4,
+        "title": "Estrutura hierárquica de ativos, com relacionamentos entre pais e filhos."
+      },
+      {
+        "num": 5,
+        "title": "Cadastro de plantas, fábricas, unidades e instalações."
+      },
+      {
+        "num": 6,
+        "title": "Cadastro de áreas, setores, linhas de produção e departamentos."
+      },
+      {
+        "num": 7,
+        "title": "Cadastro de locais funcionais."
+      },
+      {
+        "num": 8,
+        "title": "Cadastro de posições operacionais."
+      },
+      {
+        "num": 9,
+        "title": "Cadastro de sistemas e subsistemas industriais."
+      },
+      {
+        "num": 10,
+        "title": "Cadastro de equipamentos críticos."
+      },
+      {
+        "num": 11,
+        "title": "Classificação por tipo, categoria, fabricante e modelo."
+      },
+      {
+        "num": 12,
+        "title": "Cadastro de fabricante, fornecedor, número de série e identificação patrimonial."
+      },
+      {
+        "num": 13,
+        "title": "Cadastro de especificações técnicas."
+      },
+      {
+        "num": 14,
+        "title": "Cadastro de características elétricas, mecânicas, pneumáticas, hidráulicas e de instrumentação."
+      },
+      {
+        "num": 15,
+        "title": "Registro de potência, tensão, corrente, capacidade, pressão, vazão e demais parâmetros técnicos."
+      },
+      {
+        "num": 16,
+        "title": "Cadastro de placas de identificação e dados de fabricação."
+      },
+      {
+        "num": 17,
+        "title": "Cadastro de componentes instalados em cada equipamento."
+      },
+      {
+        "num": 18,
+        "title": "Cadastro da lista técnica de materiais de cada ativo."
+      },
+      {
+        "num": 19,
+        "title": "Cadastro de equipamentos equivalentes e substitutos."
+      },
+      {
+        "num": 20,
+        "title": "Cadastro de equipamentos reserva."
+      },
+      {
+        "num": 21,
+        "title": "Cadastro de equipamentos sobressalentes rotativos."
+      },
+      {
+        "num": 22,
+        "title": "Cadastro de desenhos técnicos, esquemas elétricos e diagramas de instrumentação."
+      },
+      {
+        "num": 23,
+        "title": "Cadastro de manuais, catálogos, certificados e fichas técnicas."
+      },
+      {
+        "num": 24,
+        "title": "Cadastro de fotografias e documentos associados ao ativo."
+      },
+      {
+        "num": 25,
+        "title": "Registro do histórico de alterações cadastrais."
+      },
+      {
+        "num": 26,
+        "title": "Registro de transferência de equipamentos entre setores, locais e unidades."
+      },
+      {
+        "num": 27,
+        "title": "Registro de instalação, comissionamento e entrada em operação."
+      },
+      {
+        "num": 28,
+        "title": "Registro de desativação, retirada de serviço e baixa de ativos."
+      },
+      {
+        "num": 29,
+        "title": "Controle de ativos em operação, reserva, manutenção, quarentena ou desativação."
+      },
+      {
+        "num": 30,
+        "title": "Cadastro de criticidade operacional e classificação de risco."
+      },
+      {
+        "num": 31,
+        "title": "Cadastro de centro de custo responsável pelo ativo."
+      },
+      {
+        "num": 32,
+        "title": "Registro do responsável técnico e da área proprietária."
+      },
+      {
+        "num": 33,
+        "title": "Controle de garantias e vencimentos."
+      },
+      {
+        "num": 34,
+        "title": "Controle de depreciação e valor contábil."
+      },
+      {
+        "num": 35,
+        "title": "Registro de vida útil prevista e vida útil estimada."
+      },
+      {
+        "num": 36,
+        "title": "Controle de obsolescência de equipamentos e componentes."
+      },
+      {
+        "num": 37,
+        "title": "Registro de substituições e modificações realizadas durante a vida útil."
+      },
+      {
+        "num": 38,
+        "title": "Visualização gráfica da estrutura de ativos."
+      },
+      {
+        "num": 39,
+        "title": "Visualização de ativos em plantas baixas e mapas."
+      },
+      {
+        "num": 40,
+        "title": "Identificação de ativos por QR Code, código de barras ou etiquetas."
+      },
+      {
+        "num": 41,
+        "title": "Pesquisa de ativos por número patrimonial, TAG, descrição, localização ou número de série."
+      },
+      {
+        "num": 42,
+        "title": "Histórico consolidado do ativo desde a instalação até a desativação."
+      },
+      {
+        "num": 43,
+        "title": "Indicador de condição ou saúde do ativo."
+      },
+      {
+        "num": 44,
+        "title": "Consulta consolidada dos custos de cada equipamento."
+      }
+    ]
+  },
+  {
+    "module_title": "2. GESTÃO DE SOLICITAÇÕES E ORDENS DE SERVIÇO",
+    "count": 38,
+    "items": [
+      {
+        "num": 45,
+        "title": "Abertura de solicitações de manutenção."
+      },
+      {
+        "num": 46,
+        "title": "Abertura de solicitações por portal, formulário, dispositivo móvel ou outros canais integrados."
+      },
+      {
+        "num": 47,
+        "title": "Abertura de solicitações por operadores da produção."
+      },
+      {
+        "num": 48,
+        "title": "Abertura de solicitações por supervisores, técnicos e gestores."
+      },
+      {
+        "num": 49,
+        "title": "Registro de solicitante, data, hora e local da ocorrência."
+      },
+      {
+        "num": 50,
+        "title": "Classificação das solicitações por categoria."
+      },
+      {
+        "num": 51,
+        "title": "Registro da descrição da falha, sintoma ou necessidade de manutenção."
+      },
+      {
+        "num": 52,
+        "title": "Anexação de fotografias, vídeos e documentos à solicitação."
+      },
+      {
+        "num": 53,
+        "title": "Classificação por urgência, prioridade e criticidade."
+      },
+      {
+        "num": 54,
+        "title": "Triagem técnica das solicitações."
+      },
+      {
+        "num": 55,
+        "title": "Aprovação ou rejeição de solicitações."
+      },
+      {
+        "num": 56,
+        "title": "Conversão de solicitações aprovadas em ordens de serviço."
+      },
+      {
+        "num": 57,
+        "title": "Criação manual de ordens de serviço."
+      },
+      {
+        "num": 58,
+        "title": "Criação automática de ordens de serviço a partir de planos de manutenção."
+      },
+      {
+        "num": 59,
+        "title": "Criação de ordens de serviço a partir de inspeções reprovadas."
+      },
+      {
+        "num": 60,
+        "title": "Criação de ordens a partir de alarmes e ocorrências identificadas por sistemas integrados."
+      },
+      {
+        "num": 61,
+        "title": "Criação de ordens corretivas, preventivas, preditivas, emergenciais e de melhoria."
+      },
+      {
+        "num": 62,
+        "title": "Criação de ordens para atividades de rotina."
+      },
+      {
+        "num": 63,
+        "title": "Criação de ordens para serviços extraordinários."
+      },
+      {
+        "num": 64,
+        "title": "Definição de número, tipo, origem e status da ordem."
+      },
+      {
+        "num": 65,
+        "title": "Definição de prioridade e prazo de atendimento."
+      },
+      {
+        "num": 66,
+        "title": "Atribuição de ordens a técnicos, equipes, supervisores ou prestadores de serviços."
+      },
+      {
+        "num": 67,
+        "title": "Atribuição de responsáveis pelas atividades."
+      },
+      {
+        "num": 68,
+        "title": "Cadastro de operações e etapas dentro de uma ordem."
+      },
+      {
+        "num": 69,
+        "title": "Cadastro de tarefas subordinadas a uma ordem principal."
+      },
+      {
+        "num": 70,
+        "title": "Relacionamento entre ordens de serviço dependentes."
+      },
+      {
+        "num": 71,
+        "title": "Criação de ordens de acompanhamento após a identificação de problemas adicionais."
+      },
+      {
+        "num": 72,
+        "title": "Criação de ordens para múltiplos ativos relacionados."
+      },
+      {
+        "num": 73,
+        "title": "Clonagem de ordens de serviço semelhantes."
+      },
+      {
+        "num": 74,
+        "title": "Reprogramação de ordens sem perda do histórico."
+      },
+      {
+        "num": 75,
+        "title": "Cancelamento justificado de ordens."
+      },
+      {
+        "num": 76,
+        "title": "Bloqueio de encerramento quando existirem campos obrigatórios pendentes."
+      },
+      {
+        "num": 77,
+        "title": "Registro de pendências, impedimentos e motivos de espera."
+      },
+      {
+        "num": 78,
+        "title": "Registro de serviços parcialmente executados."
+      },
+      {
+        "num": 79,
+        "title": "Registro de serviços concluídos aguardando validação."
+      },
+      {
+        "num": 80,
+        "title": "Aprovação técnica do serviço executado."
+      },
+      {
+        "num": 81,
+        "title": "Encerramento técnico e administrativo da ordem."
+      },
+      {
+        "num": 82,
+        "title": "Histórico completo de alterações, responsáveis e etapas da ordem."
+      }
+    ]
+  },
+  {
+    "module_title": "3. PLANEJAMENTO E ESTRATÉGIAS DE MANUTENÇÃO",
+    "count": 38,
+    "items": [
+      {
+        "num": 83,
+        "title": "Cadastro de planos de manutenção por equipamento."
+      },
+      {
+        "num": 84,
+        "title": "Cadastro de planos de manutenção por conjunto ou família de equipamentos."
+      },
+      {
+        "num": 85,
+        "title": "Elaboração de planos preventivos padronizados."
+      },
+      {
+        "num": 86,
+        "title": "Definição de periodicidades de manutenção."
+      },
+      {
+        "num": 87,
+        "title": "Programação por calendário."
+      },
+      {
+        "num": 88,
+        "title": "Programação por dias, semanas, meses ou anos."
+      },
+      {
+        "num": 89,
+        "title": "Programação por horas de operação."
+      },
+      {
+        "num": 90,
+        "title": "Programação por ciclos de funcionamento."
+      },
+      {
+        "num": 91,
+        "title": "Programação por quantidade produzida."
+      },
+      {
+        "num": 92,
+        "title": "Programação por quilometragem ou distância percorrida."
+      },
+      {
+        "num": 93,
+        "title": "Programação por consumo ou utilização acumulada."
+      },
+      {
+        "num": 94,
+        "title": "Programação por eventos operacionais."
+      },
+      {
+        "num": 95,
+        "title": "Programação baseada em condições monitoradas."
+      },
+      {
+        "num": 96,
+        "title": "Programação baseada em limites de medição."
+      },
+      {
+        "num": 97,
+        "title": "Programação por combinação de tempo e utilização."
+      },
+      {
+        "num": 98,
+        "title": "Definição de tolerâncias de antecipação e atraso das atividades."
+      },
+      {
+        "num": 99,
+        "title": "Geração automática de ordens ao atingir os critérios configurados."
+      },
+      {
+        "num": 100,
+        "title": "Cadastro de procedimentos padronizados reutilizáveis."
+      },
+      {
+        "num": 101,
+        "title": "Biblioteca de atividades preventivas por tipo de equipamento."
+      },
+      {
+        "num": 102,
+        "title": "Associação automática de materiais e ferramentas aos planos."
+      },
+      {
+        "num": 103,
+        "title": "Associação de mão de obra e competências necessárias aos planos."
+      },
+      {
+        "num": 104,
+        "title": "Definição do tempo previsto de execução."
+      },
+      {
+        "num": 105,
+        "title": "Definição de recursos e especialidades necessários para cada atividade."
+      },
+      {
+        "num": 106,
+        "title": "Criação de rotas de manutenção."
+      },
+      {
+        "num": 107,
+        "title": "Programação de inspeções sequenciais em diversos equipamentos."
+      },
+      {
+        "num": 108,
+        "title": "Programação de tarefas repetitivas dentro de um mesmo plano."
+      },
+      {
+        "num": 109,
+        "title": "Programação de planos hierárquicos com diferentes periodicidades."
+      },
+      {
+        "num": 110,
+        "title": "Planejamento de grandes revisões e reformas."
+      },
+      {
+        "num": 111,
+        "title": "Planejamento de manutenção por criticidade e risco."
+      },
+      {
+        "num": 112,
+        "title": "Planejamento baseado em confiabilidade."
+      },
+      {
+        "num": 113,
+        "title": "Aplicação de estratégias de manutenção centrada em confiabilidade (RCM)."
+      },
+      {
+        "num": 114,
+        "title": "Aplicação de análises de modos e efeitos de falha (FMEA)."
+      },
+      {
+        "num": 115,
+        "title": "Definição de estratégias de manutenção específicas para cada família de ativos."
+      },
+      {
+        "num": 116,
+        "title": "Reavaliação de periodicidades com base no histórico de falhas."
+      },
+      {
+        "num": 117,
+        "title": "Revisão de planos preventivos a partir de resultados de inspeções."
+      },
+      {
+        "num": 118,
+        "title": "Consolidação de atividades compatíveis em uma única intervenção."
+      },
+      {
+        "num": 119,
+        "title": "Planejamento de serviços durante janelas de oportunidade operacional."
+      },
+      {
+        "num": 120,
+        "title": "Projeção das próximas intervenções necessárias para cada ativo."
+      }
+    ]
+  },
+  {
+    "module_title": "4. PROGRAMAÇÃO, ESCALONAMENTO E CONTROLE DA MANUTENÇÃO",
+    "count": 38,
+    "items": [
+      {
+        "num": 121,
+        "title": "Calendário geral da manutenção."
+      },
+      {
+        "num": 122,
+        "title": "Calendário individual por técnico."
+      },
+      {
+        "num": 123,
+        "title": "Calendário por equipe ou especialidade."
+      },
+      {
+        "num": 124,
+        "title": "Calendário por equipamento."
+      },
+      {
+        "num": 125,
+        "title": "Calendário por linha de produção ou unidade industrial."
+      },
+      {
+        "num": 126,
+        "title": "Visualização das ordens em quadro Kanban."
+      },
+      {
+        "num": 127,
+        "title": "Visualização das ordens em calendário."
+      },
+      {
+        "num": 128,
+        "title": "Visualização das ordens em gráfico de Gantt."
+      },
+      {
+        "num": 129,
+        "title": "Programação diária, semanal, mensal e anual."
+      },
+      {
+        "num": 130,
+        "title": "Planejamento de mão de obra por turno."
+      },
+      {
+        "num": 131,
+        "title": "Definição de equipes e escalas de trabalho."
+      },
+      {
+        "num": 132,
+        "title": "Cadastro dos horários de trabalho das equipes."
+      },
+      {
+        "num": 133,
+        "title": "Cadastro de disponibilidade de técnicos e recursos."
+      },
+      {
+        "num": 134,
+        "title": "Cálculo da capacidade disponível de mão de obra."
+      },
+      {
+        "num": 135,
+        "title": "Comparação entre carga de trabalho prevista e capacidade disponível."
+      },
+      {
+        "num": 136,
+        "title": "Identificação de sobrecarga das equipes."
+      },
+      {
+        "num": 137,
+        "title": "Identificação de períodos ociosos."
+      },
+      {
+        "num": 138,
+        "title": "Distribuição de ordens conforme a disponibilidade dos técnicos."
+      },
+      {
+        "num": 139,
+        "title": "Distribuição de ordens conforme as competências dos profissionais."
+      },
+      {
+        "num": 140,
+        "title": "Identificação de conflitos de programação."
+      },
+      {
+        "num": 141,
+        "title": "Identificação de ordens atrasadas ou próximas do vencimento."
+      },
+      {
+        "num": 142,
+        "title": "Identificação de intervenções que disputam o mesmo recurso."
+      },
+      {
+        "num": 143,
+        "title": "Planejamento de trabalhos com dependências entre etapas."
+      },
+      {
+        "num": 144,
+        "title": "Planejamento de trabalhos que exigem mais de uma equipe."
+      },
+      {
+        "num": 145,
+        "title": "Programação de recursos compartilhados."
+      },
+      {
+        "num": 146,
+        "title": "Planejamento de serviços que dependem de materiais ainda não disponíveis."
+      },
+      {
+        "num": 147,
+        "title": "Reprogramação em função de emergências."
+      },
+      {
+        "num": 148,
+        "title": "Reprogramação em função de alterações no plano de produção."
+      },
+      {
+        "num": 149,
+        "title": "Identificação de ordens que podem aproveitar uma mesma parada."
+      },
+      {
+        "num": 150,
+        "title": "Planejamento de janelas de manutenção em conjunto com a operação."
+      },
+      {
+        "num": 151,
+        "title": "Programação de paradas parciais e totais."
+      },
+      {
+        "num": 152,
+        "title": "Acompanhamento da aderência à programação."
+      },
+      {
+        "num": 153,
+        "title": "Controle de ordens planejadas, programadas, liberadas e executadas."
+      },
+      {
+        "num": 154,
+        "title": "Gestão de backlog por período, equipe, especialidade e criticidade."
+      },
+      {
+        "num": 155,
+        "title": "Priorização automática de ordens segundo regras definidas."
+      },
+      {
+        "num": 156,
+        "title": "Cálculo de horas previstas e horas disponíveis para execução."
+      },
+      {
+        "num": 157,
+        "title": "Simulação de cenários de programação."
+      },
+      {
+        "num": 158,
+        "title": "Previsão de conclusão das atividades em andamento."
+      }
+    ]
+  },
+  {
+    "module_title": "5. EXECUÇÃO DOS SERVIÇOS E MOBILIDADE",
+    "count": 37,
+    "items": [
+      {
+        "num": 159,
+        "title": "Aplicativo móvel para técnicos."
+      },
+      {
+        "num": 160,
+        "title": "Consulta das ordens atribuídas ao profissional."
+      },
+      {
+        "num": 161,
+        "title": "Consulta das informações técnicas do equipamento no local."
+      },
+      {
+        "num": 162,
+        "title": "Consulta do histórico de intervenções durante a execução."
+      },
+      {
+        "num": 163,
+        "title": "Consulta dos procedimentos técnicos associados à atividade."
+      },
+      {
+        "num": 164,
+        "title": "Início e término de execução diretamente pelo aplicativo."
+      },
+      {
+        "num": 165,
+        "title": "Registro de horas trabalhadas."
+      },
+      {
+        "num": 166,
+        "title": "Registro de tempo de espera e interrupções."
+      },
+      {
+        "num": 167,
+        "title": "Registro de materiais efetivamente consumidos."
+      },
+      {
+        "num": 168,
+        "title": "Registro de ferramentas utilizadas."
+      },
+      {
+        "num": 169,
+        "title": "Registro de serviços executados por etapa."
+      },
+      {
+        "num": 170,
+        "title": "Registro das atividades que não puderam ser concluídas."
+      },
+      {
+        "num": 171,
+        "title": "Registro de observações técnicas."
+      },
+      {
+        "num": 172,
+        "title": "Anexação de fotografias antes e depois do serviço."
+      },
+      {
+        "num": 173,
+        "title": "Anexação de vídeos e documentos durante a execução."
+      },
+      {
+        "num": 174,
+        "title": "Preenchimento de formulários técnicos digitais."
+      },
+      {
+        "num": 175,
+        "title": "Registro de leituras de instrumentos."
+      },
+      {
+        "num": 176,
+        "title": "Registro de medições e valores encontrados."
+      },
+      {
+        "num": 177,
+        "title": "Registro das condições do equipamento após a intervenção."
+      },
+      {
+        "num": 178,
+        "title": "Registro da causa provável da falha."
+      },
+      {
+        "num": 179,
+        "title": "Registro da solução aplicada."
+      },
+      {
+        "num": 180,
+        "title": "Registro de recomendações para trabalhos futuros."
+      },
+      {
+        "num": 181,
+        "title": "Assinatura eletrônica do executor."
+      },
+      {
+        "num": 182,
+        "title": "Validação eletrônica por supervisor ou responsável."
+      },
+      {
+        "num": 183,
+        "title": "Execução de atividades sem conexão com a internet."
+      },
+      {
+        "num": 184,
+        "title": "Sincronização dos dados registrados offline."
+      },
+      {
+        "num": 185,
+        "title": "Recebimento de notificações de novas ordens e alterações."
+      },
+      {
+        "num": 186,
+        "title": "Visualização de documentos associados à ordem."
+      },
+      {
+        "num": 187,
+        "title": "Consulta de instruções de segurança no local do serviço."
+      },
+      {
+        "num": 188,
+        "title": "Registro de conclusão de etapas obrigatórias."
+      },
+      {
+        "num": 189,
+        "title": "Registro de entrega de equipamento para a operação."
+      },
+      {
+        "num": 190,
+        "title": "Registro de devolução do equipamento após manutenção."
+      },
+      {
+        "num": 191,
+        "title": "Registro de pendências encontradas durante o trabalho."
+      },
+      {
+        "num": 192,
+        "title": "Consulta de peças disponíveis antes de iniciar o serviço."
+      },
+      {
+        "num": 193,
+        "title": "Solicitação de materiais durante a execução."
+      },
+      {
+        "num": 194,
+        "title": "Solicitação de suporte técnico durante a execução."
+      },
+      {
+        "num": 195,
+        "title": "Registro de ocorrências que exigem uma nova ordem de serviço."
+      }
+    ]
+  },
+  {
+    "module_title": "6. GESTÃO DE INSPEÇÕES, MEDIÇÕES E CALIBRAÇÃO",
+    "count": 38,
+    "items": [
+      {
+        "num": 196,
+        "title": "Cadastro de roteiros de inspeção."
+      },
+      {
+        "num": 197,
+        "title": "Cadastro de listas de verificação técnicas."
+      },
+      {
+        "num": 198,
+        "title": "Definição de critérios de aprovação e reprovação."
+      },
+      {
+        "num": 199,
+        "title": "Definição de limites mínimos e máximos aceitáveis."
+      },
+      {
+        "num": 200,
+        "title": "Definição de valores de referência."
+      },
+      {
+        "num": 201,
+        "title": "Cadastro de pontos de medição."
+      },
+      {
+        "num": 202,
+        "title": "Cadastro de instrumentos associados aos pontos de medição."
+      },
+      {
+        "num": 203,
+        "title": "Registro de leituras históricas."
+      },
+      {
+        "num": 204,
+        "title": "Comparação entre valores atuais e históricos."
+      },
+      {
+        "num": 205,
+        "title": "Inspeções baseadas em periodicidade."
+      },
+      {
+        "num": 206,
+        "title": "Inspeções baseadas em utilização."
+      },
+      {
+        "num": 207,
+        "title": "Inspeções por rotas de equipamentos."
+      },
+      {
+        "num": 208,
+        "title": "Inspeções em grupos de ativos."
+      },
+      {
+        "num": 209,
+        "title": "Inspeções por condição operacional."
+      },
+      {
+        "num": 210,
+        "title": "Inspeções extraordinárias."
+      },
+      {
+        "num": 211,
+        "title": "Inspeções de recebimento de equipamentos."
+      },
+      {
+        "num": 212,
+        "title": "Inspeções após manutenção."
+      },
+      {
+        "num": 213,
+        "title": "Inspeções de segurança."
+      },
+      {
+        "num": 214,
+        "title": "Inspeções realizadas por operadores."
+      },
+      {
+        "num": 215,
+        "title": "Inspeções realizadas por técnicos especializados."
+      },
+      {
+        "num": 216,
+        "title": "Registro de anomalias identificadas durante a inspeção."
+      },
+      {
+        "num": 217,
+        "title": "Geração automática de ordens de serviço a partir de resultados reprovados."
+      },
+      {
+        "num": 218,
+        "title": "Classificação de defeitos por gravidade."
+      },
+      {
+        "num": 219,
+        "title": "Definição de prazos para correção de irregularidades."
+      },
+      {
+        "num": 220,
+        "title": "Controle de reincidência de defeitos."
+      },
+      {
+        "num": 221,
+        "title": "Registro de evidências fotográficas de inspeção."
+      },
+      {
+        "num": 222,
+        "title": "Análise visual assistida por inteligência artificial."
+      },
+      {
+        "num": 223,
+        "title": "Identificação de defeitos em imagens, quando houver módulo compatível."
+      },
+      {
+        "num": 224,
+        "title": "Controle de instrumentos de medição."
+      },
+      {
+        "num": 225,
+        "title": "Programação de calibrações."
+      },
+      {
+        "num": 226,
+        "title": "Controle de vencimentos de certificados de calibração."
+      },
+      {
+        "num": 227,
+        "title": "Registro dos resultados de calibração."
+      },
+      {
+        "num": 228,
+        "title": "Controle de tolerâncias metrológicas."
+      },
+      {
+        "num": 229,
+        "title": "Registro de padrões utilizados na calibração."
+      },
+      {
+        "num": 230,
+        "title": "Controle de instrumentos fora de calibração."
+      },
+      {
+        "num": 231,
+        "title": "Identificação de serviços que utilizaram instrumentos com calibração vencida."
+      },
+      {
+        "num": 232,
+        "title": "Histórico de calibrações e ajustes."
+      },
+      {
+        "num": 233,
+        "title": "Controle de ferramentas e dispositivos sujeitos a verificação periódica."
+      }
+    ]
+  },
+  {
+    "module_title": "7. GESTÃO DE FALHAS, CONFIABILIDADE E ANÁLISE DE CAUSA",
+    "count": 39,
+    "items": [
+      {
+        "num": 234,
+        "title": "Cadastro de modos de falha."
+      },
+      {
+        "num": 235,
+        "title": "Cadastro de causas de falha."
+      },
+      {
+        "num": 236,
+        "title": "Cadastro de sintomas de falha."
+      },
+      {
+        "num": 237,
+        "title": "Cadastro de mecanismos de falha."
+      },
+      {
+        "num": 238,
+        "title": "Cadastro de efeitos da falha."
+      },
+      {
+        "num": 239,
+        "title": "Classificação de falhas mecânicas, elétricas, eletrônicas, hidráulicas e pneumáticas."
+      },
+      {
+        "num": 240,
+        "title": "Classificação de falhas por subsistema ou componente."
+      },
+      {
+        "num": 241,
+        "title": "Registro padronizado de falhas encontradas."
+      },
+      {
+        "num": 242,
+        "title": "Registro da data e hora de início da falha."
+      },
+      {
+        "num": 243,
+        "title": "Registro do momento de identificação da falha."
+      },
+      {
+        "num": 244,
+        "title": "Registro do início e término da intervenção corretiva."
+      },
+      {
+        "num": 245,
+        "title": "Registro do retorno à operação."
+      },
+      {
+        "num": 246,
+        "title": "Registro de parada total e parada parcial."
+      },
+      {
+        "num": 247,
+        "title": "Registro do impacto da falha sobre a produção."
+      },
+      {
+        "num": 248,
+        "title": "Registro de perda de capacidade produtiva."
+      },
+      {
+        "num": 249,
+        "title": "Registro do impacto sobre a qualidade do produto."
+      },
+      {
+        "num": 250,
+        "title": "Registro dos custos associados à falha."
+      },
+      {
+        "num": 251,
+        "title": "Análise de reincidência."
+      },
+      {
+        "num": 252,
+        "title": "Análise de falhas crônicas."
+      },
+      {
+        "num": 253,
+        "title": "Análise de causa raiz."
+      },
+      {
+        "num": 254,
+        "title": "Aplicação de metodologias de análise de problemas."
+      },
+      {
+        "num": 255,
+        "title": "Elaboração de planos de ação corretiva."
+      },
+      {
+        "num": 256,
+        "title": "Acompanhamento de ações preventivas para evitar reincidência."
+      },
+      {
+        "num": 257,
+        "title": "Controle da efetividade das ações implementadas."
+      },
+      {
+        "num": 258,
+        "title": "Análise de Pareto de falhas."
+      },
+      {
+        "num": 259,
+        "title": "Análise de falhas por equipamento."
+      },
+      {
+        "num": 260,
+        "title": "Análise de falhas por linha de produção."
+      },
+      {
+        "num": 261,
+        "title": "Análise de falhas por fabricante e modelo."
+      },
+      {
+        "num": 262,
+        "title": "Análise por especialidade de manutenção."
+      },
+      {
+        "num": 263,
+        "title": "Identificação de componentes com maior incidência de falhas."
+      },
+      {
+        "num": 264,
+        "title": "Cálculo do MTBF — tempo médio entre falhas."
+      },
+      {
+        "num": 265,
+        "title": "Cálculo do MTTR — tempo médio para reparo."
+      },
+      {
+        "num": 266,
+        "title": "Cálculo do MTTA — tempo médio até o atendimento, quando suportado."
+      },
+      {
+        "num": 267,
+        "title": "Cálculo de disponibilidade dos ativos."
+      },
+      {
+        "num": 268,
+        "title": "Cálculo de indicadores de confiabilidade."
+      },
+      {
+        "num": 269,
+        "title": "Comparação da confiabilidade entre ativos equivalentes."
+      },
+      {
+        "num": 270,
+        "title": "Avaliação do impacto da manutenção sobre a confiabilidade."
+      },
+      {
+        "num": 271,
+        "title": "Análise de tendência de deterioração dos equipamentos."
+      },
+      {
+        "num": 272,
+        "title": "Registro das lições aprendidas após falhas relevantes."
+      }
+    ]
+  },
+  {
+    "module_title": "8. MONITORAMENTO DE CONDIÇÃO, MANUTENÇÃO PREDITIVA E INTELIGÊNCIA ARTIFICIAL",
+    "count": 40,
+    "items": [
+      {
+        "num": 273,
+        "title": "Monitoramento de vibração."
+      },
+      {
+        "num": 274,
+        "title": "Monitoramento de temperatura."
+      },
+      {
+        "num": 275,
+        "title": "Monitoramento de ultrassom."
+      },
+      {
+        "num": 276,
+        "title": "Monitoramento de rotação."
+      },
+      {
+        "num": 277,
+        "title": "Monitoramento de corrente elétrica."
+      },
+      {
+        "num": 278,
+        "title": "Monitoramento de tensão elétrica."
+      },
+      {
+        "num": 279,
+        "title": "Monitoramento de pressão."
+      },
+      {
+        "num": 280,
+        "title": "Monitoramento de vazão."
+      },
+      {
+        "num": 281,
+        "title": "Monitoramento de nível."
+      },
+      {
+        "num": 282,
+        "title": "Monitoramento de consumo energético."
+      },
+      {
+        "num": 283,
+        "title": "Monitoramento de horas de funcionamento."
+      },
+      {
+        "num": 284,
+        "title": "Monitoramento de ciclos de operação."
+      },
+      {
+        "num": 285,
+        "title": "Coleta automática de dados de sensores."
+      },
+      {
+        "num": 286,
+        "title": "Registro de dados de condição em tempo real."
+      },
+      {
+        "num": 287,
+        "title": "Armazenamento de séries históricas."
+      },
+      {
+        "num": 288,
+        "title": "Geração de tendências de condição."
+      },
+      {
+        "num": 289,
+        "title": "Configuração de limites de alerta."
+      },
+      {
+        "num": 290,
+        "title": "Geração de alarmes quando parâmetros excedem limites."
+      },
+      {
+        "num": 291,
+        "title": "Detecção de desvios de comportamento."
+      },
+      {
+        "num": 292,
+        "title": "Detecção de anomalias por inteligência artificial."
+      },
+      {
+        "num": 293,
+        "title": "Identificação de padrões que antecedem falhas."
+      },
+      {
+        "num": 294,
+        "title": "Estimativa de probabilidade de falha."
+      },
+      {
+        "num": 295,
+        "title": "Estimativa do tempo restante até uma intervenção recomendada."
+      },
+      {
+        "num": 296,
+        "title": "Classificação da severidade de anomalias."
+      },
+      {
+        "num": 297,
+        "title": "Identificação provável do componente afetado."
+      },
+      {
+        "num": 298,
+        "title": "Recomendação de ações corretivas a partir dos sintomas."
+      },
+      {
+        "num": 299,
+        "title": "Associação de dados de condição ao histórico do ativo."
+      },
+      {
+        "num": 300,
+        "title": "Criação automática de ordens a partir de alertas configurados."
+      },
+      {
+        "num": 301,
+        "title": "Priorização de ordens com base na condição do equipamento."
+      },
+      {
+        "num": 302,
+        "title": "Recomendação de janelas de intervenção a partir da condição monitorada."
+      },
+      {
+        "num": 303,
+        "title": "Comparação entre comportamento normal e comportamento anormal."
+      },
+      {
+        "num": 304,
+        "title": "Validação dos resultados após uma intervenção."
+      },
+      {
+        "num": 305,
+        "title": "Verificação de alterações nas condições do ativo depois do reparo."
+      },
+      {
+        "num": 306,
+        "title": "Análise de óleo e lubrificantes por meio de resultados de laboratório integrados."
+      },
+      {
+        "num": 307,
+        "title": "Integração com termografia e análise de imagens térmicas."
+      },
+      {
+        "num": 308,
+        "title": "Integração com sistemas de análise de vibração."
+      },
+      {
+        "num": 309,
+        "title": "Integração com plataformas de monitoramento de condição."
+      },
+      {
+        "num": 310,
+        "title": "Monitoramento de saúde de ativos por indicadores consolidados."
+      },
+      {
+        "num": 311,
+        "title": "Uso de IA para sugerir procedimentos, causas de falha e ações de manutenção."
+      },
+      {
+        "num": 312,
+        "title": "Assistente conversacional para consultar informações operacionais e técnicas."
+      }
+    ]
+  },
+  {
+    "module_title": "9. GESTÃO DE ESTOQUE, ALMOXARIFADO E MATERIAIS MRO",
+    "count": 64,
+    "items": [
+      {
+        "num": 313,
+        "title": "Cadastro de peças sobressalentes."
+      },
+      {
+        "num": 314,
+        "title": "Cadastro de materiais de consumo."
+      },
+      {
+        "num": 315,
+        "title": "Cadastro de lubrificantes e produtos técnicos."
+      },
+      {
+        "num": 316,
+        "title": "Cadastro de materiais elétricos."
+      },
+      {
+        "num": 317,
+        "title": "Cadastro de materiais mecânicos."
+      },
+      {
+        "num": 318,
+        "title": "Cadastro de materiais hidráulicos e pneumáticos."
+      },
+      {
+        "num": 319,
+        "title": "Cadastro de componentes eletrônicos e de instrumentação."
+      },
+      {
+        "num": 320,
+        "title": "Cadastro de ferramentas consumíveis."
+      },
+      {
+        "num": 321,
+        "title": "Cadastro de unidades de medida."
+      },
+      {
+        "num": 322,
+        "title": "Cadastro de fabricantes e referências comerciais."
+      },
+      {
+        "num": 323,
+        "title": "Cadastro de códigos equivalentes de peças."
+      },
+      {
+        "num": 324,
+        "title": "Cadastro de peças substitutas."
+      },
+      {
+        "num": 325,
+        "title": "Cadastro de peças compatíveis com diferentes equipamentos."
+      },
+      {
+        "num": 326,
+        "title": "Associação de peças aos ativos correspondentes."
+      },
+      {
+        "num": 327,
+        "title": "Associação de materiais às ordens de serviço."
+      },
+      {
+        "num": 328,
+        "title": "Associação de materiais aos planos de manutenção."
+      },
+      {
+        "num": 329,
+        "title": "Controle de estoque por almoxarifado."
+      },
+      {
+        "num": 330,
+        "title": "Controle de estoque por endereço físico."
+      },
+      {
+        "num": 331,
+        "title": "Controle de estoque por prateleira, corredor, posição ou compartimento."
+      },
+      {
+        "num": 332,
+        "title": "Controle de estoque por planta ou unidade."
+      },
+      {
+        "num": 333,
+        "title": "Consulta de saldo disponível."
+      },
+      {
+        "num": 334,
+        "title": "Consulta de saldo reservado."
+      },
+      {
+        "num": 335,
+        "title": "Consulta de saldo comprometido."
+      },
+      {
+        "num": 336,
+        "title": "Consulta de saldo em trânsito."
+      },
+      {
+        "num": 337,
+        "title": "Controle de estoque mínimo."
+      },
+      {
+        "num": 338,
+        "title": "Controle de estoque máximo."
+      },
+      {
+        "num": 339,
+        "title": "Definição de ponto de reposição."
+      },
+      {
+        "num": 340,
+        "title": "Cálculo de necessidade de reposição."
+      },
+      {
+        "num": 341,
+        "title": "Alertas de estoque baixo."
+      },
+      {
+        "num": 342,
+        "title": "Alertas de materiais indisponíveis para serviços programados."
+      },
+      {
+        "num": 343,
+        "title": "Reserva de materiais para ordens de serviço."
+      },
+      {
+        "num": 344,
+        "title": "Separação de materiais para execução."
+      },
+      {
+        "num": 345,
+        "title": "Baixa de materiais consumidos."
+      },
+      {
+        "num": 346,
+        "title": "Devolução de materiais não utilizados."
+      },
+      {
+        "num": 347,
+        "title": "Transferência entre almoxarifados."
+      },
+      {
+        "num": 348,
+        "title": "Transferência entre unidades."
+      },
+      {
+        "num": 349,
+        "title": "Registro de recebimento de materiais."
+      },
+      {
+        "num": 350,
+        "title": "Registro de devoluções ao fornecedor."
+      },
+      {
+        "num": 351,
+        "title": "Inventário físico."
+      },
+      {
+        "num": 352,
+        "title": "Inventário rotativo."
+      },
+      {
+        "num": 353,
+        "title": "Contagem por grupos de materiais."
+      },
+      {
+        "num": 354,
+        "title": "Registro de divergências de inventário."
+      },
+      {
+        "num": 355,
+        "title": "Ajustes de estoque mediante autorização."
+      },
+      {
+        "num": 356,
+        "title": "Rastreamento de movimentações."
+      },
+      {
+        "num": 357,
+        "title": "Rastreabilidade por lote."
+      },
+      {
+        "num": 358,
+        "title": "Rastreabilidade por número de série."
+      },
+      {
+        "num": 359,
+        "title": "Controle de validade de materiais."
+      },
+      {
+        "num": 360,
+        "title": "Controle de materiais obsoletos."
+      },
+      {
+        "num": 361,
+        "title": "Controle de materiais sem movimentação."
+      },
+      {
+        "num": 362,
+        "title": "Identificação de itens de baixo giro."
+      },
+      {
+        "num": 363,
+        "title": "Identificação de itens com excesso de estoque."
+      },
+      {
+        "num": 364,
+        "title": "Controle de peças reparáveis."
+      },
+      {
+        "num": 365,
+        "title": "Controle de peças enviadas para reparo externo."
+      },
+      {
+        "num": 366,
+        "title": "Controle de peças recondicionadas."
+      },
+      {
+        "num": 367,
+        "title": "Controle de componentes em regime de troca."
+      },
+      {
+        "num": 368,
+        "title": "Controle de estoque consignado, quando aplicável."
+      },
+      {
+        "num": 369,
+        "title": "Cálculo do valor financeiro do estoque."
+      },
+      {
+        "num": 370,
+        "title": "Custeio das peças consumidas em cada ordem."
+      },
+      {
+        "num": 371,
+        "title": "Leitura de código de barras para movimentações."
+      },
+      {
+        "num": 372,
+        "title": "Consulta de histórico de consumo por ativo."
+      },
+      {
+        "num": 373,
+        "title": "Previsão de demanda de peças a partir dos planos de manutenção."
+      },
+      {
+        "num": 374,
+        "title": "Previsão de demanda a partir do histórico de consumo."
+      },
+      {
+        "num": 375,
+        "title": "Sugestão de reposição com base em prazos de fornecimento."
+      },
+      {
+        "num": 376,
+        "title": "Planejamento de materiais necessários para paradas programadas."
+      }
+    ]
+  },
+  {
+    "module_title": "10. COMPRAS, FORNECEDORES E CONTRATOS",
+    "count": 40,
+    "items": [
+      {
+        "num": 377,
+        "title": "Cadastro de fornecedores."
+      },
+      {
+        "num": 378,
+        "title": "Cadastro de contatos comerciais e técnicos."
+      },
+      {
+        "num": 379,
+        "title": "Cadastro de fabricantes autorizados."
+      },
+      {
+        "num": 380,
+        "title": "Registro de fornecedores homologados."
+      },
+      {
+        "num": 381,
+        "title": "Registro de certificações e qualificações de fornecedores."
+      },
+      {
+        "num": 382,
+        "title": "Solicitação de compra de materiais."
+      },
+      {
+        "num": 383,
+        "title": "Solicitação de contratação de serviços."
+      },
+      {
+        "num": 384,
+        "title": "Aprovação de requisições de compra."
+      },
+      {
+        "num": 385,
+        "title": "Geração de solicitações de cotação."
+      },
+      {
+        "num": 386,
+        "title": "Registro de propostas comerciais."
+      },
+      {
+        "num": 387,
+        "title": "Comparação de preços e condições comerciais."
+      },
+      {
+        "num": 388,
+        "title": "Comparação de prazos de entrega."
+      },
+      {
+        "num": 389,
+        "title": "Comparação de especificações técnicas."
+      },
+      {
+        "num": 390,
+        "title": "Registro de negociações."
+      },
+      {
+        "num": 391,
+        "title": "Geração de pedidos de compra."
+      },
+      {
+        "num": 392,
+        "title": "Fluxo de aprovação de pedidos."
+      },
+      {
+        "num": 393,
+        "title": "Associação de pedidos às ordens de serviço."
+      },
+      {
+        "num": 394,
+        "title": "Associação de pedidos a equipamentos ou projetos."
+      },
+      {
+        "num": 395,
+        "title": "Controle de entregas previstas."
+      },
+      {
+        "num": 396,
+        "title": "Acompanhamento de pedidos em atraso."
+      },
+      {
+        "num": 397,
+        "title": "Registro de recebimentos totais e parciais."
+      },
+      {
+        "num": 398,
+        "title": "Registro de divergências entre pedido e recebimento."
+      },
+      {
+        "num": 399,
+        "title": "Conferência entre pedido, recebimento e documento fiscal."
+      },
+      {
+        "num": 400,
+        "title": "Registro de notas fiscais e faturas relacionadas às compras, mediante integração apropriada."
+      },
+      {
+        "num": 401,
+        "title": "Controle de compras emergenciais."
+      },
+      {
+        "num": 402,
+        "title": "Controle de compras diretas para ordens de serviço."
+      },
+      {
+        "num": 403,
+        "title": "Controle de prazos de fornecimento."
+      },
+      {
+        "num": 404,
+        "title": "Histórico de compras por peça."
+      },
+      {
+        "num": 405,
+        "title": "Histórico de compras por fornecedor."
+      },
+      {
+        "num": 406,
+        "title": "Avaliação de fornecedores por prazo, custo e qualidade."
+      },
+      {
+        "num": 407,
+        "title": "Gestão de contratos de fornecimento."
+      },
+      {
+        "num": 408,
+        "title": "Gestão de contratos de manutenção terceirizada."
+      },
+      {
+        "num": 409,
+        "title": "Controle de vigência contratual."
+      },
+      {
+        "num": 410,
+        "title": "Alertas de vencimento de contratos."
+      },
+      {
+        "num": 411,
+        "title": "Controle de preços e condições contratuais."
+      },
+      {
+        "num": 412,
+        "title": "Registro de garantias contratuais."
+      },
+      {
+        "num": 413,
+        "title": "Registro de apólices e documentos de prestadores."
+      },
+      {
+        "num": 414,
+        "title": "Controle de serviços executados por terceiros."
+      },
+      {
+        "num": 415,
+        "title": "Registro de medições de contratos."
+      },
+      {
+        "num": 416,
+        "title": "Controle de pagamentos vinculados aos serviços executados, quando integrado ao financeiro."
+      }
+    ]
+  },
+  {
+    "module_title": "11. GESTÃO DE EQUIPES, MÃO DE OBRA E PRODUTIVIDADE",
+    "count": 32,
+    "items": [
+      {
+        "num": 417,
+        "title": "Cadastro de funcionários da manutenção."
+      },
+      {
+        "num": 418,
+        "title": "Cadastro de equipes e especialidades."
+      },
+      {
+        "num": 419,
+        "title": "Cadastro de supervisores e responsáveis."
+      },
+      {
+        "num": 420,
+        "title": "Cadastro de técnicos próprios e terceirizados."
+      },
+      {
+        "num": 421,
+        "title": "Cadastro de qualificações profissionais."
+      },
+      {
+        "num": 422,
+        "title": "Cadastro de competências técnicas por funcionário."
+      },
+      {
+        "num": 423,
+        "title": "Associação de competências às atividades de manutenção."
+      },
+      {
+        "num": 424,
+        "title": "Controle de certificações profissionais."
+      },
+      {
+        "num": 425,
+        "title": "Controle de validade das certificações."
+      },
+      {
+        "num": 426,
+        "title": "Cadastro de treinamentos técnicos."
+      },
+      {
+        "num": 427,
+        "title": "Registro de treinamentos realizados."
+      },
+      {
+        "num": 428,
+        "title": "Identificação de profissionais habilitados para atividades específicas."
+      },
+      {
+        "num": 429,
+        "title": "Planejamento de mão de obra por especialidade."
+      },
+      {
+        "num": 430,
+        "title": "Planejamento de mão de obra por equipe e turno."
+      },
+      {
+        "num": 431,
+        "title": "Distribuição de atividades conforme competências."
+      },
+      {
+        "num": 432,
+        "title": "Registro de horas previstas por atividade."
+      },
+      {
+        "num": 433,
+        "title": "Registro de horas efetivamente trabalhadas."
+      },
+      {
+        "num": 434,
+        "title": "Apontamento de início e fim dos trabalhos."
+      },
+      {
+        "num": 435,
+        "title": "Apontamento de horas por ordem de serviço."
+      },
+      {
+        "num": 436,
+        "title": "Apontamento de horas por funcionário."
+      },
+      {
+        "num": 437,
+        "title": "Apontamento de horas por especialidade."
+      },
+      {
+        "num": 438,
+        "title": "Registro de horas extras, quando integrado ao controle de jornada."
+      },
+      {
+        "num": 439,
+        "title": "Controle de disponibilidade dos profissionais."
+      },
+      {
+        "num": 440,
+        "title": "Comparação de produtividade prevista e realizada."
+      },
+      {
+        "num": 441,
+        "title": "Análise de horas produtivas e improdutivas."
+      },
+      {
+        "num": 442,
+        "title": "Análise do tempo dedicado a manutenção preventiva e corretiva."
+      },
+      {
+        "num": 443,
+        "title": "Registro de serviços executados por terceiros."
+      },
+      {
+        "num": 444,
+        "title": "Controle de recursos de mão de obra comprometidos em ordens futuras."
+      },
+      {
+        "num": 445,
+        "title": "Planejamento de equipes para paradas programadas."
+      },
+      {
+        "num": 446,
+        "title": "Identificação de necessidades de capacitação com base em falhas recorrentes."
+      },
+      {
+        "num": 447,
+        "title": "Análise de distribuição de carga de trabalho entre técnicos."
+      },
+      {
+        "num": 448,
+        "title": "Registro de transferências de atividades entre equipes."
+      }
+    ]
+  },
+  {
+    "module_title": "12. SEGURANÇA DO TRABALHO, RISCOS E CONFORMIDADE",
+    "count": 37,
+    "items": [
+      {
+        "num": 449,
+        "title": "Cadastro de riscos associados aos ativos."
+      },
+      {
+        "num": 450,
+        "title": "Identificação de riscos associados às atividades."
+      },
+      {
+        "num": 451,
+        "title": "Análise preliminar de riscos."
+      },
+      {
+        "num": 452,
+        "title": "Avaliação de riscos antes da execução."
+      },
+      {
+        "num": 453,
+        "title": "Registro de medidas de controle."
+      },
+      {
+        "num": 454,
+        "title": "Cadastro de procedimentos de segurança."
+      },
+      {
+        "num": 455,
+        "title": "Gestão de permissões de trabalho."
+      },
+      {
+        "num": 456,
+        "title": "Solicitação de permissões vinculadas às ordens de serviço."
+      },
+      {
+        "num": 457,
+        "title": "Aprovação de permissões de trabalho."
+      },
+      {
+        "num": 458,
+        "title": "Controle de validade das permissões."
+      },
+      {
+        "num": 459,
+        "title": "Registro de emissão, renovação e encerramento das permissões."
+      },
+      {
+        "num": 460,
+        "title": "Gestão de bloqueio e etiquetagem (LOTO)."
+      },
+      {
+        "num": 461,
+        "title": "Cadastro de dispositivos de bloqueio."
+      },
+      {
+        "num": 462,
+        "title": "Cadastro de pontos de isolamento."
+      },
+      {
+        "num": 463,
+        "title": "Cadastro de procedimentos de isolamento de energia."
+      },
+      {
+        "num": 464,
+        "title": "Controle de isolamento elétrico."
+      },
+      {
+        "num": 465,
+        "title": "Controle de isolamento mecânico."
+      },
+      {
+        "num": 466,
+        "title": "Controle de isolamento hidráulico e pneumático."
+      },
+      {
+        "num": 467,
+        "title": "Registro de liberação do equipamento para manutenção."
+      },
+      {
+        "num": 468,
+        "title": "Registro de liberação do equipamento para operação."
+      },
+      {
+        "num": 469,
+        "title": "Gestão de autorizações para trabalhos especiais."
+      },
+      {
+        "num": 470,
+        "title": "Gestão de permissões para trabalhos em altura."
+      },
+      {
+        "num": 471,
+        "title": "Gestão de permissões para espaço confinado."
+      },
+      {
+        "num": 472,
+        "title": "Gestão de permissões para trabalho a quente."
+      },
+      {
+        "num": 473,
+        "title": "Registro de incidentes e quase acidentes."
+      },
+      {
+        "num": 474,
+        "title": "Registro de condições inseguras."
+      },
+      {
+        "num": 475,
+        "title": "Investigação de incidentes."
+      },
+      {
+        "num": 476,
+        "title": "Registro de ações corretivas de segurança."
+      },
+      {
+        "num": 477,
+        "title": "Acompanhamento de ações preventivas."
+      },
+      {
+        "num": 478,
+        "title": "Controle de inspeções legais e regulamentares."
+      },
+      {
+        "num": 479,
+        "title": "Controle de vencimentos de inspeções obrigatórias."
+      },
+      {
+        "num": 480,
+        "title": "Armazenamento de certificados e evidências de conformidade."
+      },
+      {
+        "num": 481,
+        "title": "Histórico auditável de aprovações."
+      },
+      {
+        "num": 482,
+        "title": "Assinaturas eletrônicas em etapas críticas."
+      },
+      {
+        "num": 483,
+        "title": "Gestão de mudanças que possam afetar a segurança."
+      },
+      {
+        "num": 484,
+        "title": "Registro de desvios de procedimentos."
+      },
+      {
+        "num": 485,
+        "title": "Rastreabilidade de responsáveis pela liberação de serviços."
+      }
+    ]
+  },
+  {
+    "module_title": "13. PARADAS INDUSTRIAIS, PROJETOS E GRANDES INTERVENÇÕES",
+    "count": 39,
+    "items": [
+      {
+        "num": 486,
+        "title": "Cadastro de paradas programadas."
+      },
+      {
+        "num": 487,
+        "title": "Definição de escopo de cada parada."
+      },
+      {
+        "num": 488,
+        "title": "Cadastro de equipamentos incluídos na parada."
+      },
+      {
+        "num": 489,
+        "title": "Consolidação de ordens em pacotes de trabalho."
+      },
+      {
+        "num": 490,
+        "title": "Planejamento do cronograma geral da parada."
+      },
+      {
+        "num": 491,
+        "title": "Definição de marcos e prazos."
+      },
+      {
+        "num": 492,
+        "title": "Definição de precedências entre atividades."
+      },
+      {
+        "num": 493,
+        "title": "Identificação do caminho crítico."
+      },
+      {
+        "num": 494,
+        "title": "Planejamento de materiais para a parada."
+      },
+      {
+        "num": 495,
+        "title": "Planejamento de contratação de serviços para a parada."
+      },
+      {
+        "num": 496,
+        "title": "Planejamento de mão de obra para a parada."
+      },
+      {
+        "num": 497,
+        "title": "Planejamento de ferramentas e equipamentos auxiliares."
+      },
+      {
+        "num": 498,
+        "title": "Estimativa de custos da parada."
+      },
+      {
+        "num": 499,
+        "title": "Controle do orçamento aprovado."
+      },
+      {
+        "num": 500,
+        "title": "Monitoramento do avanço físico."
+      },
+      {
+        "num": 501,
+        "title": "Monitoramento do avanço financeiro."
+      },
+      {
+        "num": 502,
+        "title": "Acompanhamento de atividades atrasadas."
+      },
+      {
+        "num": 503,
+        "title": "Registro de impedimentos durante a parada."
+      },
+      {
+        "num": 504,
+        "title": "Reprogramação de atividades críticas."
+      },
+      {
+        "num": 505,
+        "title": "Controle de serviços adicionais identificados durante a intervenção."
+      },
+      {
+        "num": 506,
+        "title": "Registro de alterações de escopo."
+      },
+      {
+        "num": 507,
+        "title": "Comparação entre cronograma previsto e realizado."
+      },
+      {
+        "num": 508,
+        "title": "Comparação entre custo previsto e realizado."
+      },
+      {
+        "num": 509,
+        "title": "Registro do tempo total da parada."
+      },
+      {
+        "num": 510,
+        "title": "Registro de impactos na produção."
+      },
+      {
+        "num": 511,
+        "title": "Controle de testes de aceitação após a manutenção."
+      },
+      {
+        "num": 512,
+        "title": "Controle de inspeções antes da partida."
+      },
+      {
+        "num": 513,
+        "title": "Registro de pendências para liberação de equipamentos."
+      },
+      {
+        "num": 514,
+        "title": "Registro de comissionamento após reformas."
+      },
+      {
+        "num": 515,
+        "title": "Controle de serviços de instalação e montagem."
+      },
+      {
+        "num": 516,
+        "title": "Registro de documentação técnica atualizada."
+      },
+      {
+        "num": 517,
+        "title": "Gestão de projetos de melhoria de equipamentos."
+      },
+      {
+        "num": 518,
+        "title": "Gestão de projetos de modernização."
+      },
+      {
+        "num": 519,
+        "title": "Planejamento de substituição de máquinas."
+      },
+      {
+        "num": 520,
+        "title": "Controle de etapas de construção e instalação de ativos."
+      },
+      {
+        "num": 521,
+        "title": "Controle de listas de pendências de montagem."
+      },
+      {
+        "num": 522,
+        "title": "Vinculação de ordens de serviço aos projetos."
+      },
+      {
+        "num": 523,
+        "title": "Controle de recursos, materiais e despesas do projeto."
+      },
+      {
+        "num": 524,
+        "title": "Acompanhamento da entrega do ativo à operação."
+      }
+    ]
+  },
+  {
+    "module_title": "14. CUSTOS, ORÇAMENTO E GESTÃO FINANCEIRA DOS ATIVOS",
+    "count": 38,
+    "items": [
+      {
+        "num": 525,
+        "title": "Estimativa de custo de cada ordem de serviço."
+      },
+      {
+        "num": 526,
+        "title": "Registro do custo real da mão de obra."
+      },
+      {
+        "num": 527,
+        "title": "Registro do custo real dos materiais."
+      },
+      {
+        "num": 528,
+        "title": "Registro do custo de serviços terceirizados."
+      },
+      {
+        "num": 529,
+        "title": "Registro de custos adicionais."
+      },
+      {
+        "num": 530,
+        "title": "Cálculo do custo total por ordem."
+      },
+      {
+        "num": 531,
+        "title": "Cálculo do custo de manutenção por equipamento."
+      },
+      {
+        "num": 532,
+        "title": "Cálculo do custo de manutenção por linha de produção."
+      },
+      {
+        "num": 533,
+        "title": "Cálculo do custo por área ou unidade industrial."
+      },
+      {
+        "num": 534,
+        "title": "Cálculo do custo por tipo de manutenção."
+      },
+      {
+        "num": 535,
+        "title": "Cálculo do custo por especialidade."
+      },
+      {
+        "num": 536,
+        "title": "Cálculo do custo por centro de custo."
+      },
+      {
+        "num": 537,
+        "title": "Comparação entre custo previsto e realizado."
+      },
+      {
+        "num": 538,
+        "title": "Consolidação de custos em hierarquias de ativos."
+      },
+      {
+        "num": 539,
+        "title": "Histórico de custo acumulado de cada ativo."
+      },
+      {
+        "num": 540,
+        "title": "Identificação dos equipamentos com maior custo de manutenção."
+      },
+      {
+        "num": 541,
+        "title": "Identificação das principais fontes de gasto."
+      },
+      {
+        "num": 542,
+        "title": "Controle de orçamento anual de manutenção."
+      },
+      {
+        "num": 543,
+        "title": "Distribuição orçamentária por unidade, área ou centro de custo."
+      },
+      {
+        "num": 544,
+        "title": "Projeção de gastos futuros."
+      },
+      {
+        "num": 545,
+        "title": "Previsão de despesas a partir de planos preventivos."
+      },
+      {
+        "num": 546,
+        "title": "Previsão de despesas com grandes paradas."
+      },
+      {
+        "num": 547,
+        "title": "Controle de compromissos financeiros relacionados a pedidos de compra."
+      },
+      {
+        "num": 548,
+        "title": "Controle de despesas contratadas e ainda não realizadas."
+      },
+      {
+        "num": 549,
+        "title": "Cálculo do custo total de propriedade (TCO)."
+      },
+      {
+        "num": 550,
+        "title": "Análise de custo ao longo do ciclo de vida."
+      },
+      {
+        "num": 551,
+        "title": "Comparação financeira entre reparar e substituir equipamentos."
+      },
+      {
+        "num": 552,
+        "title": "Avaliação econômica de reformas e modernizações."
+      },
+      {
+        "num": 553,
+        "title": "Planejamento de investimentos em ativos."
+      },
+      {
+        "num": 554,
+        "title": "Previsão de substituição de ativos com base em idade, condição e custo."
+      },
+      {
+        "num": 555,
+        "title": "Controle de capitalização de investimentos e intervenções elegíveis."
+      },
+      {
+        "num": 556,
+        "title": "Integração de custos com sistemas contábeis."
+      },
+      {
+        "num": 557,
+        "title": "Integração com cadastro de imobilizado."
+      },
+      {
+        "num": 558,
+        "title": "Integração com centros de custo e plano de contas."
+      },
+      {
+        "num": 559,
+        "title": "Controle de despesas de manutenção por projeto."
+      },
+      {
+        "num": 560,
+        "title": "Cálculo de retorno de investimentos em melhorias."
+      },
+      {
+        "num": 561,
+        "title": "Registro de custos relacionados a perdas de produção."
+      },
+      {
+        "num": 562,
+        "title": "Faturamento de serviços executados para terceiros, quando aplicável."
+      }
+    ]
+  },
+  {
+    "module_title": "15. INDICADORES, DASHBOARDS, RELATÓRIOS E INTELIGÊNCIA DE NEGÓCIOS",
+    "count": 54,
+    "items": [
+      {
+        "num": 563,
+        "title": "Painel gerencial de manutenção."
+      },
+      {
+        "num": 564,
+        "title": "Painel operacional para supervisores."
+      },
+      {
+        "num": 565,
+        "title": "Painel de acompanhamento das ordens de serviço."
+      },
+      {
+        "num": 566,
+        "title": "Painel de manutenção preventiva."
+      },
+      {
+        "num": 567,
+        "title": "Painel de manutenção corretiva."
+      },
+      {
+        "num": 568,
+        "title": "Painel de manutenção preditiva."
+      },
+      {
+        "num": 569,
+        "title": "Painel de disponibilidade dos equipamentos."
+      },
+      {
+        "num": 570,
+        "title": "Painel de confiabilidade."
+      },
+      {
+        "num": 571,
+        "title": "Painel de custos."
+      },
+      {
+        "num": 572,
+        "title": "Painel de estoque e materiais."
+      },
+      {
+        "num": 573,
+        "title": "Painel de compras e fornecedores."
+      },
+      {
+        "num": 574,
+        "title": "Painel de produtividade das equipes."
+      },
+      {
+        "num": 575,
+        "title": "Painel de paradas programadas."
+      },
+      {
+        "num": 576,
+        "title": "Painel de pendências de segurança."
+      },
+      {
+        "num": 577,
+        "title": "Painel de cumprimento de inspeções."
+      },
+      {
+        "num": 578,
+        "title": "Painel de situação dos ativos críticos."
+      },
+      {
+        "num": 579,
+        "title": "Painéis filtráveis por planta, setor, linha, equipamento e equipe."
+      },
+      {
+        "num": 580,
+        "title": "Criação de dashboards personalizados."
+      },
+      {
+        "num": 581,
+        "title": "Criação de relatórios personalizados."
+      },
+      {
+        "num": 582,
+        "title": "Seleção dos campos incluídos em relatórios."
+      },
+      {
+        "num": 583,
+        "title": "Aplicação de filtros múltiplos."
+      },
+      {
+        "num": 584,
+        "title": "Agrupamento e ordenação de resultados."
+      },
+      {
+        "num": 585,
+        "title": "Exportação de dados para planilhas."
+      },
+      {
+        "num": 586,
+        "title": "Exportação de relatórios em PDF."
+      },
+      {
+        "num": 587,
+        "title": "Geração programada de relatórios."
+      },
+      {
+        "num": 588,
+        "title": "Envio automático de relatórios aos responsáveis."
+      },
+      {
+        "num": 589,
+        "title": "Histórico de relatórios gerados."
+      },
+      {
+        "num": 590,
+        "title": "Comparação de indicadores entre períodos."
+      },
+      {
+        "num": 591,
+        "title": "Comparação de resultados entre equipes."
+      },
+      {
+        "num": 592,
+        "title": "Comparação entre unidades industriais."
+      },
+      {
+        "num": 593,
+        "title": "Análise de tendência dos indicadores."
+      },
+      {
+        "num": 594,
+        "title": "Cálculo do cumprimento da manutenção preventiva."
+      },
+      {
+        "num": 595,
+        "title": "Cálculo da aderência à programação."
+      },
+      {
+        "num": 596,
+        "title": "Cálculo do percentual de ordens executadas dentro do prazo."
+      },
+      {
+        "num": 597,
+        "title": "Cálculo do percentual de ordens atrasadas."
+      },
+      {
+        "num": 598,
+        "title": "Cálculo do backlog em horas de trabalho."
+      },
+      {
+        "num": 599,
+        "title": "Cálculo do backlog por prioridade."
+      },
+      {
+        "num": 600,
+        "title": "Cálculo do percentual de manutenção planejada."
+      },
+      {
+        "num": 601,
+        "title": "Cálculo do percentual de manutenção emergencial."
+      },
+      {
+        "num": 602,
+        "title": "Cálculo da taxa de recorrência de falhas."
+      },
+      {
+        "num": 603,
+        "title": "Cálculo do custo por unidade produzida, quando houver dados de produção integrados."
+      },
+      {
+        "num": 604,
+        "title": "Análise de tempo de atendimento."
+      },
+      {
+        "num": 605,
+        "title": "Análise de tempo de execução."
+      },
+      {
+        "num": 606,
+        "title": "Análise de tempo de espera por materiais."
+      },
+      {
+        "num": 607,
+        "title": "Análise de tempo de espera por aprovação."
+      },
+      {
+        "num": 608,
+        "title": "Análise de consumo de peças."
+      },
+      {
+        "num": 609,
+        "title": "Análise de consumo de mão de obra."
+      },
+      {
+        "num": 610,
+        "title": "Análise de despesas por tipo de intervenção."
+      },
+      {
+        "num": 611,
+        "title": "Análise de equipamentos com maior indisponibilidade."
+      },
+      {
+        "num": 612,
+        "title": "Análise de ordens reabertas."
+      },
+      {
+        "num": 613,
+        "title": "Análise de falhas por modo e causa."
+      },
+      {
+        "num": 614,
+        "title": "Análise de cumprimento de contratos e níveis de serviço."
+      },
+      {
+        "num": 615,
+        "title": "Acompanhamento de metas e limites de indicadores."
+      },
+      {
+        "num": 616,
+        "title": "Comparação entre indicadores reais e metas estabelecidas."
+      }
+    ]
+  },
+  {
+    "module_title": "16. AUTOMAÇÃO DE PROCESSOS E FLUXOS DE TRABALHO",
+    "count": 31,
+    "items": [
+      {
+        "num": 617,
+        "title": "Configuração de fluxos de trabalho."
+      },
+      {
+        "num": 618,
+        "title": "Criação de regras de negócio personalizadas."
+      },
+      {
+        "num": 619,
+        "title": "Criação de etapas de aprovação."
+      },
+      {
+        "num": 620,
+        "title": "Aprovação por um ou vários responsáveis."
+      },
+      {
+        "num": 621,
+        "title": "Aprovação condicionada ao custo da atividade."
+      },
+      {
+        "num": 622,
+        "title": "Aprovação condicionada à criticidade do ativo."
+      },
+      {
+        "num": 623,
+        "title": "Aprovação condicionada ao tipo de intervenção."
+      },
+      {
+        "num": 624,
+        "title": "Aprovação condicionada à categoria do solicitante."
+      },
+      {
+        "num": 625,
+        "title": "Definição de alçadas de aprovação."
+      },
+      {
+        "num": 626,
+        "title": "Notificações automáticas sobre novas solicitações."
+      },
+      {
+        "num": 627,
+        "title": "Notificações sobre ordens atribuídas."
+      },
+      {
+        "num": 628,
+        "title": "Notificações sobre ordens atrasadas."
+      },
+      {
+        "num": 629,
+        "title": "Notificações sobre preventivas próximas do vencimento."
+      },
+      {
+        "num": 630,
+        "title": "Notificações sobre inspeções pendentes."
+      },
+      {
+        "num": 631,
+        "title": "Notificações sobre materiais abaixo do estoque mínimo."
+      },
+      {
+        "num": 632,
+        "title": "Notificações sobre requisições de compra aguardando aprovação."
+      },
+      {
+        "num": 633,
+        "title": "Notificações sobre pedidos atrasados."
+      },
+      {
+        "num": 634,
+        "title": "Notificações sobre contratos próximos do vencimento."
+      },
+      {
+        "num": 635,
+        "title": "Escalonamento automático de solicitações não atendidas."
+      },
+      {
+        "num": 636,
+        "title": "Escalonamento automático de ordens críticas."
+      },
+      {
+        "num": 637,
+        "title": "Geração automática de tarefas recorrentes."
+      },
+      {
+        "num": 638,
+        "title": "Atualização automática de status após determinadas ações."
+      },
+      {
+        "num": 639,
+        "title": "Bloqueio automático de processos em caso de requisitos não atendidos."
+      },
+      {
+        "num": 640,
+        "title": "Geração de atividades de acompanhamento após serviços reprovados."
+      },
+      {
+        "num": 641,
+        "title": "Regras para encaminhamento automático de solicitações."
+      },
+      {
+        "num": 642,
+        "title": "Regras de priorização automática."
+      },
+      {
+        "num": 643,
+        "title": "Automação de lembretes para responsáveis."
+      },
+      {
+        "num": 644,
+        "title": "Automação de notificações por e-mail, aplicativo ou canais integrados."
+      },
+      {
+        "num": 645,
+        "title": "Programação de rotinas de processamento."
+      },
+      {
+        "num": 646,
+        "title": "Registro do resultado das automações."
+      },
+      {
+        "num": 647,
+        "title": "Histórico de falhas na execução de fluxos automatizados."
+      }
+    ]
+  },
+  {
+    "module_title": "17. INTEGRAÇÕES COM OUTROS SISTEMAS E EQUIPAMENTOS",
+    "count": 33,
+    "items": [
+      {
+        "num": 648,
+        "title": "Integração com sistemas ERP."
+      },
+      {
+        "num": 649,
+        "title": "Integração com sistemas de compras."
+      },
+      {
+        "num": 650,
+        "title": "Integração com sistemas financeiros e contábeis."
+      },
+      {
+        "num": 651,
+        "title": "Integração com sistemas de gestão de estoque."
+      },
+      {
+        "num": 652,
+        "title": "Integração com sistemas de gestão de armazéns."
+      },
+      {
+        "num": 653,
+        "title": "Integração com sistemas de produção."
+      },
+      {
+        "num": 654,
+        "title": "Integração com sistemas MES."
+      },
+      {
+        "num": 655,
+        "title": "Integração com sistemas SCADA."
+      },
+      {
+        "num": 656,
+        "title": "Integração com PLCs."
+      },
+      {
+        "num": 657,
+        "title": "Integração com sistemas DCS."
+      },
+      {
+        "num": 658,
+        "title": "Integração com sistemas BMS."
+      },
+      {
+        "num": 659,
+        "title": "Integração com sistemas de monitoramento de condição."
+      },
+      {
+        "num": 660,
+        "title": "Integração com sensores IoT."
+      },
+      {
+        "num": 661,
+        "title": "Integração com sistemas de supervisão de energia."
+      },
+      {
+        "num": 662,
+        "title": "Integração com sistemas de gestão de pessoas."
+      },
+      {
+        "num": 663,
+        "title": "Integração com sistemas de controle de ponto."
+      },
+      {
+        "num": 664,
+        "title": "Integração com ferramentas de Business Intelligence."
+      },
+      {
+        "num": 665,
+        "title": "Integração com plataformas de visualização de dados."
+      },
+      {
+        "num": 666,
+        "title": "Integração com ferramentas de planejamento de projetos."
+      },
+      {
+        "num": 667,
+        "title": "Integração com sistemas GIS."
+      },
+      {
+        "num": 668,
+        "title": "Integração com sistemas de documentos técnicos."
+      },
+      {
+        "num": 669,
+        "title": "Integração com sistemas de chamados e atendimento."
+      },
+      {
+        "num": 670,
+        "title": "Integração com plataformas de comunicação corporativa."
+      },
+      {
+        "num": 671,
+        "title": "Integração com sistemas de gestão de contratos."
+      },
+      {
+        "num": 672,
+        "title": "Integração com sistemas de faturamento."
+      },
+      {
+        "num": 673,
+        "title": "Importação de cadastros e dados históricos."
+      },
+      {
+        "num": 674,
+        "title": "Exportação automatizada de informações."
+      },
+      {
+        "num": 675,
+        "title": "Sincronização de cadastros entre sistemas."
+      },
+      {
+        "num": 676,
+        "title": "API para consulta e alteração de dados."
+      },
+      {
+        "num": 677,
+        "title": "Webhooks para notificação de eventos."
+      },
+      {
+        "num": 678,
+        "title": "Conectores de integração pré-configurados."
+      },
+      {
+        "num": 679,
+        "title": "Integração por arquivos estruturados."
+      },
+      {
+        "num": 680,
+        "title": "Monitoramento do sucesso e das falhas de integração."
+      }
+    ]
+  },
+  {
+    "module_title": "18. ADMINISTRAÇÃO, SEGURANÇA DIGITAL E CONFIGURAÇÃO DO SISTEMA",
+    "count": 46,
+    "items": [
+      {
+        "num": 681,
+        "title": "Cadastro de usuários."
+      },
+      {
+        "num": 682,
+        "title": "Cadastro de perfis de acesso."
+      },
+      {
+        "num": 683,
+        "title": "Permissões por função."
+      },
+      {
+        "num": 684,
+        "title": "Permissões por módulo."
+      },
+      {
+        "num": 685,
+        "title": "Permissões por unidade ou planta."
+      },
+      {
+        "num": 686,
+        "title": "Permissões por tipo de informação."
+      },
+      {
+        "num": 687,
+        "title": "Controle de acesso de solicitantes."
+      },
+      {
+        "num": 688,
+        "title": "Controle de acesso de técnicos."
+      },
+      {
+        "num": 689,
+        "title": "Controle de acesso de supervisores."
+      },
+      {
+        "num": 690,
+        "title": "Controle de acesso de gestores."
+      },
+      {
+        "num": 691,
+        "title": "Controle de acesso de terceiros."
+      },
+      {
+        "num": 692,
+        "title": "Separação de responsabilidades administrativas."
+      },
+      {
+        "num": 693,
+        "title": "Autenticação centralizada por SSO, quando disponível."
+      },
+      {
+        "num": 694,
+        "title": "Configuração de requisitos de autenticação."
+      },
+      {
+        "num": 695,
+        "title": "Registro de acessos e atividades dos usuários."
+      },
+      {
+        "num": 696,
+        "title": "Histórico de alterações dos dados."
+      },
+      {
+        "num": 697,
+        "title": "Rastreabilidade de aprovações e rejeições."
+      },
+      {
+        "num": 698,
+        "title": "Registro de alterações em cadastros críticos."
+      },
+      {
+        "num": 699,
+        "title": "Configuração de categorias e subcategorias."
+      },
+      {
+        "num": 700,
+        "title": "Configuração de prioridades personalizadas."
+      },
+      {
+        "num": 701,
+        "title": "Configuração de status personalizados."
+      },
+      {
+        "num": 702,
+        "title": "Configuração de campos adicionais."
+      },
+      {
+        "num": 703,
+        "title": "Configuração de formulários."
+      },
+      {
+        "num": 704,
+        "title": "Configuração de telas e visualizações."
+      },
+      {
+        "num": 705,
+        "title": "Configuração de regras de obrigatoriedade."
+      },
+      {
+        "num": 706,
+        "title": "Configuração de modelos de documentos."
+      },
+      {
+        "num": 707,
+        "title": "Configuração de modelos de relatórios."
+      },
+      {
+        "num": 708,
+        "title": "Configuração de notificações."
+      },
+      {
+        "num": 709,
+        "title": "Configuração de calendários operacionais."
+      },
+      {
+        "num": 710,
+        "title": "Configuração de turnos e horários."
+      },
+      {
+        "num": 711,
+        "title": "Configuração de feriados e dias não úteis."
+      },
+      {
+        "num": 712,
+        "title": "Configuração de unidades de medida."
+      },
+      {
+        "num": 713,
+        "title": "Configuração de idiomas."
+      },
+      {
+        "num": 714,
+        "title": "Configuração de fusos horários."
+      },
+      {
+        "num": 715,
+        "title": "Configuração de moedas."
+      },
+      {
+        "num": 716,
+        "title": "Gestão de múltiplas empresas."
+      },
+      {
+        "num": 717,
+        "title": "Gestão de múltiplas plantas e filiais."
+      },
+      {
+        "num": 718,
+        "title": "Separação lógica de dados por organização."
+      },
+      {
+        "num": 719,
+        "title": "Importação em lote de cadastros."
+      },
+      {
+        "num": 720,
+        "title": "Validação de dados importados."
+      },
+      {
+        "num": 721,
+        "title": "Identificação de registros duplicados."
+      },
+      {
+        "num": 722,
+        "title": "Pesquisa global em cadastros e transações."
+      },
+      {
+        "num": 723,
+        "title": "Gestão de anexos e documentos."
+      },
+      {
+        "num": 724,
+        "title": "Configuração de retenção de registros, quando suportada."
+      },
+      {
+        "num": 725,
+        "title": "Monitoramento de erros de processamento."
+      },
+      {
+        "num": 726,
+        "title": "Registro de falhas em rotinas do sistema."
+      }
+    ]
+  },
+  {
+    "module_title": "19. GESTÃO DOCUMENTAL E CONHECIMENTO TÉCNICO",
+    "count": 27,
+    "items": [
+      {
+        "num": 727,
+        "title": "Repositório de documentos técnicos."
+      },
+      {
+        "num": 728,
+        "title": "Biblioteca de manuais de equipamentos."
+      },
+      {
+        "num": 729,
+        "title": "Biblioteca de diagramas e desenhos."
+      },
+      {
+        "num": 730,
+        "title": "Biblioteca de procedimentos de manutenção."
+      },
+      {
+        "num": 731,
+        "title": "Biblioteca de instruções de trabalho."
+      },
+      {
+        "num": 732,
+        "title": "Biblioteca de listas de verificação."
+      },
+      {
+        "num": 733,
+        "title": "Biblioteca de padrões de inspeção."
+      },
+      {
+        "num": 734,
+        "title": "Biblioteca de soluções para problemas recorrentes."
+      },
+      {
+        "num": 735,
+        "title": "Associação de documentos a ativos."
+      },
+      {
+        "num": 736,
+        "title": "Associação de documentos a planos de manutenção."
+      },
+      {
+        "num": 737,
+        "title": "Associação de documentos a ordens de serviço."
+      },
+      {
+        "num": 738,
+        "title": "Associação de documentos a peças e materiais."
+      },
+      {
+        "num": 739,
+        "title": "Associação de documentos a fornecedores e contratos."
+      },
+      {
+        "num": 740,
+        "title": "Controle de versões de documentos."
+      },
+      {
+        "num": 741,
+        "title": "Registro de responsáveis pela elaboração e aprovação de procedimentos."
+      },
+      {
+        "num": 742,
+        "title": "Controle de revisão de instruções técnicas."
+      },
+      {
+        "num": 743,
+        "title": "Controle de vencimento de documentos e certificados."
+      },
+      {
+        "num": 744,
+        "title": "Pesquisa de documentos por palavra-chave."
+      },
+      {
+        "num": 745,
+        "title": "Pesquisa de procedimentos por tipo de equipamento."
+      },
+      {
+        "num": 746,
+        "title": "Histórico de documentos utilizados em uma intervenção."
+      },
+      {
+        "num": 747,
+        "title": "Registro de lições aprendidas."
+      },
+      {
+        "num": 748,
+        "title": "Registro de soluções técnicas aplicadas anteriormente."
+      },
+      {
+        "num": 749,
+        "title": "Compartilhamento de conhecimento entre equipes."
+      },
+      {
+        "num": 750,
+        "title": "Consulta de históricos de falhas para auxiliar diagnósticos."
+      },
+      {
+        "num": 751,
+        "title": "Sugestão de procedimentos com base no tipo de serviço."
+      },
+      {
+        "num": 752,
+        "title": "Recuperação de informações técnicas por meio de assistentes de IA."
+      },
+      {
+        "num": 753,
+        "title": "Disponibilização de documentação em dispositivos móveis."
+      }
+    ]
+  },
+  {
+    "module_title": "20. GESTÃO DE OPERAÇÕES, PRODUÇÃO E DISPONIBILIDADE INDUSTRIAL",
+    "count": 24,
+    "items": [
+      {
+        "num": 754,
+        "title": "Registro de indisponibilidade de equipamentos."
+      },
+      {
+        "num": 755,
+        "title": "Registro de paradas totais e parciais."
+      },
+      {
+        "num": 756,
+        "title": "Cadastro de motivos de parada."
+      },
+      {
+        "num": 757,
+        "title": "Registro de início e fim de indisponibilidade."
+      },
+      {
+        "num": 758,
+        "title": "Identificação dos períodos em que o equipamento ficou disponível para manutenção."
+      },
+      {
+        "num": 759,
+        "title": "Integração com calendários de produção."
+      },
+      {
+        "num": 760,
+        "title": "Consulta de janelas operacionais para execução de serviços."
+      },
+      {
+        "num": 761,
+        "title": "Registro de restrições de acesso aos equipamentos."
+      },
+      {
+        "num": 762,
+        "title": "Registro de restrições de processo que afetam a manutenção."
+      },
+      {
+        "num": 763,
+        "title": "Associação de equipamentos a linhas de produção."
+      },
+      {
+        "num": 764,
+        "title": "Associação de ativos a processos operacionais."
+      },
+      {
+        "num": 765,
+        "title": "Registro de impacto da indisponibilidade sobre a produção."
+      },
+      {
+        "num": 766,
+        "title": "Correlação entre ocorrências de produção e ordens de manutenção."
+      },
+      {
+        "num": 767,
+        "title": "Análise de interferência entre serviços e operação."
+      },
+      {
+        "num": 768,
+        "title": "Registro de condições necessárias para liberação de equipamentos."
+      },
+      {
+        "num": 769,
+        "title": "Controle de disponibilidade após manutenção."
+      },
+      {
+        "num": 770,
+        "title": "Registro de testes de funcionamento."
+      },
+      {
+        "num": 771,
+        "title": "Registro de validação operacional após reparos."
+      },
+      {
+        "num": 772,
+        "title": "Planejamento de intervenções de acordo com o calendário industrial."
+      },
+      {
+        "num": 773,
+        "title": "Análise de disponibilidade por linha, área ou planta."
+      },
+      {
+        "num": 774,
+        "title": "Integração de dados para cálculo de indicadores operacionais, como OEE."
+      },
+      {
+        "num": 775,
+        "title": "Registro de ocorrências operacionais que originam solicitações de manutenção."
+      },
+      {
+        "num": 776,
+        "title": "Acompanhamento de equipamentos aguardando liberação da produção."
+      },
+      {
+        "num": 777,
+        "title": "Registro de pendências que impedem o retorno à operação."
+      }
+    ]
+  },
+  {
+    "module_title": "21. GESTÃO DE INSTALAÇÕES, FROTAS E ATIVOS ESPECIALIZADOS",
+    "count": 29,
+    "items": [
+      {
+        "num": 778,
+        "title": "Gestão da manutenção predial."
+      },
+      {
+        "num": 779,
+        "title": "Cadastro de edificações e instalações."
+      },
+      {
+        "num": 780,
+        "title": "Cadastro de sistemas de climatização."
+      },
+      {
+        "num": 781,
+        "title": "Cadastro de instalações elétricas prediais."
+      },
+      {
+        "num": 782,
+        "title": "Cadastro de sistemas hidráulicos e sanitários."
+      },
+      {
+        "num": 783,
+        "title": "Cadastro de sistemas de combate a incêndio."
+      },
+      {
+        "num": 784,
+        "title": "Controle de inspeções prediais."
+      },
+      {
+        "num": 785,
+        "title": "Controle de manutenção de sistemas de utilidades."
+      },
+      {
+        "num": 786,
+        "title": "Cadastro de ativos de infraestrutura."
+      },
+      {
+        "num": 787,
+        "title": "Gestão de ativos lineares, como tubulações e redes."
+      },
+      {
+        "num": 788,
+        "title": "Localização geográfica de ativos em mapas GIS."
+      },
+      {
+        "num": 789,
+        "title": "Registro de defeitos e ocorrências em infraestrutura."
+      },
+      {
+        "num": 790,
+        "title": "Gestão de manutenção de frotas."
+      },
+      {
+        "num": 791,
+        "title": "Cadastro de veículos e equipamentos móveis."
+      },
+      {
+        "num": 792,
+        "title": "Registro de quilometragem."
+      },
+      {
+        "num": 793,
+        "title": "Registro de consumo de combustível."
+      },
+      {
+        "num": 794,
+        "title": "Programação de manutenção por quilometragem ou horas de uso."
+      },
+      {
+        "num": 795,
+        "title": "Controle de seguros e contratos de veículos."
+      },
+      {
+        "num": 796,
+        "title": "Registro de danos e avarias."
+      },
+      {
+        "num": 797,
+        "title": "Controle de disponibilidade de veículos."
+      },
+      {
+        "num": 798,
+        "title": "Gestão de equipamentos médicos."
+      },
+      {
+        "num": 799,
+        "title": "Controle de manutenção e calibração de equipamentos médicos."
+      },
+      {
+        "num": 800,
+        "title": "Controle de condições necessárias para liberação de equipamentos especializados."
+      },
+      {
+        "num": 801,
+        "title": "Gestão de ferramentas e equipamentos de uso compartilhado."
+      },
+      {
+        "num": 802,
+        "title": "Controle de empréstimo e devolução de ferramentas."
+      },
+      {
+        "num": 803,
+        "title": "Gestão de ativos de tecnologia da informação, quando abrangida pela plataforma."
+      },
+      {
+        "num": 804,
+        "title": "Registro de incidentes relacionados aos ativos de TI."
+      },
+      {
+        "num": 805,
+        "title": "Gestão de reservas de ativos compartilhados, quando disponível."
+      },
+      {
+        "num": 806,
+        "title": "Gestão de contratos e serviços associados a instalações e ativos especializados."
+      }
+    ]
+  },
+  {
+    "module_title": "22. GESTÃO DE ENERGIA, SUSTENTABILIDADE E DESEMPENHO AMBIENTAL",
+    "count": 16,
+    "items": [
+      {
+        "num": 807,
+        "title": "Registro de consumo de energia por ativo."
+      },
+      {
+        "num": 808,
+        "title": "Registro de consumo de energia por linha de produção."
+      },
+      {
+        "num": 809,
+        "title": "Registro de consumo por área ou unidade industrial."
+      },
+      {
+        "num": 810,
+        "title": "Acompanhamento de tendências de consumo energético."
+      },
+      {
+        "num": 811,
+        "title": "Identificação de desvios de consumo."
+      },
+      {
+        "num": 812,
+        "title": "Associação entre consumo energético e horas de funcionamento."
+      },
+      {
+        "num": 813,
+        "title": "Associação entre consumo e produção, quando os dados estiverem disponíveis."
+      },
+      {
+        "num": 814,
+        "title": "Registro de indicadores de eficiência energética."
+      },
+      {
+        "num": 815,
+        "title": "Registro de ocorrências relacionadas a desperdício de energia."
+      },
+      {
+        "num": 816,
+        "title": "Gestão de planos de melhoria energética."
+      },
+      {
+        "num": 817,
+        "title": "Acompanhamento de ações de redução de consumo."
+      },
+      {
+        "num": 818,
+        "title": "Registro de informações sobre condições ambientais relevantes para a operação."
+      },
+      {
+        "num": 819,
+        "title": "Cadastro de riscos ambientais associados aos ativos."
+      },
+      {
+        "num": 820,
+        "title": "Acompanhamento de ações corretivas relacionadas a riscos ambientais."
+      },
+      {
+        "num": 821,
+        "title": "Registro de inspeções e evidências ambientais."
+      },
+      {
+        "num": 822,
+        "title": "Controle de pendências ambientais relacionadas a instalações e equipamentos."
+      }
+    ]
+  },
+  {
+    "module_title": "23. GESTÃO DE SERVIÇOS, ATENDIMENTO E NÍVEIS DE SERVIÇO",
+    "count": 23,
+    "items": [
+      {
+        "num": 823,
+        "title": "Portal de autoatendimento para solicitações."
+      },
+      {
+        "num": 824,
+        "title": "Catálogo de serviços de manutenção."
+      },
+      {
+        "num": 825,
+        "title": "Cadastro de tipos de atendimento."
+      },
+      {
+        "num": 826,
+        "title": "Definição de níveis de serviço (SLA)."
+      },
+      {
+        "num": 827,
+        "title": "Definição de prazos de resposta."
+      },
+      {
+        "num": 828,
+        "title": "Definição de prazos de resolução."
+      },
+      {
+        "num": 829,
+        "title": "Monitoramento de cumprimento de SLA."
+      },
+      {
+        "num": 830,
+        "title": "Priorização de chamados conforme o impacto operacional."
+      },
+      {
+        "num": 831,
+        "title": "Encaminhamento de solicitações à equipe responsável."
+      },
+      {
+        "num": 832,
+        "title": "Comunicação de atualizações ao solicitante."
+      },
+      {
+        "num": 833,
+        "title": "Registro de comentários e interações."
+      },
+      {
+        "num": 834,
+        "title": "Consulta do status da solicitação pelo solicitante."
+      },
+      {
+        "num": 835,
+        "title": "Pesquisa de satisfação após a conclusão do atendimento, quando disponível."
+      },
+      {
+        "num": 836,
+        "title": "Medição do tempo de atendimento por categoria."
+      },
+      {
+        "num": 837,
+        "title": "Medição do tempo de resolução por equipe."
+      },
+      {
+        "num": 838,
+        "title": "Identificação de solicitações recorrentes."
+      },
+      {
+        "num": 839,
+        "title": "Consolidação de solicitações relacionadas ao mesmo problema."
+      },
+      {
+        "num": 840,
+        "title": "Integração entre chamados de atendimento e ordens de serviço."
+      },
+      {
+        "num": 841,
+        "title": "Controle de contratos associados a níveis de serviço."
+      },
+      {
+        "num": 842,
+        "title": "Relatórios de cumprimento de SLA."
+      },
+      {
+        "num": 843,
+        "title": "Gestão de chamados de facilities."
+      },
+      {
+        "num": 844,
+        "title": "Gestão de ocorrências de serviços internos."
+      },
+      {
+        "num": 845,
+        "title": "Gestão de solicitações de intervenção em equipamentos compartilhados."
+      }
+    ]
+  },
+  {
+    "module_title": "24. FUNCIONALIDADES AVANÇADAS DE INTELIGÊNCIA ARTIFICIAL E OTIMIZAÇÃO",
+    "count": 27,
+    "items": [
+      {
+        "num": 846,
+        "title": "Pesquisa de informações de manutenção usando linguagem natural."
+      },
+      {
+        "num": 847,
+        "title": "Resumo automático do histórico de um equipamento."
+      },
+      {
+        "num": 848,
+        "title": "Resumo automático de ordens de serviço."
+      },
+      {
+        "num": 849,
+        "title": "Identificação de ordens de serviço potencialmente duplicadas."
+      },
+      {
+        "num": 850,
+        "title": "Identificação de registros incompletos."
+      },
+      {
+        "num": 851,
+        "title": "Sugestão de campos técnicos que precisam ser preenchidos."
+      },
+      {
+        "num": 852,
+        "title": "Sugestão de códigos de falha a partir da descrição do defeito."
+      },
+      {
+        "num": 853,
+        "title": "Sugestão de procedimentos a partir do tipo de falha."
+      },
+      {
+        "num": 854,
+        "title": "Sugestão de peças com base no histórico de intervenções."
+      },
+      {
+        "num": 855,
+        "title": "Identificação de padrões recorrentes em registros textuais."
+      },
+      {
+        "num": 856,
+        "title": "Classificação automática de solicitações."
+      },
+      {
+        "num": 857,
+        "title": "Priorização assistida por IA."
+      },
+      {
+        "num": 858,
+        "title": "Sugestão de alocação de recursos."
+      },
+      {
+        "num": 859,
+        "title": "Identificação de possíveis conflitos de programação."
+      },
+      {
+        "num": 860,
+        "title": "Estimativa de duração de serviços com base em dados históricos."
+      },
+      {
+        "num": 861,
+        "title": "Estimativa de custos futuros de manutenção."
+      },
+      {
+        "num": 862,
+        "title": "Identificação de ativos com comportamento anormal."
+      },
+      {
+        "num": 863,
+        "title": "Recomendação de investigação técnica a partir de padrões de falha."
+      },
+      {
+        "num": 864,
+        "title": "Sugestão de melhorias nos planos preventivos."
+      },
+      {
+        "num": 865,
+        "title": "Análise de efetividade das ações corretivas."
+      },
+      {
+        "num": 866,
+        "title": "Identificação de oportunidades de otimização de estoque."
+      },
+      {
+        "num": 867,
+        "title": "Sugestão de pontos de reposição a partir de padrões de consumo."
+      },
+      {
+        "num": 868,
+        "title": "Apoio à elaboração de relatórios gerenciais."
+      },
+      {
+        "num": 869,
+        "title": "Geração de análises resumidas para gestores."
+      },
+      {
+        "num": 870,
+        "title": "Pesquisa contextualizada em procedimentos, manuais e históricos."
+      },
+      {
+        "num": 871,
+        "title": "Geração de alertas priorizados por risco e impacto."
+      },
+      {
+        "num": 872,
+        "title": "Explicação de tendências identificadas nos dados de manutenção."
+      }
+    ]
+  }
+]

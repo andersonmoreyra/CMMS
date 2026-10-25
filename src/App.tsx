@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ModuleCategory, LicenseValidationResult } from './types';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
+import type { Period, CriticalityFilter, Density } from './components/Header';
 import { DashboardView } from './views/DashboardView';
 import { AssetsView } from './views/AssetsView';
 import { WorkOrdersView } from './views/WorkOrdersView';
@@ -21,9 +22,18 @@ import { AlertTriangle, ShieldCheck, KeyRound } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [currentModule, setCurrentModule] = useState<ModuleCategory>('dashboards');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>(
+    () => (localStorage.getItem('nexus.theme') === 'dark' ? 'dark' : 'light')
+  );
+  const [density, setDensity] = useState<Density>(
+    () => (localStorage.getItem('nexus.density') === 'compact' ? 'compact' : 'comfortable')
+  );
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(
+    () => localStorage.getItem('nexus.sidebar') === 'collapsed'
+  );
   const [selectedPlant, setSelectedPlant] = useState('Unidade Industrial 01');
+  const [period, setPeriod] = useState<Period>('30d');
+  const [criticality, setCriticality] = useState<CriticalityFilter>('ALL');
 
   // Commercial Security & Anti-Piracy License state
   const [licenseResult, setLicenseResult] = useState<LicenseValidationResult>(() => {
@@ -38,7 +48,17 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('nexus.theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-density', density);
+    localStorage.setItem('nexus.density', density);
+  }, [density]);
+
+  useEffect(() => {
+    localStorage.setItem('nexus.sidebar', isSidebarCollapsed ? 'collapsed' : 'expanded');
+  }, [isSidebarCollapsed]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
@@ -48,7 +68,7 @@ export const App: React.FC = () => {
   const renderView = () => {
     switch (currentModule) {
       case 'dashboards':
-        return <DashboardView onNavigate={(mod) => setCurrentModule(mod)} />;
+        return <DashboardView onNavigate={(mod) => setCurrentModule(mod)} criticality={criticality} />;
       case 'assets':
         return <AssetsView />;
       case 'work-orders':
@@ -96,7 +116,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      {/* Sidebar with all 24 catalog modules + commercial security */}
+      {/* Navegação lateral agrupada */}
       <Sidebar
         currentModule={currentModule}
         onSelectModule={(mod) => setCurrentModule(mod)}
@@ -107,43 +127,30 @@ export const App: React.FC = () => {
 
       {/* Main Content Area */}
       <div className={`main-content ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-        {/* Top Header */}
         <Header
           currentModule={currentModule}
           theme={theme}
           onToggleTheme={toggleTheme}
+          density={density}
+          onChangeDensity={setDensity}
           onOpenNewOrderModal={() => setCurrentModule('work-orders')}
-          onOpenLicenseModal={() => setCurrentModule('commercial-licensing')}
-          licenseResult={licenseResult}
           selectedPlant={selectedPlant}
           onSelectPlant={setSelectedPlant}
+          period={period}
+          onChangePeriod={setPeriod}
+          criticality={criticality}
+          onChangeCriticality={setCriticality}
         />
 
-        {/* Anti-Piracy Tamper Alert Banner (if invalid/unbound) */}
+        {/* Alerta de licença irregular (estado crítico = vermelho sóbrio) */}
         {!licenseResult.valid && (
-          <div
-            style={{
-              background: 'linear-gradient(90deg, #be123c, #9f1239)',
-              color: '#ffffff',
-              padding: '10px 32px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              boxShadow: '0 4px 12px rgba(244, 63, 94, 0.3)'
-            }}
-          >
+          <div className="notice" role="alert">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <AlertTriangle size={18} />
               <span>{licenseResult.message}</span>
             </div>
-            <button
-              onClick={() => setCurrentModule('commercial-licensing')}
-              className="btn btn-secondary btn-sm"
-              style={{ background: '#ffffff', color: '#be123c', border: 'none', fontWeight: 700 }}
-            >
-              <KeyRound size={14} /> Ativar Chave Válida
+            <button onClick={() => setCurrentModule('commercial-licensing')} className="btn btn-secondary btn-sm">
+              <KeyRound size={14} /> Ativar chave válida
             </button>
           </div>
         )}

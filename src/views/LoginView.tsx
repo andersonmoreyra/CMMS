@@ -65,7 +65,7 @@ export const LoginView: React.FC = () => {
           backdropFilter: 'blur(18px)',
           border: '1px solid var(--border-subtle)',
           borderRadius: 'var(--radius-lg)',
-          boxShadow: 'var(--shadow-lg), var(--shadow-glow)',
+          boxShadow: 'var(--shadow-lg)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
@@ -76,8 +76,8 @@ export const LoginView: React.FC = () => {
               borderRadius: 12,
               display: 'grid',
               placeItems: 'center',
-              background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo))',
-              color: '#fff',
+              background: 'var(--ink)',
+              color: 'var(--bg-surface)',
             }}
           >
             <Wrench size={22} />

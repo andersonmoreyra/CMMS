@@ -1,468 +1,448 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  Boxes,
-  Plus,
-  Search,
-  QrCode,
-  FileText,
-  AlertCircle,
-  Activity,
-  CheckCircle2,
-  X,
-  Printer
+  ChevronDown, ChevronRight, ChevronsDownUp, ChevronsUpDown, Pencil, Plus, Printer,
+  QrCode, Search, Trash2, X, AlertCircle, Boxes, CornerDownRight,
 } from 'lucide-react';
-import { Asset, AssetCriticality, AssetStatus } from '../types';
-import { INITIAL_ASSETS } from '../services/mockData';
+import { useAuth } from '../services/AuthContext';
+import {
+  ApiAsset, AssetCriticality, AssetInput, AssetStatus, TreeNode,
+  assetsApi, buildTree, descendantIds, toInput,
+} from '../services/assetsApi';
+
+const STATUS: Record<AssetStatus, { label: string; chip: string; dot: string }> = {
+  OPERATIONAL: { label: 'Operando', chip: 'chip-ok', dot: 'var(--accent-emerald)' },
+  IN_MAINTENANCE: { label: 'Manutenção', chip: 'chip-warn', dot: 'var(--accent-amber)' },
+  STANDBY: { label: 'Reserva', chip: 'chip-neutral', dot: 'var(--text-muted)' },
+  QUARANTINE: { label: 'Parado', chip: 'chip-danger', dot: 'var(--accent-rose)' },
+  DECOMMISSIONED: { label: 'Desativado', chip: 'chip-neutral', dot: 'var(--text-muted)' },
+};
+const CRIT_CHIP: Record<AssetCriticality, string> = { A: 'chip-danger', B: 'chip-warn', C: 'chip-neutral' };
+
+const emptyForm = (parentId: string | null, parent?: ApiAsset): AssetInput => ({
+  tag: '', name: '', category: '', parentId,
+  plant: parent?.plant ?? '', area: parent?.area ?? '', line: parent?.line ?? '',
+  criticality: 'B', status: 'OPERATIONAL',
+  manufacturer: '', model: '', serialNumber: '', installDate: null,
+  powerKw: 0, voltageV: 0, warrantyExpiry: null, specs: {},
+});
+
+const brl = (v: number) => `R$ ${v.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
 
 export const AssetsView: React.FC = () => {
-  const [assets, setAssets] = useState<Asset[]>(INITIAL_ASSETS);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCriticality, setSelectedCriticality] = useState<string>('ALL');
-  const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
-  const [activeAssetModal, setActiveAssetModal] = useState<Asset | null>(null);
-  const [showQrModal, setShowQrModal] = useState<Asset | null>(null);
-  const [showNewAssetModal, setShowNewAssetModal] = useState(false);
+  const { user } = useAuth();
+  const canWrite = !!user && ['ADMIN', 'MANAGER', 'PLANNER'].includes(user.role);
+  const canDelete = !!user && ['ADMIN', 'MANAGER'].includes(user.role);
 
-  // New Asset form state
-  const [newTag, setNewTag] = useState('');
-  const [newName, setNewName] = useState('');
-  const [newCategory, setNewCategory] = useState('Usinagem & Fabricação');
-  const [newPlant, setNewPlant] = useState('Unidade Industrial 01');
-  const [newArea, setNewArea] = useState('Estamparia Pesada');
-  const [newLine, setNewLine] = useState('Linha 01');
-  const [newCriticality, setNewCriticality] = useState<AssetCriticality>('A');
-  const [newManufacturer, setNewManufacturer] = useState('');
-  const [newModel, setNewModel] = useState('');
-  const [newSerial, setNewSerial] = useState('');
-  const [newPower, setNewPower] = useState(75);
-  const [newVoltage, setNewVoltage] = useState(440);
+  const [assets, setAssets] = useState<ApiAsset[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [query, setQuery] = useState('');
+  const [critFilter, setCritFilter] = useState('ALL');
+  const [statusFilter, setStatusFilter] = useState('ALL');
 
-  const filteredAssets = assets.filter((asset) => {
-    const matchesSearch =
-      asset.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      asset.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      asset.manufacturer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      asset.serialNumber.toLowerCase().includes(searchQuery.toLowerCase());
+  const [form, setForm] = useState<{ id: string | null; data: AssetInput } | null>(null);
+  const [formError, setFormError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [qrAsset, setQrAsset] = useState<ApiAsset | null>(null);
+  const [actionError, setActionError] = useState('');
 
-    const matchesCriticality =
-      selectedCriticality === 'ALL' || asset.criticality === selectedCriticality;
+  const load = useCallback(async (opts?: { expandAll?: boolean }) => {
+    try {
+      const list = await assetsApi.list();
+      setAssets(list);
+      setLoadError('');
+      if (opts?.expandAll) setExpanded(new Set(list.map((a) => a.id)));
+      setSelectedId((cur) => (cur && list.some((a) => a.id === cur) ? cur : null));
+    } catch (e) {
+      setLoadError(e instanceof Error ? e.message : 'Falha ao carregar ativos');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-    const matchesStatus =
-      selectedStatus === 'ALL' || asset.status === selectedStatus;
+  useEffect(() => { load({ expandAll: true }); }, [load]);
 
-    return matchesSearch && matchesCriticality && matchesStatus;
-  });
+  const byId = useMemo(() => new Map(assets.map((a) => [a.id, a])), [assets]);
+  const tree = useMemo(() => buildTree(assets), [assets]);
+  const selected = selectedId ? byId.get(selectedId) ?? null : null;
+  const childrenOf = useMemo(() => {
+    const m = new Map<string, ApiAsset[]>();
+    for (const a of assets) if (a.parentId) m.set(a.parentId, [...(m.get(a.parentId) ?? []), a]);
+    return m;
+  }, [assets]);
 
-  const handleCreateAsset = (e: React.FormEvent) => {
-    e.preventDefault();
-    const created: Asset = {
-      id: `ast-${Date.now()}`,
-      tag: newTag.toUpperCase(),
-      name: newName,
-      category: newCategory,
-      plant: newPlant,
-      area: newArea,
-      line: newLine,
-      criticality: newCriticality,
-      status: 'OPERATIONAL',
-      manufacturer: newManufacturer,
-      model: newModel,
-      serialNumber: newSerial,
-      installDate: new Date().toISOString().split('T')[0],
-      powerKw: Number(newPower),
-      voltageV: Number(newVoltage),
-      healthScore: 100,
-      totalMaintenanceCost: 0,
-      qrCodeUrl: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ASSET-${newTag.toUpperCase()}`,
-      specs: {
-        'Tensão de Alimentação': `${newVoltage} V`,
-        'Potência Instalada': `${newPower} kW`,
-        'Status do Ativo': 'Operando Conforme Projeto'
-      },
-      documentsCount: 1,
-      warrantyExpiry: '2028-12-31'
-    };
+  // Filtro: mantém os ativos que casam + todos os seus ancestrais (contexto da árvore)
+  const filtering = query.trim() !== '' || critFilter !== 'ALL' || statusFilter !== 'ALL';
+  const { visible, matches } = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const match = new Set<string>();
+    for (const a of assets) {
+      const okText = !q || [a.tag, a.name, a.manufacturer, a.serialNumber, a.category].some((f) => f.toLowerCase().includes(q));
+      if (okText && (critFilter === 'ALL' || a.criticality === critFilter) && (statusFilter === 'ALL' || a.status === statusFilter)) {
+        match.add(a.id);
+      }
+    }
+    const vis = new Set<string>(match);
+    for (const id of match) {
+      let p = byId.get(id)?.parentId;
+      while (p && !vis.has(p)) { vis.add(p); p = byId.get(p)?.parentId; }
+    }
+    return { visible: vis, matches: match };
+  }, [assets, byId, query, critFilter, statusFilter]);
 
-    setAssets([created, ...assets]);
-    setShowNewAssetModal(false);
-    // Reset
-    setNewTag('');
-    setNewName('');
-    setNewManufacturer('');
-    setNewModel('');
-    setNewSerial('');
+  const toggle = (id: string) =>
+    setExpanded((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+
+  const path = (a: ApiAsset): ApiAsset[] => {
+    const out: ApiAsset[] = [];
+    let cur: ApiAsset | undefined = a;
+    while (cur) { out.unshift(cur); cur = cur.parentId ? byId.get(cur.parentId) : undefined; }
+    return out;
   };
+
+  const openNew = (parent?: ApiAsset) => { setFormError(''); setForm({ id: null, data: emptyForm(parent?.id ?? null, parent) }); };
+  const openEdit = (a: ApiAsset) => { setFormError(''); setForm({ id: a.id, data: toInput(a) }); };
+  const setField = <K extends keyof AssetInput>(k: K, v: AssetInput[K]) =>
+    setForm((f) => (f ? { ...f, data: { ...f.data, [k]: v } } : f));
+
+  const save = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form) return;
+    setSaving(true);
+    setFormError('');
+    try {
+      const payload = { ...form.data, tag: form.data.tag.trim().toUpperCase() };
+      let id = form.id;
+      if (id) await assetsApi.update(id, payload);
+      else id = (await assetsApi.create(payload)).id;
+      if (payload.parentId) setExpanded((s) => new Set(s).add(payload.parentId as string));
+      await load();
+      setSelectedId(id);
+      setForm(null);
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : 'Falha ao salvar');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const remove = async (a: ApiAsset) => {
+    setActionError('');
+    if ((childrenOf.get(a.id) ?? []).length > 0) {
+      setActionError(`"${a.tag}" possui ativos filhos. Mova ou exclua os filhos antes.`);
+      return;
+    }
+    if (!window.confirm(`Excluir o ativo ${a.tag} — ${a.name}? Esta ação não pode ser desfeita.`)) return;
+    try {
+      await assetsApi.remove(a.id);
+      setSelectedId(null);
+      await load();
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Falha ao excluir');
+    }
+  };
+
+  // Pais possíveis: qualquer ativo, exceto ele mesmo e seus descendentes (evita ciclos)
+  const parentOptions = useMemo(() => {
+    const blocked = form?.id ? descendantIds(assets, form.id) : new Set<string>();
+    return assets.filter((a) => !blocked.has(a.id)).sort((a, b) => a.tag.localeCompare(b.tag));
+  }, [assets, form?.id]);
+
+  const renderNode = (n: TreeNode): React.ReactNode => {
+    if (!visible.has(n.asset.id)) return null;
+    const a = n.asset;
+    const kids = n.children.filter((c) => visible.has(c.asset.id));
+    const hasKids = kids.length > 0;
+    const isOpen = filtering || expanded.has(a.id);
+    const st = STATUS[a.status];
+    const dim = filtering && !matches.has(a.id);
+    return (
+      <li key={a.id} role="none">
+        <div
+          role="treeitem"
+          aria-level={n.depth + 1}
+          aria-expanded={hasKids ? isOpen : undefined}
+          aria-selected={selectedId === a.id}
+          tabIndex={0}
+          className={`tree-row ${selectedId === a.id ? 'selected' : ''} ${dim ? 'dim' : ''}`}
+          style={{ paddingLeft: 8 + n.depth * 22 }}
+          onClick={() => setSelectedId(a.id)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedId(a.id); }
+            if (e.key === 'ArrowRight' && hasKids && !isOpen) toggle(a.id);
+            if (e.key === 'ArrowLeft' && hasKids && isOpen) toggle(a.id);
+          }}
+        >
+          <button
+            className="tree-toggle"
+            aria-label={isOpen ? 'Recolher' : 'Expandir'}
+            style={{ visibility: hasKids ? 'visible' : 'hidden' }}
+            onClick={(e) => { e.stopPropagation(); toggle(a.id); }}
+            tabIndex={-1}
+          >
+            {isOpen ? <ChevronDown size={15} /> : <ChevronRight size={15} />}
+          </button>
+          <span className="tree-dot" style={{ background: st.dot }} title={st.label} />
+          <span className="tag-mono">{a.tag}</span>
+          <span className="tree-name">{a.name}</span>
+          {a.openOrders > 0 && <span className="badge chip-warn" title="Ordens de serviço abertas">{a.openOrders} OS</span>}
+          <span className={`badge ${CRIT_CHIP[a.criticality]}`} title={`Criticidade ${a.criticality}`}>{a.criticality}</span>
+        </div>
+        {hasKids && isOpen && <ul role="group" className="tree-group">{kids.map(renderNode)}</ul>}
+      </li>
+    );
+  };
+
+  const kids = selected ? childrenOf.get(selected.id) ?? [] : [];
+  const f = form?.data;
 
   return (
     <div>
-      {/* Header */}
       <div className="page-header">
         <div>
-          <h1 className="page-title">
-            <Boxes size={28} color="var(--accent-cyan)" />
-            Gestão e Cadastro de Ativos Industriais (EAM)
-          </h1>
+          <h2 className="page-title"><Boxes size={22} /> Árvore de ativos</h2>
           <p className="page-subtitle">
-            Catálogo completo com hierarquia funcional, especificações elétricas/mecânicas, histórico e etiquetagem QR Code.
+            Hierarquia funcional: planta, linha, equipamento e componentes. Selecione um nó para ver a ficha técnica.
           </p>
         </div>
-
-        <button onClick={() => setShowNewAssetModal(true)} className="btn btn-primary">
-          <Plus size={18} /> Novo Ativo Industrial
-        </button>
+        {canWrite && (
+          <button id="btn-novo-ativo" onClick={() => openNew()} className="btn btn-primary">
+            <Plus size={16} /> Novo ativo raiz
+          </button>
+        )}
       </div>
 
-      {/* Filters & Search Toolbar */}
-      <div
-        className="glass-panel"
-        style={{
-          marginBottom: '24px',
-          display: 'flex',
-          gap: '16px',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap'
-        }}
-      >
-        <div style={{ display: 'flex', gap: '14px', alignItems: 'center', flexWrap: 'wrap', flex: 1 }}>
-          <div className="search-input-box" style={{ flex: '1 1 280px' }}>
-            <Search size={17} color="var(--text-muted)" />
-            <input
-              type="text"
-              placeholder="Buscar por TAG, nome, fabricante, nº de série..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+      {loadError && (
+        <div className="notice" role="alert" style={{ borderRadius: 'var(--radius-md)', marginBottom: 16, padding: '10px 14px' }}>
+          <span><AlertCircle size={16} style={{ verticalAlign: -3 }} /> {loadError}</span>
+          <button className="btn btn-secondary btn-sm" onClick={() => { setLoading(true); load(); }}>Tentar novamente</button>
+        </div>
+      )}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>Criticidade:</span>
-            <select
-              className="form-select"
-              style={{ width: 'auto', padding: '6px 12px', fontSize: '0.85rem' }}
-              value={selectedCriticality}
-              onChange={(e) => setSelectedCriticality(e.target.value)}
-            >
-              <option value="ALL">Todas (A, B, C)</option>
-              <option value="A">Classe A (Crítica)</option>
-              <option value="B">Classe B (Média)</option>
-              <option value="C">Classe C (Baixa)</option>
+      <div className="assets-layout">
+        {/* Árvore */}
+        <section className="glass-card tree-panel" aria-label="Árvore de ativos">
+          <div className="tree-tools">
+            <div className="search-input-box" style={{ flex: 1, minWidth: 0 }}>
+              <Search size={16} />
+              <input
+                type="text"
+                aria-label="Buscar ativo"
+                placeholder="Buscar TAG, nome, fabricante..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+            <button className="btn btn-ghost btn-icon" title="Expandir tudo" aria-label="Expandir tudo"
+              onClick={() => setExpanded(new Set(assets.map((a) => a.id)))}><ChevronsUpDown size={16} /></button>
+            <button className="btn btn-ghost btn-icon" title="Recolher tudo" aria-label="Recolher tudo"
+              onClick={() => setExpanded(new Set())}><ChevronsDownUp size={16} /></button>
+          </div>
+          <div className="tree-tools" style={{ marginTop: 8 }}>
+            <select className="form-select" aria-label="Filtrar criticidade" value={critFilter}
+              onChange={(e) => setCritFilter(e.target.value)} style={{ padding: '6px 10px' }}>
+              <option value="ALL">Toda criticidade</option>
+              <option value="A">Classe A</option>
+              <option value="B">Classe B</option>
+              <option value="C">Classe C</option>
+            </select>
+            <select className="form-select" aria-label="Filtrar status" value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)} style={{ padding: '6px 10px' }}>
+              <option value="ALL">Todo status</option>
+              {(Object.keys(STATUS) as AssetStatus[]).map((s) => <option key={s} value={s}>{STATUS[s].label}</option>)}
             </select>
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>Status:</span>
-            <select
-              className="form-select"
-              style={{ width: 'auto', padding: '6px 12px', fontSize: '0.85rem' }}
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-            >
-              <option value="ALL">Todos os Status</option>
-              <option value="OPERATIONAL">Em Operação</option>
-              <option value="IN_MAINTENANCE">Em Manutenção</option>
-              <option value="STANDBY">Reserva (Standby)</option>
-            </select>
+          <div className="panel-sub" style={{ margin: '10px 4px' }}>
+            {filtering ? `${matches.size} de ${assets.length} ativos` : `${assets.length} ativos`}
           </div>
-        </div>
 
-        <div style={{ fontSize: '0.84rem', color: 'var(--text-muted)' }}>
-          Mostrando <strong>{filteredAssets.length}</strong> de {assets.length} ativos
-        </div>
-      </div>
-
-      {/* Assets Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '22px' }}>
-        {filteredAssets.map((asset) => (
-          <div key={asset.id} className="glass-card" style={{ display: 'flex', flexDirection: 'column' }}>
-            {/* Top Tag & Status */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="tag-mono" style={{ fontSize: '0.9rem', fontWeight: 700 }}>
-                  {asset.tag}
-                </span>
-                <span className={`badge ${asset.criticality === 'A' ? 'badge-rose' : asset.criticality === 'B' ? 'badge-amber' : 'badge-slate'}`}>
-                  Classe {asset.criticality}
-                </span>
-              </div>
-
-              <span className={`badge ${asset.status === 'OPERATIONAL' ? 'badge-emerald' : 'badge-amber'}`}>
-                {asset.status === 'OPERATIONAL' ? 'Operacional' : 'Manutenção'}
-              </span>
+          {loading ? (
+            <p className="panel-sub" style={{ padding: 16 }}>Carregando ativos...</p>
+          ) : assets.length === 0 ? (
+            <div style={{ padding: '24px 8px', textAlign: 'center' }}>
+              <p className="panel-sub">Nenhum ativo cadastrado.</p>
+              {canWrite && <button className="btn btn-secondary btn-sm" style={{ marginTop: 10 }} onClick={() => openNew()}>Cadastrar o primeiro</button>}
             </div>
+          ) : visible.size === 0 ? (
+            <p className="panel-sub" style={{ padding: 16 }}>Nenhum ativo com este filtro.</p>
+          ) : (
+            <ul role="tree" aria-label="Ativos" className="tree">{tree.map(renderNode)}</ul>
+          )}
+        </section>
 
-            {/* Asset Name & Category */}
-            <div style={{ marginBottom: '14px', flex: 1 }}>
-              <h3 style={{ fontSize: '1.08rem', lineHeight: 1.3, marginBottom: '4px' }}>
-                {asset.name}
-              </h3>
-              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                {asset.category} &bull; {asset.area}
-              </div>
+        {/* Ficha do ativo */}
+        <section className="glass-card detail-panel" aria-label="Ficha do ativo">
+          {!selected ? (
+            <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '64px 16px' }}>
+              <Boxes size={32} style={{ marginBottom: 12, opacity: 0.6 }} />
+              <p>Selecione um ativo na árvore para ver os detalhes.</p>
             </div>
-
-            {/* Manufacturer & Power specs */}
-            <div
-              style={{
-                background: 'var(--bg-canvas)',
-                padding: '10px 14px',
-                borderRadius: 'var(--radius-md)',
-                fontSize: '0.8rem',
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '8px',
-                marginBottom: '16px'
-              }}
-            >
-              <div>
-                <span style={{ color: 'var(--text-muted)' }}>Fabricante:</span>
-                <div style={{ fontWeight: 600 }}>{asset.manufacturer}</div>
-              </div>
-              <div>
-                <span style={{ color: 'var(--text-muted)' }}>Potência / Tensão:</span>
-                <div style={{ fontWeight: 600 }}>{asset.powerKw} kW / {asset.voltageV}V</div>
-              </div>
-            </div>
-
-            {/* Health Score Progress */}
-            <div style={{ marginBottom: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '4px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Condição de Saúde (Health Index)</span>
-                <span style={{ fontWeight: 700, color: asset.healthScore > 80 ? 'var(--accent-emerald)' : 'var(--accent-amber)' }}>
-                  {asset.healthScore}%
-                </span>
-              </div>
-              <div style={{ width: '100%', height: '7px', background: 'var(--bg-canvas)', borderRadius: '4px', overflow: 'hidden' }}>
-                <div
-                  style={{
-                    width: `${asset.healthScore}%`,
-                    height: '100%',
-                    background: asset.healthScore > 80 ? 'linear-gradient(90deg, #10b981, #34d399)' : 'linear-gradient(90deg, #f59e0b, #fbbf24)'
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Actions Footer */}
-            <div style={{ display: 'flex', gap: '8px', borderTop: '1px solid var(--border-subtle)', paddingTop: '14px' }}>
-              <button
-                onClick={() => setActiveAssetModal(asset)}
-                className="btn btn-secondary btn-sm"
-                style={{ flex: 1 }}
-              >
-                <FileText size={15} /> Ficha Técnica
-              </button>
-              <button
-                onClick={() => setShowQrModal(asset)}
-                className="btn btn-secondary btn-sm"
-                title="Imprimir QR Code de Campo"
-              >
-                <QrCode size={15} color="var(--accent-cyan)" />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Asset Details Modal */}
-      {activeAssetModal && (
-        <div className="modal-backdrop" onClick={() => setActiveAssetModal(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span className="tag-mono" style={{ fontSize: '1rem' }}>{activeAssetModal.tag}</span>
-                <h2 style={{ fontSize: '1.2rem' }}>{activeAssetModal.name}</h2>
-              </div>
-              <button onClick={() => setActiveAssetModal(null)} className="btn btn-secondary btn-sm">
-                <X size={18} />
-              </button>
-            </div>
-
-            <div className="modal-body">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-                <div className="glass-panel">
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>LOCALIZAÇÃO HIERÁRQUICA</div>
-                  <div style={{ fontWeight: 600, marginTop: '4px' }}>
-                    {activeAssetModal.plant} &gt; {activeAssetModal.area} &gt; {activeAssetModal.line}
-                  </div>
-                </div>
-                <div className="glass-panel">
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>DADOS DE PLACA</div>
-                  <div style={{ fontWeight: 600, marginTop: '4px' }}>
-                    {activeAssetModal.manufacturer} &bull; Modelo {activeAssetModal.model}
-                  </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>S/N: {activeAssetModal.serialNumber}</div>
-                </div>
-                <div className="glass-panel">
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>CUSTO ACUMULADO DE MANUTENÇÃO</div>
-                  <div style={{ fontWeight: 800, color: 'var(--accent-cyan)', fontSize: '1.2rem', marginTop: '4px' }}>
-                    R$ {activeAssetModal.totalMaintenanceCost.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                  </div>
-                </div>
-              </div>
-
-              <h3 style={{ fontSize: '1rem', marginBottom: '12px' }}>Especificações Técnicas Operacionais</h3>
-              <div style={{ background: 'var(--bg-canvas)', borderRadius: 'var(--radius-md)', padding: '16px', marginBottom: '20px' }}>
-                {Object.entries(activeAssetModal.specs).map(([key, val]) => (
-                  <div key={key} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--border-subtle)', fontSize: '0.88rem' }}>
-                    <span style={{ color: 'var(--text-secondary)' }}>{key}:</span>
-                    <span style={{ fontWeight: 600 }}>{val}</span>
-                  </div>
+          ) : (
+            <>
+              <nav className="crumbs" aria-label="Localização na hierarquia">
+                {path(selected).map((p, i, arr) => (
+                  <React.Fragment key={p.id}>
+                    {i > 0 && <ChevronRight size={13} />}
+                    {i === arr.length - 1
+                      ? <span aria-current="page">{p.name}</span>
+                      : <button onClick={() => setSelectedId(p.id)}>{p.name}</button>}
+                  </React.Fragment>
                 ))}
+              </nav>
+
+              <div className="panel-head" style={{ alignItems: 'flex-start' }}>
+                <div style={{ minWidth: 0 }}>
+                  <div className="alert-meta">
+                    <span className="tag-mono" style={{ fontSize: '0.9rem' }}>{selected.tag}</span>
+                    <span className={`badge chip-dot ${STATUS[selected.status].chip}`}>{STATUS[selected.status].label}</span>
+                    <span className={`badge ${CRIT_CHIP[selected.criticality]}`}>Classe {selected.criticality}</span>
+                  </div>
+                  <h3 style={{ fontSize: '1.2rem' }}>{selected.name}</h3>
+                  <p className="panel-sub">{[selected.category, selected.plant, selected.area, selected.line].filter(Boolean).join(' · ')}</p>
+                </div>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                  <button className="btn btn-secondary btn-sm" onClick={() => setQrAsset(selected)}><QrCode size={14} /> QR Code</button>
+                  {canWrite && <button className="btn btn-secondary btn-sm" onClick={() => openNew(selected)}><Plus size={14} /> Subitem</button>}
+                  {canWrite && <button className="btn btn-secondary btn-sm" onClick={() => openEdit(selected)}><Pencil size={14} /> Editar</button>}
+                  {canDelete && <button className="btn btn-secondary btn-sm" style={{ color: 'var(--accent-rose)' }} onClick={() => remove(selected)}><Trash2 size={14} /> Excluir</button>}
+                </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem' }}>
-                <span style={{ color: 'var(--text-muted)' }}>
-                  Data de Instalação: {activeAssetModal.installDate} &bull; Garantia até: {activeAssetModal.warrantyExpiry}
-                </span>
-                <span className="badge badge-cyan">{activeAssetModal.documentsCount} Manuais e Desenhos Anexados</span>
+              {actionError && <div className="notice" role="alert" style={{ borderRadius: 'var(--radius-md)', marginBottom: 14, padding: '8px 12px' }}>{actionError}</div>}
+
+              <div className="info-grid">
+                <div className="glass-panel"><div className="info-k">Fabricante / modelo</div><div className="info-v">{selected.manufacturer || '—'} {selected.model && `· ${selected.model}`}</div></div>
+                <div className="glass-panel"><div className="info-k">Nº de série</div><div className="info-v">{selected.serialNumber || '—'}</div></div>
+                <div className="glass-panel"><div className="info-k">Potência / tensão</div><div className="info-v">{selected.powerKw} kW / {selected.voltageV} V</div></div>
+                <div className="glass-panel"><div className="info-k">Custo de manutenção</div><div className="info-v">{brl(selected.totalMaintenanceCost)}</div></div>
+                <div className="glass-panel"><div className="info-k">OS abertas</div><div className="info-v">{selected.openOrders}</div></div>
+                <div className="glass-panel"><div className="info-k">Instalação / garantia</div>
+                  <div className="info-v">{selected.installDate?.slice(0, 10) ?? '—'} / {selected.warrantyExpiry?.slice(0, 10) ?? '—'}</div></div>
               </div>
-            </div>
 
-            <div className="modal-footer">
-              <button onClick={() => setShowQrModal(activeAssetModal)} className="btn btn-secondary">
-                <QrCode size={16} /> Ver QR Code
-              </button>
-              <button onClick={() => setActiveAssetModal(null)} className="btn btn-primary">
-                Fechar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+              {Object.keys(selected.specs ?? {}).length > 0 && (
+                <>
+                  <h4 className="section-h">Especificações técnicas</h4>
+                  <div className="spec-list">
+                    {Object.entries(selected.specs).map(([k, v]) => (
+                      <div key={k}><span>{k}</span><strong>{v}</strong></div>
+                    ))}
+                  </div>
+                </>
+              )}
 
-      {/* QR Code Inspection Modal */}
-      {showQrModal && (
-        <div className="modal-backdrop" onClick={() => setShowQrModal(null)}>
-          <div className="modal-content" style={{ maxWidth: '420px', textAlign: 'center' }} onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2 style={{ fontSize: '1.1rem' }}>QR Code para Identificação em Campo</h2>
-              <button onClick={() => setShowQrModal(null)} className="btn btn-secondary btn-sm"><X size={16} /></button>
-            </div>
-            <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ padding: '16px', background: '#ffffff', borderRadius: '12px', marginBottom: '16px', boxShadow: 'var(--shadow-md)' }}>
-                <img
-                  src={showQrModal.qrCodeUrl}
-                  alt={`QR Code ${showQrModal.tag}`}
-                  style={{ width: '180px', height: '180px', display: 'block' }}
-                />
-              </div>
-              <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>{showQrModal.tag}</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>{showQrModal.name}</div>
-              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                Os operadores e técnicos podem apontar a câmera do celular para este QR Code para abrir a OS ou iniciar uma inspeção sensitiva diretamente no aplicativo.
-              </p>
-            </div>
-            <div className="modal-footer" style={{ justifyContent: 'center' }}>
-              <button onClick={() => window.print()} className="btn btn-primary">
-                <Printer size={16} /> Imprimir Etiqueta Patrimonial
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+              <h4 className="section-h">Subitens ({kids.length})</h4>
+              {kids.length === 0 ? (
+                <p className="panel-sub">Este ativo não possui subitens.</p>
+              ) : (
+                <div className="stack">
+                  {kids.map((c) => (
+                    <button key={c.id} className="child-row" onClick={() => { setSelectedId(c.id); }}>
+                      <CornerDownRight size={14} />
+                      <span className="tag-mono">{c.tag}</span>
+                      <span style={{ flex: 1, textAlign: 'left' }}>{c.name}</span>
+                      <span className={`badge chip-dot ${STATUS[c.status].chip}`}>{STATUS[c.status].label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </section>
+      </div>
 
-      {/* New Asset Creation Modal */}
-      {showNewAssetModal && (
-        <div className="modal-backdrop" onClick={() => setShowNewAssetModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <form onSubmit={handleCreateAsset}>
+      {/* Modal criar/editar */}
+      {form && f && (
+        <div className="modal-backdrop" onClick={() => setForm(null)}>
+          <div className="modal-content" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+            <form onSubmit={save}>
               <div className="modal-header">
-                <h2 style={{ fontSize: '1.2rem' }}>Cadastrar Novo Ativo Industrial</h2>
-                <button type="button" onClick={() => setShowNewAssetModal(false)} className="btn btn-secondary btn-sm"><X size={16} /></button>
+                <h3 style={{ fontSize: '1.1rem' }}>{form.id ? 'Editar ativo' : f.parentId ? 'Novo subitem' : 'Novo ativo raiz'}</h3>
+                <button type="button" onClick={() => setForm(null)} className="btn btn-ghost btn-icon" aria-label="Fechar"><X size={16} /></button>
               </div>
-
               <div className="modal-body">
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '14px', marginBottom: '14px' }}>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label className="form-label">TAG Identificador *</label>
-                    <input
-                      type="text"
-                      className="form-input"
-                      placeholder="Ex: PREN-03"
-                      value={newTag}
-                      onChange={(e) => setNewTag(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label className="form-label">Nome do Equipamento *</label>
-                    <input
-                      type="text"
-                      className="form-input"
-                      placeholder="Ex: Prensa Excêntrica 400 Toneladas"
-                      value={newName}
-                      onChange={(e) => setNewName(e.target.value)}
-                      required
-                    />
-                  </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="as-parent">Ativo pai</label>
+                  <select id="as-parent" className="form-select" value={f.parentId ?? ''} onChange={(e) => setField('parentId', e.target.value || null)}>
+                    <option value="">— Nenhum (nível raiz) —</option>
+                    {parentOptions.map((p) => <option key={p.id} value={p.id}>{p.tag} · {p.name}</option>)}
+                  </select>
                 </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px', marginBottom: '14px' }}>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label className="form-label">Fabricante</label>
-                    <input
-                      type="text"
-                      className="form-input"
-                      placeholder="Ex: Romi / Siemens"
-                      value={newManufacturer}
-                      onChange={(e) => setNewManufacturer(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label className="form-label">Modelo</label>
-                    <input
-                      type="text"
-                      className="form-input"
-                      placeholder="Ex: GL 240 M"
-                      value={newModel}
-                      onChange={(e) => setNewModel(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label className="form-label">Nº de Série</label>
-                    <input
-                      type="text"
-                      className="form-input"
-                      placeholder="SN-2026-XXXX"
-                      value={newSerial}
-                      onChange={(e) => setNewSerial(e.target.value)}
-                      required
-                    />
-                  </div>
+                <div className="form-row" style={{ gridTemplateColumns: '1fr 2fr' }}>
+                  <div className="form-group"><label className="form-label" htmlFor="as-tag">TAG *</label>
+                    <input id="as-tag" className="form-input" required maxLength={60} value={f.tag} onChange={(e) => setField('tag', e.target.value)} placeholder="Ex: PREN-03" /></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-name">Nome *</label>
+                    <input id="as-name" className="form-input" required maxLength={160} value={f.name} onChange={(e) => setField('name', e.target.value)} /></div>
                 </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px' }}>
-                  <div className="form-group">
-                    <label className="form-label">Criticidade</label>
-                    <select className="form-select" value={newCriticality} onChange={(e) => setNewCriticality(e.target.value as AssetCriticality)}>
-                      <option value="A">Classe A (Parada Total de Linha)</option>
-                      <option value="B">Classe B (Parada Parcial)</option>
-                      <option value="C">Classe C (Sem Impacto Crítico)</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Potência (kW)</label>
-                    <input type="number" className="form-input" value={newPower} onChange={(e) => setNewPower(Number(e.target.value))} />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Tensão (V)</label>
-                    <input type="number" className="form-input" value={newVoltage} onChange={(e) => setNewVoltage(Number(e.target.value))} />
-                  </div>
+                <div className="form-row">
+                  <div className="form-group"><label className="form-label" htmlFor="as-cat">Categoria</label>
+                    <input id="as-cat" className="form-input" value={f.category} onChange={(e) => setField('category', e.target.value)} placeholder="Linha, Motor, Bomba..." /></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-crit">Criticidade</label>
+                    <select id="as-crit" className="form-select" value={f.criticality} onChange={(e) => setField('criticality', e.target.value as AssetCriticality)}>
+                      <option value="A">Classe A (parada total)</option><option value="B">Classe B (parada parcial)</option><option value="C">Classe C (sem impacto crítico)</option>
+                    </select></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-status">Status</label>
+                    <select id="as-status" className="form-select" value={f.status} onChange={(e) => setField('status', e.target.value as AssetStatus)}>
+                      {(Object.keys(STATUS) as AssetStatus[]).map((s) => <option key={s} value={s}>{STATUS[s].label}</option>)}
+                    </select></div>
                 </div>
+                <div className="form-row">
+                  <div className="form-group"><label className="form-label" htmlFor="as-plant">Planta</label>
+                    <input id="as-plant" className="form-input" value={f.plant} onChange={(e) => setField('plant', e.target.value)} /></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-area">Área</label>
+                    <input id="as-area" className="form-input" value={f.area} onChange={(e) => setField('area', e.target.value)} /></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-line">Linha</label>
+                    <input id="as-line" className="form-input" value={f.line} onChange={(e) => setField('line', e.target.value)} /></div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group"><label className="form-label" htmlFor="as-man">Fabricante</label>
+                    <input id="as-man" className="form-input" value={f.manufacturer} onChange={(e) => setField('manufacturer', e.target.value)} /></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-mod">Modelo</label>
+                    <input id="as-mod" className="form-input" value={f.model} onChange={(e) => setField('model', e.target.value)} /></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-sn">Nº de série</label>
+                    <input id="as-sn" className="form-input" value={f.serialNumber} onChange={(e) => setField('serialNumber', e.target.value)} /></div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group"><label className="form-label" htmlFor="as-kw">Potência (kW)</label>
+                    <input id="as-kw" type="number" min={0} step="any" className="form-input" value={f.powerKw} onChange={(e) => setField('powerKw', Number(e.target.value))} /></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-v">Tensão (V)</label>
+                    <input id="as-v" type="number" min={0} step="any" className="form-input" value={f.voltageV} onChange={(e) => setField('voltageV', Number(e.target.value))} /></div>
+                  <div className="form-group"><label className="form-label" htmlFor="as-inst">Instalação</label>
+                    <input id="as-inst" type="date" className="form-input" value={f.installDate ?? ''} onChange={(e) => setField('installDate', e.target.value || null)} /></div>
+                </div>
+                {formError && <div className="notice" role="alert" style={{ borderRadius: 'var(--radius-md)', padding: '8px 12px' }}>{formError}</div>}
               </div>
-
               <div className="modal-footer">
-                <button type="button" onClick={() => setShowNewAssetModal(false)} className="btn btn-secondary">
-                  Cancelar
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Salvar Ativo
-                </button>
+                <button type="button" onClick={() => setForm(null)} className="btn btn-secondary">Cancelar</button>
+                <button type="submit" disabled={saving} className="btn btn-primary">{saving ? 'Salvando...' : 'Salvar ativo'}</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal QR */}
+      {qrAsset && (
+        <div className="modal-backdrop" onClick={() => setQrAsset(null)}>
+          <div className="modal-content" style={{ maxWidth: 420, textAlign: 'center' }} onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 style={{ fontSize: '1.05rem' }}>QR Code de identificação</h3>
+              <button onClick={() => setQrAsset(null)} className="btn btn-ghost btn-icon" aria-label="Fechar"><X size={16} /></button>
+            </div>
+            <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ padding: 16, background: '#ffffff', borderRadius: 12, marginBottom: 14, border: '1px solid var(--border-subtle)' }}>
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=ASSET-${encodeURIComponent(qrAsset.tag)}`}
+                  alt={`QR Code ${qrAsset.tag}`} width={180} height={180} style={{ display: 'block' }} />
+              </div>
+              <div style={{ fontWeight: 700 }}>{qrAsset.tag}</div>
+              <div className="panel-sub">{qrAsset.name}</div>
+            </div>
+            <div className="modal-footer" style={{ justifyContent: 'center' }}>
+              <button onClick={() => window.print()} className="btn btn-primary"><Printer size={16} /> Imprimir etiqueta</button>
+            </div>
           </div>
         </div>
       )}

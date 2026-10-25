@@ -746,3 +746,66 @@ h1, h2, h3, h4, h5 { font-weight: 600; letter-spacing: -0.01em; color: var(--tex
   .page-body { padding: 20px 16px; }
   .topbar { padding: 0 16px; }
 }
+
+/* ==========================================================================
+   Árvore de ativos
+   ========================================================================== */
+.assets-layout {
+  display: grid;
+  grid-template-columns: minmax(380px, 480px) minmax(0, 1fr);
+  gap: var(--gap);
+  align-items: start;
+}
+.tree-panel { padding: 16px; position: sticky; top: calc(var(--header-height) + 16px); max-height: calc(100vh - var(--header-height) - 40px); overflow-y: auto; }
+.tree-tools { display: flex; gap: 8px; align-items: center; }
+.tree, .tree-group { list-style: none; }
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding-right: 8px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+[data-density='compact'] .tree-row { min-height: 30px; }
+.tree-row:hover { background: var(--bg-surface-hover); }
+.tree-row.selected { background: var(--ink-soft); border-color: var(--border-prominent); }
+.tree-row.dim { opacity: 0.55; }
+.tree-toggle {
+  width: 22px; height: 22px; display: grid; place-items: center; flex-shrink: 0;
+  background: transparent; border: none; border-radius: var(--radius-sm);
+  color: var(--text-muted); cursor: pointer;
+}
+.tree-toggle:hover { background: var(--border-subtle); color: var(--text-primary); }
+.tree-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.tree-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.875rem; }
+.tree-row.selected .tree-name { font-weight: 600; }
+
+.crumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 14px; font-size: 0.8125rem; color: var(--text-muted); }
+.crumbs button { background: none; border: none; color: var(--text-secondary); cursor: pointer; font: inherit; padding: 2px 4px; border-radius: 4px; }
+.crumbs button:hover { background: var(--bg-surface-hover); color: var(--text-primary); }
+.crumbs span[aria-current] { color: var(--text-primary); font-weight: 600; padding: 2px 4px; }
+
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 18px 0; }
+.info-k { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.info-v { font-weight: 600; margin-top: 4px; font-size: 0.9rem; word-break: break-word; }
+.section-h { font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin: 22px 0 10px; font-weight: 600; }
+.spec-list { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; }
+.spec-list > div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 14px; font-size: 0.875rem; border-bottom: 1px solid var(--border-subtle); }
+.spec-list > div:last-child { border-bottom: none; }
+.spec-list span { color: var(--text-secondary); }
+.child-row {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 9px 12px; background: var(--bg-surface); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md); color: var(--text-primary); font-family: var(--font-main); font-size: 0.875rem; cursor: pointer;
+}
+.child-row:hover { background: var(--bg-surface-hover); }
+.form-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+@media (max-width: 1100px) {
+  .assets-layout { grid-template-columns: 1fr; }
+  .tree-panel { position: static; max-height: none; }
+  .form-row { grid-template-columns: 1fr; }
+}
